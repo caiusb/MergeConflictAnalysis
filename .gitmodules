@@ -1,0 +1,6 @@
+[submodule "jgit"]
+	path = jgit
+	url = git@github.com:caiusb/jgit.git
+[submodule "gitective"]
+	path = gitective
+	url = git@github.com:caiusb/gitective.git
