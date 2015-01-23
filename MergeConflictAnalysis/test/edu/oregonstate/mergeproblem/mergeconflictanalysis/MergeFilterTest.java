@@ -10,17 +10,18 @@ import org.junit.Test;
 public class MergeFilterTest extends GitTestCase{
 	
 	private RevWalk revWalk;
+	private MergeFilter mergeFilter;
 
 	@Before
 	public void before() throws Exception {
 		revWalk = new RevWalk(Git.open(testRepo).getRepository());
+		mergeFilter = new MergeFilter();
 	}
 
 	@Test
 	public void testDontIncludeRegularCommits() throws Exception {
 		RevCommit commitOne = add("A", "some content");
 		
-		MergeFilter mergeFilter = new MergeFilter();
 		
 		assertFalse(mergeFilter.include(revWalk, commitOne));
 	}
