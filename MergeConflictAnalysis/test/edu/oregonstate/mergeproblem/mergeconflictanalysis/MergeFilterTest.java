@@ -34,6 +34,11 @@ public class MergeFilterTest extends GitTestCase{
 	
 	@Test
 	public void testIncludeMergeCommits() throws Exception {
+		RevCommit mergeCommit = createNonConflictingMerge();
+		assertTrue(mergeFilter.include(revWalk, mergeCommit));
+	}
+
+	private RevCommit createNonConflictingMerge() throws Exception {
 		add("A", "some content");
 		branch("branch");
 		add("B", "some other content");
@@ -42,6 +47,7 @@ public class MergeFilterTest extends GitTestCase{
 		MergeResult mergeResult = merge("branch");
 		ObjectId newHead = mergeResult.getNewHead();
 		RevCommit mergeCommit = CommitUtils.getCommit(repository, newHead);
-		assertTrue(mergeFilter.include(revWalk, mergeCommit));
-	}	
+		return mergeCommit;
+	}
+	
 }
