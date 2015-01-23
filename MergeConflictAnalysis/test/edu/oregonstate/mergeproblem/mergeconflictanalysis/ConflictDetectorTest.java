@@ -1,5 +1,7 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
+import java.io.IOException;
+
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
@@ -18,6 +20,12 @@ public class ConflictDetectorTest extends GitTestCase{
 	public void before() throws Exception {
 		conflictDetector = new ConflictDetector();
 		git = Git.open(testRepo);
+	}
+	
+	@Test
+	public void testSingleParentInput() throws Exception {
+		RevCommit one = add("A", "something");
+		conflictDetector.isConflict(one, git);
 	}
 	
 	@Test
