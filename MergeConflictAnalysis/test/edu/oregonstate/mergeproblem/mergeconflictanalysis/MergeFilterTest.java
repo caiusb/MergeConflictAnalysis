@@ -44,5 +44,5 @@ public class MergeFilterTest extends GitTestCase{
 		RevCommit mergeCommit = CommitUtils.getCommit(repository, newHead);
 		assertTrue(mergeFilter.include(revWalk, mergeCommit));
 	}
-	
+		
 }

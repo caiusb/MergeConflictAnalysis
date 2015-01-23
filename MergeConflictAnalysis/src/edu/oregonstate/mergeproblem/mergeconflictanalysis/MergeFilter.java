@@ -15,6 +15,7 @@ public class MergeFilter extends CommitFilter {
 	public boolean include(RevWalk walker, RevCommit cmit)
 			throws StopWalkException, MissingObjectException,
 			IncorrectObjectTypeException, IOException {
+		
 		RevCommit[] parents = cmit.getParents();
 		if (parents.length >= 2)
 			return true;
