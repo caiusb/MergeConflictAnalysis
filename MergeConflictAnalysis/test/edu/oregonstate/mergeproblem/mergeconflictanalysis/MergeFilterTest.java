@@ -43,6 +43,5 @@ public class MergeFilterTest extends GitTestCase{
 		ObjectId newHead = mergeResult.getNewHead();
 		RevCommit mergeCommit = CommitUtils.getCommit(repository, newHead);
 		assertTrue(mergeFilter.include(revWalk, mergeCommit));
-	}
-		
+	}	
 }
