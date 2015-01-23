@@ -6,10 +6,18 @@ import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.gitective.core.CommitUtils;
 import org.gitective.tests.GitTestCase;
+import org.junit.Before;
 import org.junit.Test;
 
 public class ConflictDetectorTest extends GitTestCase{
+	
+	private ConflictDetector conflictDetector;
 
+	@Before
+	public void before() throws Exception {
+		conflictDetector = new ConflictDetector();
+	}
+	
 	@Test
 	public void testDetectConflict() throws Exception {
 		add("A", "version one");
@@ -27,7 +35,6 @@ public class ConflictDetectorTest extends GitTestCase{
 		RevCommit mergeCommit = add("A","version two+three");
 		assertEquals(2, mergeCommit.getParentCount());
 		
-		ConflictDetector conflictDetector = new ConflictDetector();
 		assertTrue(conflictDetector.isConflict(mergeCommit, Git.open(testRepo)));
 	}
 }
