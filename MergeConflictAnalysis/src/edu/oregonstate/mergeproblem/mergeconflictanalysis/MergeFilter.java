@@ -15,7 +15,6 @@ public class MergeFilter extends CommitFilter {
 	public boolean include(RevWalk walker, RevCommit cmit)
 			throws StopWalkException, MissingObjectException,
 			IncorrectObjectTypeException, IOException {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
