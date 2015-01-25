@@ -22,5 +22,10 @@ public class MergeFilter extends CommitFilter {
 		
 		return false;
 	}
+	
+	@Override
+	public boolean requiresCommitBody() {
+		return true;
+	}
 
 }
