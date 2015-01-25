@@ -45,5 +45,12 @@ public class ResultCollectorTest extends MergeGitTest {
 		resultCollector.collectConflict(mergeCommit, mergeResult);
 		return mergeCommit;
 	}
+	
+	@Test
+	public void testJSONString() throws Exception {
+		RevCommit commit = collectConflictingCommit();
+		String json = resultCollector.toJSON();
+		String expected = "{\"" + commit.getName() + "\":{true, [\"A\"]}}";
+		assertEquals(expected,json);
 	}
 }

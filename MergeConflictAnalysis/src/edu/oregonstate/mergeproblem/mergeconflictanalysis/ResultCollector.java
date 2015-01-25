@@ -1,10 +1,13 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.json.simple.JSONObject;
 
 public class ResultCollector {
 	
@@ -19,6 +22,13 @@ public class ResultCollector {
 	}
 
 	public void collectConflict(RevCommit mergeCommit, MergeResult mergeResult) {
+		List<String> conflictingFiles = new ArrayList<String>();
+		conflictingFiles.addAll(mergeResult.getConflicts().keySet());
+		results.put(mergeCommit.getName(), new Status().setConflict(true).setFiles(conflictingFiles));
+	}
+
+	public String toJSON() {
+		return JSONObject.toJSONString(results);
 	}
 	
 }
