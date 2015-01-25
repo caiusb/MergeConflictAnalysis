@@ -49,7 +49,7 @@ public class ResultCollectorTest extends MergeGitTest {
 	@Test
 	public void testJSONString() throws Exception {
 		RevCommit commit = collectConflictingCommit();
-		String json = resultCollector.toJSON();
+		String json = resultCollector.toJSONString();
 		String expected = "{\"" + commit.getName() + "\":{true, [\"A\"]}}";
 		assertEquals(expected,json);
 	}

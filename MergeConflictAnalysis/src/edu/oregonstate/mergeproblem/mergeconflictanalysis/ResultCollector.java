@@ -7,9 +7,10 @@ import java.util.Map;
 
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.json.simple.JSONAware;
 import org.json.simple.JSONObject;
 
-public class ResultCollector {
+public class ResultCollector implements JSONAware {
 	
 	private Map<String, Status> results = new HashMap<String, Status>();
 
@@ -27,7 +28,7 @@ public class ResultCollector {
 		results.put(mergeCommit.getName(), new Status().setConflict(true).setFiles(conflictingFiles));
 	}
 
-	public String toJSON() {
+	public String toJSONString() {
 		return JSONObject.toJSONString(results);
 	}
 	
