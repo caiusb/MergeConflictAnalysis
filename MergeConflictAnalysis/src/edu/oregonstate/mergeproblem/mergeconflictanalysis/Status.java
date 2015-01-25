@@ -2,7 +2,10 @@ package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
 import java.util.List;
 
-public class Status {
+import org.json.simple.JSONArray;
+import org.json.simple.JSONAware;
+
+public class Status implements JSONAware {
 
 	private boolean isConflicting;
 	private List<String> files;
@@ -23,6 +26,11 @@ public class Status {
 
 	public List<String> getFiles() {
 		return files;
+	}
+
+	@Override
+	public String toJSONString() {
+		return "{" + isConflicting + ", " + JSONArray.toJSONString(files) + "}";
 	}
 	
 }

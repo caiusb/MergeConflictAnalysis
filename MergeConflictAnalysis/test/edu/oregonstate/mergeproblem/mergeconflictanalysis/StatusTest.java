@@ -24,7 +24,20 @@ public class StatusTest {
 	
 	@Test
 	public void testIsConflictingWithFiles() {
-		Status status = new Status().setConflict(true).setFiles(Arrays.asList(new String[]{"FileA", "FileB"}));
+		Status status = createConflictingStatus();
 		assertEquals(2, status.getFiles().size());
+	}
+
+	private Status createConflictingStatus() {
+		Status status = new Status().setConflict(true).setFiles(Arrays.asList(new String[]{"FileA", "FileB"}));
+		return status;
+	}
+	
+	@Test
+	public void testJSON() {
+		Status status = createConflictingStatus();
+		String jsonString = status.toJSONString();
+		String expected = "{true, [\"FileA\",\"FileB\"]}";
+		assertEquals(expected,jsonString);
 	}
 }
