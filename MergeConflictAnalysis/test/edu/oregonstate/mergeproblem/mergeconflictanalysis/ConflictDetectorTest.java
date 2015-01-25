@@ -3,20 +3,18 @@ package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.gitective.core.CommitUtils;
-import org.gitective.tests.GitTestCase;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ConflictDetectorTest extends GitTestCase{
+public class ConflictDetectorTest extends MergeGitTest {
 	
 	private ConflictDetector conflictDetector;
 	private Git git;
 
 	@Before
 	public void before() throws Exception {
+		super.before();
 		conflictDetector = new ConflictDetector();
 		git = Git.open(testRepo);
 	}
@@ -29,17 +27,7 @@ public class ConflictDetectorTest extends GitTestCase{
 	
 	@Test
 	public void testNoConflict() throws Exception {
-		add("A", "version one");
-		branch("branch");
-		add("A", "version two");
-		checkout("master");
-		add("B", "non-conflicting change");
-		
-		MergeResult mergeResult = merge("branch");
-		MergeStatus mergeStatus = mergeResult.getMergeStatus();
-		ObjectId newHead = mergeResult.getNewHead();
-		RevCommit mergeCommit = CommitUtils.getCommit(git.getRepository(), newHead);
-		assertEquals(MergeStatus.MERGED, mergeStatus);
+		RevCommit mergeCommit = createNonConflictingMerge();
 		assertEquals(2, mergeCommit.getParentCount());
 		assertFalse(conflictDetector.isConflict(mergeCommit, git));
 	}
