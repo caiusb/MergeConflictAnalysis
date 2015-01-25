@@ -26,6 +26,7 @@ public abstract class MergeGitTest extends GitTestCase {
 		checkout("master");
 		add("A", "a change! ");
 		MergeResult mergeResult = merge("branch");
+		assertEquals(MergeStatus.MERGED, mergeResult.getMergeStatus());
 		ObjectId newHead = mergeResult.getNewHead();
 		RevCommit mergeCommit = CommitUtils.getCommit(repository, newHead);
 		return mergeCommit;
