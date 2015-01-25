@@ -21,7 +21,9 @@ public class ResultCollectorTest extends MergeGitTest {
 		RevCommit mergeCommit = createNonConflictingMerge();
 		resultCollector.collectNonConflict(mergeCommit);
 		Map<String, Status> results = resultCollector.getResults();
-		assertEquals(0, results.keySet().size());
+		assertEquals(1, results.keySet().size());
+		assertTrue(results.keySet().contains(mergeCommit.getName()));
+		assertFalse(results.get(mergeCommit.getName()).isConflicting());
 	}
 
 }

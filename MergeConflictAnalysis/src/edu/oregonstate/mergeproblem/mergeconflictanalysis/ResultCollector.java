@@ -10,7 +10,7 @@ public class ResultCollector {
 	private Map<String, Status> results = new HashMap<String, Status>();
 
 	public void collectNonConflict(RevCommit mergeCommit) {
-		
+		results.put(mergeCommit.getName(), new Status().setConflict(false));
 	}
 
 	public Map<String, Status> getResults() {
