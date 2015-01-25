@@ -29,8 +29,21 @@ public class ResultCollectorTest extends MergeGitTest {
 
 	@Test
 	public void testCollectConflict() throws Exception {
+		RevCommit mergeCommit = collectConflictingCommit();
+		Map<String, Status> results = resultCollector.getResults();
+		assertEquals(1, results.keySet().size());
+		assertTrue(results.keySet().contains(mergeCommit.getName()));
+		
+		Status status = results.get(mergeCommit.getName());
+		assertTrue(status.isConflicting());
+		assertEquals(1,status.getFiles().size());
+	}
+
+	protected RevCommit collectConflictingCommit() throws Exception {
 		MergeResult mergeResult = createConflictingMergeResult();
 		RevCommit mergeCommit = resolveMergeConflict(mergeResult);
 		resultCollector.collectConflict(mergeCommit, mergeResult);
+		return mergeCommit;
+	}
 	}
 }

@@ -9,6 +9,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
 
 public class ConflictDetector {
 
+	private MergeResult mergeResult;
+
 	public boolean isConflict(RevCommit mergeCommit, Git git) throws Exception {
 		RevCommit[] parents = mergeCommit.getParents();
 		if (parents.length <= 1)
@@ -17,8 +19,8 @@ public class ConflictDetector {
 		RevCommit first = parents[0];
 		RevCommit second = parents[1];
 
-		MergeResult mergeResults = merge(git, first, second);
-		if (mergeResults.getMergeStatus().equals(MergeStatus.CONFLICTING))
+		mergeResult = merge(git, first, second);
+		if (mergeResult.getMergeStatus().equals(MergeStatus.CONFLICTING))
 			return true;
 
 		return false;
@@ -32,6 +34,10 @@ public class ConflictDetector {
 		merge.include(second);
 		MergeResult mergeResults = merge.call();
 		return mergeResults;
+	}
+
+	public MergeResult getLastMergeResult() {
+		return mergeResult;
 	}
 
 }
