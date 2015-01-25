@@ -1,7 +1,6 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,13 +32,7 @@ public class ConflictDetectorTest extends MergeGitTest {
 	
 	@Test
 	public void testDetectConflict() throws Exception {
-		MergeResult merge = createConflictingCommit();
-		assertEquals(1,merge.getConflicts().keySet().size());
-		assertTrue(merge.getConflicts().keySet().contains("A"));
-		
-		RevCommit mergeCommit = add("A","version two+three");
-		assertEquals(2, mergeCommit.getParentCount());
-		
+		RevCommit mergeCommit = createConflictingCommit();
 		assertTrue(conflictDetector.isConflict(mergeCommit, git));
 	}
 }

@@ -32,7 +32,25 @@ public abstract class MergeGitTest extends GitTestCase {
 		return mergeCommit;
 	}
 
-	protected MergeResult createConflictingCommit() throws Exception {
+	protected RevCommit createConflictingCommit() throws Exception {
+		MergeResult merge = createConflictingMergeResult();
+		RevCommit mergeCommit = resolveMergeConflict(merge);
+		return mergeCommit;
+	}
+
+	protected RevCommit resolveMergeConflict(MergeResult merge)
+			throws Exception {
+		MergeStatus mergeStatus = merge.getMergeStatus();
+		assertEquals(MergeStatus.CONFLICTING, mergeStatus);
+		assertEquals(1,merge.getConflicts().keySet().size());
+		assertTrue(merge.getConflicts().keySet().contains("A"));
+		
+		RevCommit mergeCommit = add("A","version two+three");
+		assertEquals(2, mergeCommit.getParentCount());
+		return mergeCommit;
+	}
+
+	protected MergeResult createConflictingMergeResult() throws Exception {
 		add("A", "version one");
 		branch("branch");
 		add("A", "version two");
@@ -40,8 +58,6 @@ public abstract class MergeGitTest extends GitTestCase {
 		add("A", "conflicting version three");
 		
 		MergeResult merge = merge("branch");
-		MergeStatus mergeStatus = merge.getMergeStatus();
-		assertEquals(MergeStatus.CONFLICTING, mergeStatus);
 		return merge;
 	}
 

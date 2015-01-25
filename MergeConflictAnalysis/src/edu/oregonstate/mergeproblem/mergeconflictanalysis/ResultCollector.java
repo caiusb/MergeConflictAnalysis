@@ -3,6 +3,7 @@ package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 public class ResultCollector {
@@ -15,6 +16,9 @@ public class ResultCollector {
 
 	public Map<String, Status> getResults() {
 		return results;
+	}
+
+	public void collectConflict(RevCommit mergeCommit, MergeResult mergeResult) {
 	}
 	
 }

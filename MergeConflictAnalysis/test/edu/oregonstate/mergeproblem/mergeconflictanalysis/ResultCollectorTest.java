@@ -2,6 +2,7 @@ package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
 import java.util.Map;
 
+import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,4 +27,10 @@ public class ResultCollectorTest extends MergeGitTest {
 		assertFalse(results.get(mergeCommit.getName()).isConflicting());
 	}
 
+	@Test
+	public void testCollectConflict() throws Exception {
+		MergeResult mergeResult = createConflictingMergeResult();
+		RevCommit mergeCommit = resolveMergeConflict(mergeResult);
+		resultCollector.collectConflict(mergeCommit, mergeResult);
+	}
 }
