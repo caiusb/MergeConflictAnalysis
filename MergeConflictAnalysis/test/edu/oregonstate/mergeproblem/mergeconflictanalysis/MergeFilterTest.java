@@ -21,7 +21,6 @@ public class MergeFilterTest extends MergeGitTest{
 	public void testDontIncludeRegularCommits() throws Exception {
 		RevCommit commitOne = add("A", "some content");
 		
-		
 		assertFalse(mergeFilter.include(revWalk, commitOne));
 	}
 	
