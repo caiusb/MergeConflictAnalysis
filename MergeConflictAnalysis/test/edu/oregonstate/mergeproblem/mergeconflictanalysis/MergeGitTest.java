@@ -2,6 +2,7 @@ package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult;
+import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -28,6 +29,19 @@ public abstract class MergeGitTest extends GitTestCase {
 		ObjectId newHead = mergeResult.getNewHead();
 		RevCommit mergeCommit = CommitUtils.getCommit(repository, newHead);
 		return mergeCommit;
+	}
+
+	protected MergeResult createConflictingCommit() throws Exception {
+		add("A", "version one");
+		branch("branch");
+		add("A", "version two");
+		checkout("master");
+		add("A", "conflicting version three");
+		
+		MergeResult merge = merge("branch");
+		MergeStatus mergeStatus = merge.getMergeStatus();
+		assertEquals(MergeStatus.CONFLICTING, mergeStatus);
+		return merge;
 	}
 
 }
