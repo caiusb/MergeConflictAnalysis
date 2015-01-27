@@ -1,9 +1,13 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
+import java.util.Set;
+
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.gitective.core.CommitUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -53,5 +57,24 @@ public class ConflictDetectorTest extends MergeGitTest {
 		Set<String> conflictingFiles = git.status().call().getConflicting();
 		assertEquals(0, conflictingFiles.size());
 		assertTrue(git.status().call().isClean());
+	}
+	
+	@Test
+	public void testMergeConflictInReverseChronologicalOrder() throws Exception {
+		add("A", "one");
+		
+		branch("branch");
+		checkout("master");
+		add("A","two");
+		
+		checkout("branch");
+		add("A","three");
+		checkout("master");
+		
+		MergeResult mergeResult = merge("branch");
+		assertEquals(MergeStatus.CONFLICTING, mergeResult.getMergeStatus());
+		RevCommit mergeCommit = add("A","three");
+		
+		assertTrue(conflictDetector.isConflict(mergeCommit, git));
 	}
 }
