@@ -23,10 +23,12 @@ public class ConflictDetector {
 		mergeResult = merge(git, first, second);
 		if (mergeResult.getMergeStatus().equals(MergeStatus.CONFLICTING)) {
 			git.reset().setMode(ResetType.HARD).setRef("master").call();
+			git.submoduleUpdate().call();
 			return true;
 		}
 		
 		git.reset().setMode(ResetType.HARD).setRef("master").call();
+		git.submoduleUpdate().call();
 
 		return false;
 	}
@@ -35,6 +37,7 @@ public class ConflictDetector {
 			throws Exception {
 		CheckoutCommand checkoutCommand = git.checkout().setName(first.getId().getName()).setForce(true);
 		checkoutCommand.call();
+		git.submoduleUpdate().call();
 		MergeCommand merge = git.merge();
 		merge.include(second);
 		MergeResult mergeResults = merge.call();
