@@ -22,11 +22,11 @@ public class ConflictDetector {
 
 		mergeResult = merge(git, first, second);
 		if (mergeResult.getMergeStatus().equals(MergeStatus.CONFLICTING)) {
-			git.reset().setMode(ResetType.HARD).call();
+			git.reset().setMode(ResetType.HARD).setRef("master").call();
 			return true;
 		}
 		
-		git.reset().setMode(ResetType.HARD).call();
+		git.reset().setMode(ResetType.HARD).setRef("master").call();
 
 		return false;
 	}
