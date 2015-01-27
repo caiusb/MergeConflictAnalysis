@@ -1,5 +1,6 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.simple.JSONArray;
@@ -12,6 +13,7 @@ public class Status implements JSONAware {
 
 	public Status setConflict(boolean isConflicting) {
 		this.isConflicting = isConflicting;
+		this.files = new ArrayList<String>();
 		return this;
 	}
 

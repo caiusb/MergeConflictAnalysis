@@ -40,4 +40,12 @@ public class StatusTest {
 		String expected = "{true, [\"FileA\",\"FileB\"]}";
 		assertEquals(expected,jsonString);
 	}
+	
+	@Test
+	public void testNonConflictJSON() {	
+		Status status = new Status().setConflict(false);
+		String jsonString = status.toJSONString();
+		String expected = "{false, []}";
+		assertEquals(expected, jsonString);
+	}
 }
