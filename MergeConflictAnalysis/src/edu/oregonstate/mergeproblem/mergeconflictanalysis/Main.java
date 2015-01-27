@@ -16,7 +16,7 @@ public class Main {
 		for (String repositoryPath : args) {
 			ResultCollector resultCollector = new ResultCollector();
 			Git repository = Git.open(Paths.get(repositoryPath).toFile());
-			repository.checkout().setName("master").setForce(true).call(); //resetting the repository
+			repository.checkout().setName("master").setForce(true).call();
 			RevWalk revWalk = new RevWalk(repository.getRepository());
 			revWalk.setRevFilter(new MergeFilter());
 			RevCommit start = CommitUtils.getCommit(repository.getRepository(), Constants.HEAD);
