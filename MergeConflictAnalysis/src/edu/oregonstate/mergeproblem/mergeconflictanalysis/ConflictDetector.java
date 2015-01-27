@@ -5,6 +5,7 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeCommand;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
+import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 public class ConflictDetector {
@@ -20,8 +21,12 @@ public class ConflictDetector {
 		RevCommit second = parents[1];
 
 		mergeResult = merge(git, first, second);
-		if (mergeResult.getMergeStatus().equals(MergeStatus.CONFLICTING))
+		if (mergeResult.getMergeStatus().equals(MergeStatus.CONFLICTING)) {
+			git.reset().setMode(ResetType.HARD).call();
 			return true;
+		}
+		
+		git.reset().setMode(ResetType.HARD).call();
 
 		return false;
 	}

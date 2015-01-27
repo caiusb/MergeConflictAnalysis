@@ -45,4 +45,13 @@ public class ConflictDetectorTest extends MergeGitTest {
 		MergeResult mergeResult = conflictDetector.getLastMergeResult();
 		assertEquals(MergeStatus.CONFLICTING, mergeResult.getMergeStatus());
 	}
+	
+	@Test
+	public void testResetWorkspaceAfterConflict() throws Exception {
+		RevCommit commit = createConflictingCommit();
+		conflictDetector.isConflict(commit, git);
+		Set<String> conflictingFiles = git.status().call().getConflicting();
+		assertEquals(0, conflictingFiles.size());
+		assertTrue(git.status().call().isClean());
+	}
 }
