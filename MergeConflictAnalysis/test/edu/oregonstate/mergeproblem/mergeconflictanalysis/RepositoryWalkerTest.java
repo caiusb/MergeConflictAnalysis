@@ -23,7 +23,6 @@ public class RepositoryWalkerTest extends MergeGitTest {
 	@Test
 	public void testGetOneCommit() throws Exception {
 		RevCommit mergeCommit = createNonConflictingMerge();
-		walker.walk();
 		List<RevCommit> mergeCommits = walker.getMergeCommits();
 		assertEquals(1, mergeCommits.size());
 		assertTrue(mergeCommits.contains(mergeCommit));
@@ -35,7 +34,6 @@ public class RepositoryWalkerTest extends MergeGitTest {
 		Thread.sleep(1000); // so I get different time stamps
 		RevCommit mergeCommit2 = createSecondNonConflictingCommit();
 		
-		walker.walk();
 		List<RevCommit> mergeCommits = walker.getMergeCommits();
 		assertEquals(2, mergeCommits.size());
 		assertTrue(mergeCommits.contains(mergeCommit1));

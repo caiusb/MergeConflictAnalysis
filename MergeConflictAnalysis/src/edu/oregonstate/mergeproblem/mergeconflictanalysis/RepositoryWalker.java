@@ -15,32 +15,16 @@ import org.gitective.core.CommitUtils;
 public class RepositoryWalker {
 
 	private Repository repository;
-	private List<RevCommit> mergeCommits;
 
 	public RepositoryWalker(Repository repository) {
 		this.repository = repository;
-		this.mergeCommits = new ArrayList<RevCommit>();
 	}
 
-	public List<RevCommit> getMergeCommits() {
-		return mergeCommits;
-	}
-
-	public void walk() throws WalkException {
-		RevWalk revWalk = new RevWalk(repository);
-		revWalk.setRevFilter(new MergeFilter());
-		RevCommit start = CommitUtils.getCommit(repository, Constants.HEAD);
-		try {
-			revWalk.markStart(start);
-		} catch (IOException e) {
-			throw new WalkException(e);
-		}
-		Iterator<RevCommit> mergeCommits = revWalk.iterator();
-		while (mergeCommits.hasNext()) {
-			RevCommit revCommit = (RevCommit) mergeCommits.next();
-			this.mergeCommits.add(revCommit);
-		}
-		this.mergeCommits.sort(new Comparator<RevCommit>() {
+	public List<RevCommit> getMergeCommits() throws WalkException {
+		Iterator<RevCommit> mergeCommitsIterator = getMergeCommitsIterator();
+		ArrayList<RevCommit> mergeCommits = populateList(mergeCommitsIterator);
+		
+		mergeCommits.sort(new Comparator<RevCommit>() {
 
 			@Override
 			public int compare(RevCommit c1, RevCommit c2) {
@@ -52,6 +36,29 @@ public class RepositoryWalker {
 					return 1;
 			}
 		});
+		return mergeCommits;
+	}
+
+	private ArrayList<RevCommit> populateList(Iterator<RevCommit> mergeCommitsIterator) {
+		ArrayList<RevCommit> mergeCommits = new ArrayList<RevCommit>();
+		while (mergeCommitsIterator.hasNext()) {
+			RevCommit revCommit = (RevCommit) mergeCommitsIterator.next();
+			mergeCommits.add(revCommit);
+		}
+		return mergeCommits;
+	}
+
+	private Iterator<RevCommit> getMergeCommitsIterator() throws WalkException {
+		RevWalk revWalk = new RevWalk(repository);
+		revWalk.setRevFilter(new MergeFilter());
+		RevCommit start = CommitUtils.getCommit(repository, Constants.HEAD);
+		try {
+			revWalk.markStart(start);
+		} catch (IOException e) {
+			throw new WalkException(e);
+		}
+		Iterator<RevCommit> mergeCommitsIterator = revWalk.iterator();
+		return mergeCommitsIterator;
 	}
 
 }
