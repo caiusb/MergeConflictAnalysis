@@ -33,6 +33,7 @@ public class ConflictDetector {
 
 	private MergeResult merge(Git git, RevCommit first, RevCommit second)
 			throws Exception {
+		git.reset().setMode(ResetType.HARD).setRef("master").call();
 		CheckoutCommand checkoutCommand = git.checkout().setName(first.getName()).setForce(true);
 		checkoutCommand.call();
 		MergeCommand merge = git.merge();
