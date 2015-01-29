@@ -6,6 +6,7 @@ import org.eclipse.jgit.api.MergeCommand;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.api.ResetCommand.ResetType;
+import org.eclipse.jgit.api.errors.CheckoutConflictException;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 public class ConflictDetector {
@@ -35,7 +36,12 @@ public class ConflictDetector {
 			throws Exception {
 		git.reset().setMode(ResetType.HARD).setRef("master").call();
 		CheckoutCommand checkoutCommand = git.checkout().setName(first.getName()).setForce(true);
-		checkoutCommand.call();
+		try {
+			checkoutCommand.call();
+		} catch (CheckoutConflictException e) {
+			System.out.println("Error checking out "  + first.getName());
+			throw e;
+		}
 		MergeCommand merge = git.merge();
 		merge.include(second);
 		MergeResult mergeResults = merge.call();
