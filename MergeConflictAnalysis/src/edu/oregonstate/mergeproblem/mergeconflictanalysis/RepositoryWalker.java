@@ -2,6 +2,7 @@ package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -39,6 +40,18 @@ public class RepositoryWalker {
 			RevCommit revCommit = (RevCommit) mergeCommits.next();
 			this.mergeCommits.add(revCommit);
 		}
+		this.mergeCommits.sort(new Comparator<RevCommit>() {
+
+			@Override
+			public int compare(RevCommit c1, RevCommit c2) {
+				if (c1.getCommitTime() < c2.getCommitTime())
+					return -1;
+				else if (c1.getCommitTime() == c2.getCommitTime())
+					return 0;
+				else
+					return 1;
+			}
+		});
 	}
 
 }
