@@ -31,22 +31,9 @@ public class RepositoryWalkerTest extends MergeGitTest {
 	
 	@Test
 	public void testTwoCommitsInChronologicalOrder() throws Exception {
-		add("A","one");
-		branch("branch");
-		add("B","two");
-		checkout("master");
-		add("A","three");
-		MergeResult mergeResult1 = merge("branch");
-		Thread.sleep(1000);
-		assertEquals(MergeStatus.MERGED, mergeResult1.getMergeStatus());
-		RevCommit mergeCommit1 = CommitUtils.getCommit(repository, mergeResult1.getNewHead());
-		branch("branch2");
-		add("B","four");
-		checkout("master");
-		add("A", "five");
-		MergeResult mergeResult2 = merge("branch2");
-		assertEquals(MergeStatus.MERGED, mergeResult2.getMergeStatus());
-		RevCommit mergeCommit2 = CommitUtils.getCommit(repository, mergeResult2.getNewHead());
+		RevCommit mergeCommit1 = createNonConflictingMerge();
+		Thread.sleep(1000); // so I get different time stamps
+		RevCommit mergeCommit2 = createSecondNonConflictingCommit();
 		
 		walker.walk();
 		List<RevCommit> mergeCommits = walker.getMergeCommits();
@@ -59,5 +46,16 @@ public class RepositoryWalkerTest extends MergeGitTest {
 		assertFalse(first.getCommitTime() == 0);
 		assertFalse(second.getCommitTime() == 0);
 		assertTrue(first.getCommitTime() < second.getCommitTime());
+	}
+
+	private RevCommit createSecondNonConflictingCommit() throws Exception {
+		branch("branch2");
+		add("B","four");
+		checkout("master");
+		add("A", "five");
+		MergeResult mergeResult2 = merge("branch2");
+		assertEquals(MergeStatus.MERGED, mergeResult2.getMergeStatus());
+		RevCommit mergeCommit2 = CommitUtils.getCommit(repository, mergeResult2.getNewHead());
+		return mergeCommit2;
 	}
 }
