@@ -23,18 +23,15 @@ public class ConflictDetector {
 
 		mergeResult = merge(git, first, second);
 		if (mergeResult.getMergeStatus().equals(MergeStatus.CONFLICTING)) {
-			git.reset().setMode(ResetType.HARD).setRef("master").call();
+			git.reset().setMode(ResetType.HARD).setRef(mergeCommit.getName()).call();
 			return true;
 		}
 		
-		git.reset().setMode(ResetType.HARD).setRef("master").call();
-
 		return false;
 	}
 
 	private MergeResult merge(Git git, RevCommit first, RevCommit second)
 			throws Exception {
-		git.reset().setMode(ResetType.HARD).setRef("master").call();
 		CheckoutCommand checkoutCommand = git.checkout().setName(first.getName()).setForce(true);
 		try {
 			checkoutCommand.call();
