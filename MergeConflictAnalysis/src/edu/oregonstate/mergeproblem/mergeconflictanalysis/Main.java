@@ -2,10 +2,12 @@ package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
 import java.nio.file.Paths;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.gitective.core.CommitUtils;
@@ -14,18 +16,16 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 		for (String repositoryPath : args) {
+			Git git = Git.open(Paths.get(repositoryPath).toFile());
+			Repository repository = git.getRepository();
+			RepositoryWalker repositoryWalker = new RepositoryWalker(repository);
+			List<RevCommit> mergeCommits = repositoryWalker.getMergeCommits();
+			
 			ResultCollector resultCollector = new ResultCollector();
-			Git repository = Git.open(Paths.get(repositoryPath).toFile());
-			repository.checkout().setName("master").setForce(true).call();
-			RevWalk revWalk = new RevWalk(repository.getRepository());
-			revWalk.setRevFilter(new MergeFilter());
-			RevCommit start = CommitUtils.getCommit(repository.getRepository(), Constants.HEAD);
-			revWalk.markStart(start);
-			Iterator<RevCommit> mergeCommits = revWalk.iterator();
-			while (mergeCommits.hasNext()) {
-				RevCommit mergeCommit = (RevCommit) mergeCommits.next();
+			
+			for (RevCommit mergeCommit : mergeCommits) {
 				ConflictDetector conflictDetector = new ConflictDetector();
-				if (conflictDetector.isConflict(mergeCommit, repository)) {
+				if (conflictDetector.isConflict(mergeCommit, git)) {
 					MergeResult mergeResult = conflictDetector.getLastMergeResult();
 					resultCollector.collectConflict(mergeCommit, mergeResult);
 				} else
