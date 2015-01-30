@@ -1,16 +1,12 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
 import java.nio.file.Paths;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.gitective.core.CommitUtils;
 
 public class Main {
 
