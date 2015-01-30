@@ -1,5 +1,8 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
+import java.io.IOException;
+import java.util.Random;
+
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
@@ -20,11 +23,11 @@ public abstract class MergeGitTest extends GitTestCase {
 	}
 	
 	protected RevCommit createNonConflictingMerge() throws Exception {
-		add("A", "some content");
-		branch("branch");
-		add("B", "some other content");
+		add("A", "" + Math.random());
+		checkoutBranch();
+		add("B", "" + Math.random());
 		checkout("master");
-		add("A", "a change! ");
+		add("A", "" + Math.random());
 		MergeResult mergeResult = merge("branch");
 		assertEquals(MergeStatus.MERGED, mergeResult.getMergeStatus());
 		ObjectId newHead = mergeResult.getNewHead();
@@ -51,14 +54,20 @@ public abstract class MergeGitTest extends GitTestCase {
 	}
 
 	protected MergeResult createConflictingMergeResult() throws Exception {
-		add("A", "version one");
-		branch("branch");
-		add("A", "version two");
+		add("A", "" + Math.random());
+		checkoutBranch();
+		add("A", "" + Math.random());
 		checkout("master");
-		add("A", "conflicting version three");
+		add("A", "conflicting " + Math.random());
 		
 		MergeResult merge = merge("branch");
 		return merge;
 	}
 
+	private void checkoutBranch() throws IOException, Exception {
+		if (repository.getRef("branch") == null)
+			branch("branch");
+		else
+			checkout("branch");
+	}
 }
