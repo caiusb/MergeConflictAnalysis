@@ -83,4 +83,19 @@ public class ConflictDetectorTest extends MergeGitTest {
 		assertTrue(conflictDetector.isConflict(firstMerge, git));
 		assertFalse(conflictDetector.isConflict(secondMerge, git));
 	}
+	
+	@Test
+	public void testConflictWithDelete() throws Exception {
+		add("A","one");
+		branch("branch");
+		add("A","two");
+		checkout("master");
+		delete("A");
+		MergeResult merge = merge("branch");
+		assertTrue(merge.getMergeStatus().equals(MergeStatus.CONFLICTING));
+		RevCommit fix = add("A", "bla");
+		assertTrue(conflictDetector.isConflict(fix, git));
+		RevCommit secondOne = createConflictingCommit();
+		assertTrue(conflictDetector.isConflict(secondOne, git));
+	}
 }
