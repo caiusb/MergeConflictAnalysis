@@ -59,8 +59,8 @@ public class ResultCollectorTest extends MergeGitTest {
 		RevCommit commit1 = collectConflictingCommit();
 		RevCommit commit2 = collectConflictingCommit();
 		String actual = resultCollector.toJSONString();
-		String expected = "{\"" + commit2.getName() + "\":{\"true\", [\"A\"]},\n";
-		expected += "\"" + commit1.getName() + "\":{\"true\", [\"A\"]}}";
+		String expected = "{\"" + commit1.getName() + "\":{\"true\", [\"A\"]},\n";
+		expected += "\"" + commit2.getName() + "\":{\"true\", [\"A\"]}}";
 		assertEquals(expected, actual);
 	}
 }
