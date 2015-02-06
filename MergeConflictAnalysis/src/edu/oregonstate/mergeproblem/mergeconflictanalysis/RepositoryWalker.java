@@ -23,19 +23,7 @@ public class RepositoryWalker {
 	public List<RevCommit> getMergeCommits() throws WalkException {
 		Iterator<RevCommit> mergeCommitsIterator = getMergeCommitsIterator();
 		ArrayList<RevCommit> mergeCommits = populateList(mergeCommitsIterator);
-		
-		mergeCommits.sort(new Comparator<RevCommit>() {
-
-			@Override
-			public int compare(RevCommit c1, RevCommit c2) {
-				if (c1.getCommitTime() < c2.getCommitTime())
-					return -1;
-				else if (c1.getCommitTime() == c2.getCommitTime())
-					return 0;
-				else
-					return 1;
-			}
-		});
+		mergeCommits.sort((RevCommit c1, RevCommit c2) -> Integer.compare(c1.getCommitTime(), c2.getCommitTime()));
 		return mergeCommits;
 	}
 
