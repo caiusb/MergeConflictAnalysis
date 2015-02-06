@@ -31,6 +31,10 @@ public class ResultCollector implements JSONAware {
 	public String toJSONString() {
 		String resultsString = "{";
 		Set<String> keys = results.keySet();
+		ArrayList<String> keysList = new ArrayList<String>();
+		keysList.addAll(keys);		
+		keysList.sort((String s1, String s2) -> s1.compareTo(s2));
+		
 		for (String key : keys) {
 			Status value = results.get(key);
 			resultsString = resultsString + "\"" + key + "\":" + value.toJSONString() + ",\n";
