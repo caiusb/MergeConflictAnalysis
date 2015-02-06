@@ -35,7 +35,7 @@ public class ResultCollector implements JSONAware {
 		keysList.addAll(keys);		
 		keysList.sort((String s1, String s2) -> s1.compareTo(s2));
 		
-		for (String key : keys) {
+		for (String key : keysList) {
 			Status value = results.get(key);
 			resultsString = resultsString + "\"" + key + "\":" + value.toJSONString() + ",\n";
 		}
