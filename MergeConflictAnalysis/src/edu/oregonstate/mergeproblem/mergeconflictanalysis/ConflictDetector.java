@@ -21,7 +21,11 @@ public class ConflictDetector {
 		RevCommit first = parents[0];
 		RevCommit second = parents[1];
 
-		mergeResult = merge(git, first, second);
+		try {
+			mergeResult = merge(git, first, second);
+		} catch (CheckoutConflictException e) {
+			return false;
+		}
 		if (mergeResult.getMergeStatus().equals(MergeStatus.CONFLICTING)) {
 			git.reset().setMode(ResetType.HARD).setRef(mergeCommit.getName()).call();
 			return true;
