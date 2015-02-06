@@ -1,7 +1,6 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
 import java.io.IOException;
-import java.util.Random;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult;

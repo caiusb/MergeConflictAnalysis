@@ -9,7 +9,6 @@ import java.util.Set;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.json.simple.JSONAware;
-import org.json.simple.JSONObject;
 
 public class ResultCollector implements JSONAware {
 	
