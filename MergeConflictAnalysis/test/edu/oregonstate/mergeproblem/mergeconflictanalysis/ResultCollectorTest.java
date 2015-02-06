@@ -58,6 +58,13 @@ public class ResultCollectorTest extends MergeGitTest {
 	public void testTwoLineJSonString() throws Exception {
 		RevCommit commit1 = collectConflictingCommit();
 		RevCommit commit2 = collectConflictingCommit();
+		
+		if (commit1.getName().compareTo(commit2.getName()) >= 0) {
+			RevCommit temp = commit1;
+			commit1 = commit2;
+			commit2 = temp; 
+		}
+		
 		String actual = resultCollector.toJSONString();
 		String expected = "{\"" + commit1.getName() + "\":{\"true\", [\"A\"]},\n";
 		expected += "\"" + commit2.getName() + "\":{\"true\", [\"A\"]}}";
