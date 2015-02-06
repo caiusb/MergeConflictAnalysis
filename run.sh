@@ -24,7 +24,7 @@ do
     pushd $tmploc
     git checkout -f master
     popd
-    java -Xmx1G -jar $dir/MergingConflictAnalysis.jar $tmploc > $resultsloc/$i.csv 
+    java -Xmx1G -jar $dir/MergingConflictAnalysis.jar $tmploc > $resultsloc/$i.json
     rm -rf $tmploc
 done
 
