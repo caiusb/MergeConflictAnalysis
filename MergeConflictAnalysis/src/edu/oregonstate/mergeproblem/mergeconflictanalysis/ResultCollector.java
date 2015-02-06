@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -29,7 +30,15 @@ public class ResultCollector implements JSONAware {
 	}
 
 	public String toJSONString() {
-		return JSONObject.toJSONString(results);
+		String resultsString = "{";
+		Set<String> keys = results.keySet();
+		for (String key : keys) {
+			Status value = results.get(key);
+			resultsString = resultsString + "\"" + key + "\":" + value.toJSONString() + ",\n";
+		}
+		resultsString = resultsString.substring(0, resultsString.length() - 2);
+		resultsString = resultsString + "}";
+		return resultsString;
 	}
 	
 }
