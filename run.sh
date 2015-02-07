@@ -1,8 +1,9 @@
 #!/bin/bash
 
-if [[ "$#" -ne 0 ]]
+if [[ "$#" -ne 2 ]]
 then
 	echo "Usage: ./run.sh <dir with repos> <dir where to put the results>"
+	exit
 fi
 
 if [[ $1 = /* ]]
