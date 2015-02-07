@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [[ "$#" -ne 0 ]]
+then
+	echo "Usage: ./run.sh <dir with repos> <dir where to put the results>"
+fi
+
 if [[ $1 = /* ]]
 then
     repoloc=$1
