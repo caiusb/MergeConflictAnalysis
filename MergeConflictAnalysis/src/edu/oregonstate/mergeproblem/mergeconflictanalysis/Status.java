@@ -32,7 +32,7 @@ public class Status implements JSONAware {
 
 	@Override
 	public String toJSONString() {
-		return "{\"" + isConflicting + "\", " + JSONArray.toJSONString(files) + "}";
+		return "{\"" + isConflicting + "\": " + JSONArray.toJSONString(files) + "}";
 	}
 	
 }
