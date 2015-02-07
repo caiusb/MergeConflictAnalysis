@@ -20,25 +20,27 @@ else
     resultsloc=$PWD/$2
 fi
 
+orderfile='order.txt'
+
 dir=$PWD
 pushd $repoloc
-for i in *
+
+while read line
 do
-    echo "Processing $i"
-    tmploc=/mnt/ramdisk/merging/$i
+	tmploc=/mnt/ramdisk/merging/$line
 	date=`date`
-    cp -r $i $tmploc
+    cp -r $line $tmploc
     pushd $tmploc
     git checkout -f master
     popd
-    java -Xmx1G -jar $dir/MergingConflictAnalysis.jar $tmploc > $resultsloc/$i.json
+    java -Xmx1G -jar $dir/MergingConflictAnalysis.jar $tmploc > $resultsloc/$line.json
     rm -rf $tmploc
 
 	pushd $resultsloc
-	git add $i.json
+	git add $line.json
 	git commit -m "Results as of $date"
 	git push
 	popd
-done
+done < $orderfile
 
 popd
