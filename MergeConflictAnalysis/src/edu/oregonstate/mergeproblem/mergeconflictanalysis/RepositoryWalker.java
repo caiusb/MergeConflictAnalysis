@@ -2,7 +2,6 @@ package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
