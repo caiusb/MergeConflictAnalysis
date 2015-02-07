@@ -26,12 +26,19 @@ for i in *
 do
     echo "Processing $i"
     tmploc=/mnt/ramdisk/merging/$i
+	date=`date`
     cp -r $i $tmploc
     pushd $tmploc
     git checkout -f master
     popd
     java -Xmx1G -jar $dir/MergingConflictAnalysis.jar $tmploc > $resultsloc/$i.json
     rm -rf $tmploc
+
+	pushd $resultsloc
+	git add $i.json
+	git commit -m "Results as of $date"
+	git push
+	popd
 done
 
 popd
