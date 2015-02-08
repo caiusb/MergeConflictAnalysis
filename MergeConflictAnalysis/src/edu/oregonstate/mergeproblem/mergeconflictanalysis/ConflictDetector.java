@@ -10,6 +10,7 @@ import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.api.ResetCommand.ResetType;
 import org.eclipse.jgit.api.Status;
 import org.eclipse.jgit.api.errors.CheckoutConflictException;
+import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 public class ConflictDetector {
@@ -29,15 +30,19 @@ public class ConflictDetector {
 			mergeResult = merge(git, first, second);
 		} catch (CheckoutConflictException e) {
 			logger.severe("Error on replicating merge: " + mergeCommit.getName());
+			throw new MergingException();
+		} catch (JGitInternalException e) {
+			logger.severe("Internal exception occured when trying to replicate " + mergeCommit.getName() + "\n" + e);
+			throw new MergingException();
 		}
 		
 		if (mergeResult == null) {
 			logger.severe("Merge result is null for replicating " + mergeCommit.getName());
-			return false;
+			throw new MergingException();
 		}
 		if (mergeResult.getMergeStatus() == null) {
 			logger.severe("Merge status is null for replicating " + mergeCommit.getName());
-			return false;
+			throw new MergingException();
 		}
 		
 		if (mergeResult.getMergeStatus().equals(MergeStatus.CONFLICTING)) {
