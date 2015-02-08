@@ -30,12 +30,13 @@ public class ConflictDetector {
 		} catch (CheckoutConflictException e) {
 			logger.severe("Error on replicating merge: " + mergeCommit.getName());
 		}
+		
 		if (mergeResult == null) {
-			logger.severe("Merge result is null");
+			logger.severe("Merge result is null for replicating " + mergeCommit.getName());
 			return false;
 		}
 		if (mergeResult.getMergeStatus() == null) {
-			logger.severe("Merge status is null");
+			logger.severe("Merge status is null for replicating " + mergeCommit.getName());
 			return false;
 		}
 		
