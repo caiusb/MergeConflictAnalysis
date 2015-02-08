@@ -6,19 +6,18 @@ then
 	exit
 fi
 
-if [[ $1 = /* ]]
-then
-    repoloc=$1
-else
-    repoloc=$PWD/$1
-fi
 
-if [[ $2 = /* ]]
-then
-    resultsloc=$2
-else
-    resultsloc=$PWD/$2
-fi
+function resolve-path() {
+	if [[ $1 = /* ]]
+	then
+		return $1
+	else
+		return $PWD/$1
+	fi
+}
+
+repoloc=resolvepath $1
+resultsloc=resolvepath $2
 
 orderfile='order.txt'
 
