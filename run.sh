@@ -22,24 +22,24 @@ resultsloc=$(resolve-path $2 )
 orderfile='order.txt'
 
 dir=$PWD
-pushd $repoloc
+pushd $repoloc > /dev/null
 
 while read line
 do
 	tmploc=/mnt/ramdisk/merging/$line
 	date=`date`
     cp -r $line $tmploc
-    pushd $tmploc
+    pushd $tmploc > /dev/null
     git checkout -f master
-    popd
+    popd > /dev/null
     java -Xmx1G -jar $dir/MergingConflictAnalysis.jar $tmploc > $resultsloc/$line.json
     rm -rf $tmploc
 
-	pushd $resultsloc
+	pushd $resultsloc > /dev/null
 	git add $line.json
 	git commit -m "Results as of $date"
 	git push
-	popd
+	popd < /dev/null
 done < $orderfile
 
 popd
