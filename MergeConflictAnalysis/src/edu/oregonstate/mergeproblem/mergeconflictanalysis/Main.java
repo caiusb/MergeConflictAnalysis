@@ -14,14 +14,14 @@ import org.eclipse.jgit.revwalk.RevCommit;
 public class Main {
 
 	public static final String LOGGER_NAME = "MergingProblemLogger";
-
+	
 	public static void main(String[] args) throws Exception {
 
 		Logger logger = Logger.getLogger(LOGGER_NAME);
-		logger.setLevel(Level.ALL);
+		logger.setLevel(Level.INFO);
 
 		ConsoleHandler handler = new ConsoleHandler();
-		handler.setLevel(Level.ALL);
+		handler.setLevel(Level.INFO);
 		logger.addHandler(handler);
 
 		for (String repositoryPath : args) {
