@@ -41,7 +41,7 @@ public class ConflictDetector {
 		if (!status.isClean())
 			git.checkout().setAllPaths(true).call();
 		
-		CheckoutCommand checkoutCommand = git.checkout().setName(first.getName()).setForce(true);
+		CheckoutCommand checkoutCommand = git.checkout().setName(first.getName());
 		try {
 			checkoutCommand.call();
 		} catch (CheckoutConflictException e) {
