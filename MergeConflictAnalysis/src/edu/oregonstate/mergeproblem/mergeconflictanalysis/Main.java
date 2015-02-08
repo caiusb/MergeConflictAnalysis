@@ -25,22 +25,25 @@ public class Main {
 		logger.addHandler(handler);
 
 		for (String repositoryPath : args) {
-			Git git = Git.open(Paths.get(repositoryPath).toFile());
-			Repository repository = git.getRepository();
-			RepositoryWalker repositoryWalker = new RepositoryWalker(repository);
-			List<RevCommit> mergeCommits = repositoryWalker.getMergeCommits();
-			
 			ResultCollector resultCollector = new ResultCollector();
-			
-			for (RevCommit mergeCommit : mergeCommits) {
-				ConflictDetector conflictDetector = new ConflictDetector();
-				if (conflictDetector.isConflict(mergeCommit, git)) {
-					MergeResult mergeResult = conflictDetector.getLastMergeResult();
-					resultCollector.collectConflict(mergeCommit, mergeResult);
-				} else
-					resultCollector.collectNonConflict(mergeCommit);
+			try {
+				Git git = Git.open(Paths.get(repositoryPath).toFile());
+				Repository repository = git.getRepository();
+				RepositoryWalker repositoryWalker = new RepositoryWalker(repository);
+				List<RevCommit> mergeCommits = repositoryWalker.getMergeCommits();
+
+
+				for (RevCommit mergeCommit : mergeCommits) {
+					ConflictDetector conflictDetector = new ConflictDetector();
+					if (conflictDetector.isConflict(mergeCommit, git)) {
+						MergeResult mergeResult = conflictDetector.getLastMergeResult();
+						resultCollector.collectConflict(mergeCommit, mergeResult);
+					} else
+						resultCollector.collectNonConflict(mergeCommit);
+				}
+			} finally {
+				System.out.println(resultCollector.toJSONString());
 			}
-			System.out.println(resultCollector.toJSONString());
 		}
 	}
 
