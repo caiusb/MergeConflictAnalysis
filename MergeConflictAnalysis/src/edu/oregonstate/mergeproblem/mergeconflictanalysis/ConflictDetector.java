@@ -6,6 +6,7 @@ import org.eclipse.jgit.api.MergeCommand;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.api.ResetCommand.ResetType;
+import org.eclipse.jgit.api.Status;
 import org.eclipse.jgit.api.errors.CheckoutConflictException;
 import org.eclipse.jgit.revwalk.RevCommit;
 
@@ -36,6 +37,10 @@ public class ConflictDetector {
 
 	private MergeResult merge(Git git, RevCommit first, RevCommit second)
 			throws Exception {
+		Status status = git.status().call();
+		if (!status.isClean())
+			git.checkout().setAllPaths(true).call();
+		
 		CheckoutCommand checkoutCommand = git.checkout().setName(first.getName()).setForce(true);
 		try {
 			checkoutCommand.call();
