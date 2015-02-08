@@ -10,14 +10,14 @@ fi
 function resolve-path() {
 	if [[ $1 = /* ]]
 	then
-		return $1
+		echo $1
 	else
-		return $PWD/$1
+		echo $PWD/$1
 	fi
 }
 
-repoloc=resolvepath $1
-resultsloc=resolvepath $2
+repoloc=$(resolve-path $1)
+resultsloc=$(resolve-path $2 )
 
 orderfile='order.txt'
 
