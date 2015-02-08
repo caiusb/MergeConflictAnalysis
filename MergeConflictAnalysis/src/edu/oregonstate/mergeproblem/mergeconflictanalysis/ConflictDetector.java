@@ -1,5 +1,7 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
+import java.util.logging.Logger;
+
 import org.eclipse.jgit.api.CheckoutCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeCommand;
@@ -13,7 +15,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
 public class ConflictDetector {
 
 	private MergeResult mergeResult;
-
+	private Logger logger = Logger.getLogger(Main.LOGGER_NAME);
+	
 	public boolean isConflict(RevCommit mergeCommit, Git git) throws Exception {
 		RevCommit[] parents = mergeCommit.getParents();
 		if (parents.length <= 1)
@@ -25,7 +28,7 @@ public class ConflictDetector {
 		try {
 			mergeResult = merge(git, first, second);
 		} catch (CheckoutConflictException e) {
-			return false;
+			logger.severe("Error on replicating merge: " + mergeCommit.getName());
 		}
 		if (mergeResult.getMergeStatus().equals(MergeStatus.CONFLICTING)) {
 			git.reset().setMode(ResetType.HARD).setRef(mergeCommit.getName()).call();
@@ -38,19 +41,17 @@ public class ConflictDetector {
 	private MergeResult merge(Git git, RevCommit first, RevCommit second)
 			throws Exception {
 		Status status = git.status().call();
-		if (!status.isClean())
+		if (!status.isClean()) {
+			logger.fine("Working directory was dirty before checking out " + first.getName());
 			git.checkout().setAllPaths(true).call();
+		}
 		
 		CheckoutCommand checkoutCommand = git.checkout().setName(first.getName());
-		try {
-			checkoutCommand.call();
-		} catch (CheckoutConflictException e) {
-			System.out.println("Error checking out "  + first.getName());
-			throw e;
-		}
+		checkoutCommand.call();
 		MergeCommand merge = git.merge();
 		merge.include(second);
 		MergeResult mergeResults = merge.call();
+		logger.finer("Merging " + first.getName() + " with " + second.getName() + " resulted in a " + mergeResults.getMergeStatus());
 		return mergeResults;
 	}
 

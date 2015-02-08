@@ -2,6 +2,9 @@ package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult;
@@ -10,7 +13,17 @@ import org.eclipse.jgit.revwalk.RevCommit;
 
 public class Main {
 
+	public static final String LOGGER_NAME = "MergingProblemLogger";
+
 	public static void main(String[] args) throws Exception {
+
+		Logger logger = Logger.getLogger(LOGGER_NAME);
+		logger.setLevel(Level.ALL);
+
+		ConsoleHandler handler = new ConsoleHandler();
+		handler.setLevel(Level.ALL);
+		logger.addHandler(handler);
+
 		for (String repositoryPath : args) {
 			Git git = Git.open(Paths.get(repositoryPath).toFile());
 			Repository repository = git.getRepository();
