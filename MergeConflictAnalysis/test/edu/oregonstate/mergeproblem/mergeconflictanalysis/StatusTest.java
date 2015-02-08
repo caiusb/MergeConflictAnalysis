@@ -48,4 +48,12 @@ public class StatusTest {
 		String expected = "{\"false\": []}";
 		assertEquals(expected, jsonString);
 	}
+	
+	@Test
+	public void testFailureJSON() {
+		Status status = new Status().setFailure(true);
+		String jsonString = status.toJSONString();
+		String expected = "{\"failure\": []}";
+		assertEquals(expected, jsonString);
+	}
 }

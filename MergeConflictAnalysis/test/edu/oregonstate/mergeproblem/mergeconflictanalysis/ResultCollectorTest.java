@@ -70,4 +70,12 @@ public class ResultCollectorTest extends MergeGitTest {
 		expected += "\"" + commit2.getName() + "\":{\"true\": [\"A\"]}}";
 		assertEquals(expected, actual);
 	}
+	
+	@Test
+	public void testFailingJSON() throws Exception {
+		RevCommit commit = collectConflictingCommit();
+		resultCollector.collectFailure(commit);
+		String expected = "{\"" + commit.getName() + "\":{\"failure\": []}}";
+		assertEquals(expected, resultCollector.toJSONString());
+	}
 }

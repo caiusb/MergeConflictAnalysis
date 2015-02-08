@@ -28,6 +28,10 @@ public class ResultCollector implements JSONAware {
 		results.put(mergeCommit.getName(), new Status().setConflict(true).setFiles(conflictingFiles));
 	}
 
+	public void collectFailure(RevCommit mergeCommit) {
+		results.put(mergeCommit.getName(), new Status().setFailure(true));
+	}
+	
 	public String toJSONString() {
 		String resultsString = "{";
 		Set<String> keys = results.keySet();
@@ -46,5 +50,5 @@ public class ResultCollector implements JSONAware {
 		resultsString = resultsString + "}";
 		return resultsString;
 	}
-	
+
 }
