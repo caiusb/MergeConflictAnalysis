@@ -41,6 +41,8 @@ public class Main {
 					} else
 						resultCollector.collectNonConflict(mergeCommit);
 				}
+			} catch (Throwable e) {
+				logger.severe("The anaylsis threw this: " + e);
 			} finally {
 				System.out.println(resultCollector.toJSONString());
 			}
