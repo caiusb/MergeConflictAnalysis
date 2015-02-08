@@ -28,6 +28,7 @@ while read line
 do
 	tmploc=/mnt/ramdisk/merging/$line
 	date=`date`
+	echo "Processing $line"
     cp -r $line $tmploc
     pushd $tmploc > /dev/null
     git checkout -f master
