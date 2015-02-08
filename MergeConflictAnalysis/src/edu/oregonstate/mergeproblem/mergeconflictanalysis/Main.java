@@ -35,11 +35,15 @@ public class Main {
 
 				for (RevCommit mergeCommit : mergeCommits) {
 					ConflictDetector conflictDetector = new ConflictDetector();
-					if (conflictDetector.isConflict(mergeCommit, git)) {
-						MergeResult mergeResult = conflictDetector.getLastMergeResult();
-						resultCollector.collectConflict(mergeCommit, mergeResult);
-					} else
-						resultCollector.collectNonConflict(mergeCommit);
+					try {
+						if (conflictDetector.isConflict(mergeCommit, git)) {
+							MergeResult mergeResult = conflictDetector.getLastMergeResult();
+							resultCollector.collectConflict(mergeCommit, mergeResult);
+						} else
+							resultCollector.collectNonConflict(mergeCommit);
+					} catch (MergingException e) {
+						resultCollector.collectFailure(mergeCommit);
+					}
 				}
 			} catch (Throwable e) {
 				logger.severe("The anaylsis threw this: " + e);
