@@ -18,7 +18,7 @@ def convertToBool(string):
 	return False
 
 def loadJson(file):
-	print(file + ':', end="")
+	print(file + ',', end="")
 	pathToFile = os.path.join(resultsFolder,file)
 	jsonString = ''
 	with open(pathToFile, 'r') as f:
@@ -45,6 +45,7 @@ def countConflicts(data):
 				ok  = ok + 1
 	print(str(conflicts) + ',' + str(ok) + "," + str(failures))
 
+print('Project, Conflicts, OK, Failures')
 for file in files:
 	if shouldIgnore(file):
 		continue
