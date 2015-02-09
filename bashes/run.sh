@@ -46,4 +46,4 @@ do
     popd < /dev/null
 done < $orderfile
 
-popd
+popd > /dev/null
