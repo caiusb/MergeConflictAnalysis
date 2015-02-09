@@ -1,6 +1,6 @@
 #!/bin/bash
 
-"./common.sh"
+source common.sh
 
 if [[ "$#" -ne 2 ]]
 then
@@ -11,7 +11,7 @@ fi
 repoloc=$(resolve-path $1)
 resultsloc=$(resolve-path $2 )
 
-orderfile='order.txt'
+orderfile=$repoloc/'order.txt'
 
 dir=$PWD
 pushd $repoloc > /dev/null
