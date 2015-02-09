@@ -13,13 +13,13 @@ function stat-repo() {
 	pushd $repoPath > /dev/null
 	merges=`git log --merges --oneline | wc -l`
 	threeParents=`git log --min-parents=3 --oneline | wc -l`
+	popd > /dev/null
 }
 
-echo $repoloc
 pushd $repoloc > /dev/null
 for i in *
 do
 	stat-repo $i
 	echo "{\"$repoName\": \"$i\", \"$noOfMerges\": $merges, \"$moreThanTwo\": $threeParents}" 
 done
-popd
+popd > /dev/null
