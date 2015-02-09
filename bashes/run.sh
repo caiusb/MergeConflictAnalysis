@@ -12,20 +12,21 @@ repoloc=$(resolve-path $1)
 resultsloc=$(resolve-path $2 )
 
 orderfile=$repoloc/'order.txt'
-
+#ramdisk="/mnt/ramdisk/merging/"
+ramdisk="/Volumes/RAM\ Disk/"
 dir=$PWD
 pushd $repoloc > /dev/null
 
 while read line
 do
-	tmploc=/mnt/ramdisk/merging/$line
-	date=`date`
-	echo "Processing $line"
-    cp -r $line $tmploc
-    pushd $tmploc > /dev/null
+    tmploc=$ramdisk$line
+    date=`date`
+    echo "Processing $line"
+    cp -r $line "$tmploc"
+    pushd "$tmploc" > /dev/null
     git checkout -f master > /dev/null
     popd > /dev/null
-    java -Xmx1G -jar $dir/../MergingConflictAnalysis.jar $tmploc > $resultsloc/$line.json 2>$resultsloc/log/$line.txt
+    java -Xmx1G -jar $dir/../MergingConflictAnalysis.jar "$tmploc" > $resultsloc/$line.json 2>$resultsloc/log/$line.txt
     rm -rf $tmploc
 
 	pushd $resultsloc > /dev/null
