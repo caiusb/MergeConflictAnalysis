@@ -1,20 +1,12 @@
 #!/bin/bash
 
+"./common.sh"
+
 if [[ "$#" -ne 2 ]]
 then
 	echo "Usage: ./run.sh <dir with repos> <dir where to put the results>"
 	exit
 fi
-
-
-function resolve-path() {
-	if [[ $1 = /* ]]
-	then
-		echo $1
-	else
-		echo $PWD/$1
-	fi
-}
 
 repoloc=$(resolve-path $1)
 resultsloc=$(resolve-path $2 )
