@@ -19,6 +19,10 @@ function stat-repo() {
 pushd $repoloc > /dev/null
 for i in *
 do
+	if [[ -f $i ]]
+	then
+		continue
+	fi
 	stat-repo $i
 	echo "{\"$repoName\": \"$i\", \"$noOfMerges\": $merges, \"$moreThanTwo\": $threeParents}" 
 done
