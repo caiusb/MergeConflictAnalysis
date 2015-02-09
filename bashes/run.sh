@@ -11,10 +11,20 @@ fi
 repoloc=$(resolve-path $1)
 resultsloc=$(resolve-path $2 )
 
-orderfile=$repoloc/'order.txt'
-#ramdisk="/mnt/ramdisk/merging/"
-ramdisk="/Volumes/RAM-Disk/"
 dir=$PWD
+orderfile=$repoloc/'order.txt'
+
+uname=`uname`
+if [[$uname = Linux]]
+then
+	ramdisk="/mnt/ramdisk/merging/"
+else if [[$uname = Darwin]]
+	ramdisk="/Volumes/RAM-Disk/"
+else
+	echo "Unsupported operating system."
+	return -1
+fi
+
 pushd $repoloc > /dev/null
 
 while read line
