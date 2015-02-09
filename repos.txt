@@ -13,7 +13,6 @@ git@github.com:JakeWharton/Android-ViewPagerIndicator.git
 https://github.com/Netflix/astyanax.git
 https://github.com/AsyncHttpClient/async-http-client.git
 git@github.com:Bukkit/Bukkit.git
-git://github.com/Bukkit/CraftBukkit.git
 git@github.com:cucumber/cucumber-jvm.git
 git@github.com:commonsguy/cw-advandroid.git
 https://github.com/square/dagger.git
