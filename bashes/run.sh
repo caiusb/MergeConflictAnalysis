@@ -19,7 +19,7 @@ pushd $repoloc > /dev/null
 
 while read line
 do
-    tmploc=$ramdisk$line
+    tmploc="$ramdisk$line"
     date=`date`
     echo "Processing $line"
     cp -r $line "$tmploc"
@@ -29,11 +29,11 @@ do
     java -Xmx1G -jar $dir/../MergingConflictAnalysis.jar "$tmploc" > $resultsloc/$line.json 2>$resultsloc/log/$line.txt
     rm -rf $tmploc
 
-	pushd $resultsloc > /dev/null
-	git add $line.json log/$line.txt
-	git commit -m "Results as of $date"
-	git push
-	popd < /dev/null
+    pushd $resultsloc > /dev/null
+    git add $line.json log/$line.txt
+    git commit -m "Results as of $date"
+    git push
+    popd < /dev/null
 done < $orderfile
 
 popd
