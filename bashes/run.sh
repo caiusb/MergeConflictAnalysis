@@ -23,9 +23,9 @@ do
 	echo "Processing $line"
     cp -r $line $tmploc
     pushd $tmploc > /dev/null
-    git checkout -f master
+    git checkout -f master > /dev/null
     popd > /dev/null
-    java -Xmx1G -jar $dir/MergingConflictAnalysis.jar $tmploc > $resultsloc/$line.json 2>$resultsloc/log/$line.txt
+    java -Xmx1G -jar $dir/../MergingConflictAnalysis.jar $tmploc > $resultsloc/$line.json 2>$resultsloc/log/$line.txt
     rm -rf $tmploc
 
 	pushd $resultsloc > /dev/null
