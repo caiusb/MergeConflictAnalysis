@@ -11,8 +11,8 @@ moreThanTwo="Merges 3 parents"
 function stat-repo() {
 	repoPath=$1
 	pushd $repoPath > /dev/null
-	merges=`git log --merges --oneline | wc -l`
-	threeParents=`git log --min-parents=3 --oneline | wc -l`
+	merges=`git log --merges --oneline | wc -l | sed 's/^ *//'`
+	threeParents=`git log --min-parents=3 --oneline | wc -l | sed 's/^ *//'`
 	popd > /dev/null
 }
 
