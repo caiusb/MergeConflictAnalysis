@@ -13,7 +13,7 @@ resultsloc=$(resolve-path $2 )
 
 orderfile=$repoloc/'order.txt'
 #ramdisk="/mnt/ramdisk/merging/"
-ramdisk="/Volumes/RAM\ Disk/"
+ramdisk="/Volumes/RAM-Disk/"
 dir=$PWD
 pushd $repoloc > /dev/null
 
