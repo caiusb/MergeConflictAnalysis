@@ -24,6 +24,7 @@ do
 		continue
 	fi
 	stat-repo $i
-	echo "{\"$repoName\": \"$i\", \"$noOfMerges\": $merges, \"$moreThanTwo\": $threeParents}" 
+	#echo "{\"$repoName\": \"$i\", \"$noOfMerges\": $merges, \"$moreThanTwo\": $threeParents}" 
+	echo "$i,$merges,$threeParents"
 done
 popd > /dev/null

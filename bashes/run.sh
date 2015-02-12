@@ -44,9 +44,9 @@ do
     rm -rf $tmploc
 
     pushd $resultsloc > /dev/null
-    git add $line.json log/$line.txt
-    git commit -m "Results as of $date"
-    git push
+    git add $line.json log/$line.txt > /dev/null
+    git commit -m "Results as of $date" > /dev/null
+    git push > /dev/null
     popd < /dev/null
 done < $orderfile
 
