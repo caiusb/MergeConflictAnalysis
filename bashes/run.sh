@@ -25,6 +25,10 @@ else
 	return -1
 fi
 
+pushd $resultsloc > /dev/null
+git pull
+popd > /dev/null
+
 pushd $repoloc > /dev/null
 
 while read line
