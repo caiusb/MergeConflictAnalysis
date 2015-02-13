@@ -15,13 +15,13 @@ public class StatusTest {
 		Status status = new Status().setConflict(false);
 		assertFalse(status.isConflicting());
 	}
-	
+
 	@Test
 	public void testIsConflicting() {
 		Status status = new Status().setConflict(true);
 		assertTrue(status.isConflicting());
 	}
-	
+
 	@Test
 	public void testIsConflictingWithFiles() {
 		Status status = createConflictingStatus();
@@ -29,31 +29,34 @@ public class StatusTest {
 	}
 
 	private Status createConflictingStatus() {
-		Status status = new Status().setConflict(true).setFiles(Arrays.asList(new String[]{"FileA", "FileB"}));
+		Status status = new Status().setConflict(true).setFiles(Arrays.asList(new String[] { "FileA", "FileB" }));
 		return status;
 	}
-	
+
 	@Test
 	public void testJSON() {
 		Status status = createConflictingStatus();
 		String jsonString = status.toJSONString();
-		String expected = "{\"" + Status.JSON_STATUS + "\": \"" + Status.CONFLICT + "\", \"" + Status.JSON_FILES + "\": [\"FileA\",\"FileB\"]}";
-		assertEquals(expected,jsonString);
-	}
-	
-	@Test
-	public void testNonConflictJSON() {	
-		Status status = new Status().setConflict(false);
-		String jsonString = status.toJSONString();
-		String expected = "{\"" + Status.JSON_STATUS + "\": \"" + Status.CLEAN + "\", \"" + Status.JSON_FILES + "\": []}";
+		String expected = "{\"" + Status.JSON_STATUS + "\": \"" + Status.CONFLICT + "\", \"" + Status.JSON_FILES
+				+ "\": [\"FileA\",\"FileB\"]}";
 		assertEquals(expected, jsonString);
 	}
-	
+
+	@Test
+	public void testNonConflictJSON() {
+		Status status = new Status().setConflict(false);
+		String jsonString = status.toJSONString();
+		String expected = "{\"" + Status.JSON_STATUS + "\": \"" + Status.CLEAN + "\", \"" + Status.JSON_FILES
+				+ "\": []}";
+		assertEquals(expected, jsonString);
+	}
+
 	@Test
 	public void testFailureJSON() {
 		Status status = new Status().setFailure(true);
 		String jsonString = status.toJSONString();
-		String expected = "{\"" + Status.JSON_STATUS + "\": \"" + Status.FAILURE + "\", \"" + Status.JSON_FILES + "\": []}";
+		String expected = "{\"" + Status.JSON_STATUS + "\": \"" + Status.FAILURE + "\", \"" + Status.JSON_FILES
+				+ "\": []}";
 		assertEquals(expected, jsonString);
 	}
 }
