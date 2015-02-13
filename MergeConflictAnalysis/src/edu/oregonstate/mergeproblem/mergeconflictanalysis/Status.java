@@ -18,6 +18,11 @@ public class Status implements JSONAware {
 	public final static String CONFLICT = "conflict";
 	public final static String FAILURE = "failure";
 	public final static String SUBMODULE = "submodule";
+	
+	public Status setStatus(String status) {
+		this.status = status;
+		return this;
+	}
 
 	public Status setConflict(boolean isConflicting) {
 		if (isConflicting)
