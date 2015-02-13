@@ -34,10 +34,7 @@ public class ResultCollector implements JSONAware {
 	
 	public String toJSONString() {
 		String resultsString = "{";
-		Set<String> keys = results.keySet();
-		ArrayList<String> keysList = new ArrayList<String>();
-		keysList.addAll(keys);		
-		keysList.sort((String s1, String s2) -> s1.compareTo(s2));
+		ArrayList<String> keysList = getSortedCommits();
 		
 		for (String key : keysList) {
 			Status value = results.get(key);
@@ -46,6 +43,14 @@ public class ResultCollector implements JSONAware {
 		resultsString = trimTheLastTwoCharacters(resultsString);
 		resultsString = resultsString + "}";
 		return resultsString;
+	}
+
+	private ArrayList<String> getSortedCommits() {
+		Set<String> keys = results.keySet();
+		ArrayList<String> keysList = new ArrayList<String>();
+		keysList.addAll(keys);		
+		keysList.sort((String s1, String s2) -> s1.compareTo(s2));
+		return keysList;
 	}
 
 	private String trimTheLastTwoCharacters(String resultsString) {
