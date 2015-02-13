@@ -27,17 +27,13 @@ git@github.com:Prototik/HoloEverywhere.git
 https://github.com/TooTallNate/Java-WebSocket.git
 git@github.com:xetorthio/jedis.git
 https://github.com/jhy/jsoup.git
-git@github.com:liferay/liferay-portal.git
 https://github.com/rzwitserloot/lombok.git
 https://github.com/jankotek/MapDB.git
 git@github.com:codahale/metrics.git
 git@github.com:mongodb/mongo-java-driver.git
-https://github.com/mtotschnig/MyExpenses.git
 git://github.com/netty/netty.git
-https://github.com/square/okhttp.git
 git@github.com:purplecabbage/phonegap-plugins.git
 git@github.com:android/platform_frameworks_base.git
-git@github.com:jeresig/processing-js.git
 https://github.com/square/retrofit.git
 https://github.com/Netflix/RxJava.git
 git://github.com/fernandezpablo85/scribe-java.git
