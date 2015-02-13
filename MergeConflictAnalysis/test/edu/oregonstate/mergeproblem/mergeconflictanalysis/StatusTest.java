@@ -37,7 +37,7 @@ public class StatusTest {
 	public void testJSON() {
 		Status status = createConflictingStatus();
 		String jsonString = status.toJSONString();
-		String expected = "{\"true\": [\"FileA\",\"FileB\"]}";
+		String expected = "{\"status\": \"" + Status.CONFLICT + "\", \"files\": [\"FileA\",\"FileB\"]}";
 		assertEquals(expected,jsonString);
 	}
 	
@@ -45,7 +45,7 @@ public class StatusTest {
 	public void testNonConflictJSON() {	
 		Status status = new Status().setConflict(false);
 		String jsonString = status.toJSONString();
-		String expected = "{\"false\": []}";
+		String expected = "{\"status\": \"" + Status.CLEAN + "\", \"files\": []}";
 		assertEquals(expected, jsonString);
 	}
 	
@@ -53,7 +53,7 @@ public class StatusTest {
 	public void testFailureJSON() {
 		Status status = new Status().setFailure(true);
 		String jsonString = status.toJSONString();
-		String expected = "{\"failure\": []}";
+		String expected = "{\"status\": \"" + Status.FAILURE + "\", \"files\": []}";
 		assertEquals(expected, jsonString);
 	}
 }

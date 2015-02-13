@@ -9,7 +9,7 @@ import org.json.simple.JSONAware;
 public class Status implements JSONAware {
 
 	private String status = "";
-	private List<String> files;
+	private List<String> files = new ArrayList<String>();
 	
 	public final static String CLEAN = "clean";
 	public final static String CONFLICT = "conflict";
@@ -21,7 +21,6 @@ public class Status implements JSONAware {
 			status = CONFLICT;
 		else
 			status = CLEAN;
-		this.files = new ArrayList<String>();
 		return this;
 	}
 
@@ -45,10 +44,6 @@ public class Status implements JSONAware {
 
 	@Override
 	public String toJSONString() {
-		if (status.equals(FAILURE))
-			return "{\"failure\": []}";
-		
-		boolean conflicting = isConflicting();
-		return "{\"" + conflicting + "\": " + JSONArray.toJSONString(files) + "}";
+		return "{\"status\": \"" + status + "\", \"files\": " + JSONArray.toJSONString(files) + "}";
 	}
 }
