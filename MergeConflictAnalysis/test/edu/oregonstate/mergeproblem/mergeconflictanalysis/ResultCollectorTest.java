@@ -1,5 +1,6 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
+import java.util.Arrays;
 import java.util.Map;
 
 import org.eclipse.jgit.api.MergeResult;
@@ -50,7 +51,7 @@ public class ResultCollectorTest extends MergeGitTest {
 	public void testJSONString() throws Exception {
 		RevCommit commit = collectConflictingCommit();
 		String json = resultCollector.toJSONString();
-		String expected = "{\"" + commit.getName() + "\":{\"true\": [\"A\"]}}";
+		String expected = "{\"" + commit.getName() + "\": " + createConflictingStatusWithOneFile() + "}";
 		assertEquals(expected,json);
 	}
 	
@@ -66,16 +67,20 @@ public class ResultCollectorTest extends MergeGitTest {
 		}
 		
 		String actual = resultCollector.toJSONString();
-		String expected = "{\"" + commit1.getName() + "\":{\"true\": [\"A\"]},\n";
-		expected += "\"" + commit2.getName() + "\":{\"true\": [\"A\"]}}";
+		String expected = "{\"" + commit1.getName() + "\": " + createConflictingStatusWithOneFile();
+		expected += ",\n\"" + commit2.getName() + "\": " + createConflictingStatusWithOneFile() + "}";
 		assertEquals(expected, actual);
+	}
+
+	private String createConflictingStatusWithOneFile() {
+		return new Status().setConflict(true).setFiles(Arrays.asList(new String[]{"A"})).toJSONString();
 	}
 	
 	@Test
 	public void testFailingJSON() throws Exception {
 		RevCommit commit = collectConflictingCommit();
 		resultCollector.collectFailure(commit);
-		String expected = "{\"" + commit.getName() + "\":{\"failure\": []}}";
+		String expected = "{\"" + commit.getName() + "\": "+ new Status().setFailure(true).toJSONString() +"}";
 		assertEquals(expected, resultCollector.toJSONString());
 	}
 	

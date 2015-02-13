@@ -41,7 +41,7 @@ public class ResultCollector implements JSONAware {
 		
 		for (String key : keysList) {
 			Status value = results.get(key);
-			resultsString = resultsString + "\"" + key + "\":" + value.toJSONString() + ",\n";
+			resultsString = resultsString + "\"" + key + "\": " + value.toJSONString() + ",\n";
 		}
 		int endIndex = resultsString.length() - 2;
 		if (endIndex > 0) {
