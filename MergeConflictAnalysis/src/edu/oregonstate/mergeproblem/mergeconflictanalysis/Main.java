@@ -43,6 +43,8 @@ public class Main {
 							resultCollector.collectNonConflict(mergeCommit);
 					} catch (MergingException e) {
 						resultCollector.collectFailure(mergeCommit);
+					} catch (SubmoduleDetectedException e) {
+						resultCollector.collectSubmodule(mergeCommit);
 					}
 				}
 			} catch (Throwable e) {
