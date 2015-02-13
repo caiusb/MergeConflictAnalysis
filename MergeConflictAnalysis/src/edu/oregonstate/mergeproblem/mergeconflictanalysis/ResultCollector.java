@@ -43,11 +43,16 @@ public class ResultCollector implements JSONAware {
 			Status value = results.get(key);
 			resultsString = resultsString + "\"" + key + "\": " + value.toJSONString() + ",\n";
 		}
+		resultsString = trimTheLastTwoCharacters(resultsString);
+		resultsString = resultsString + "}";
+		return resultsString;
+	}
+
+	private String trimTheLastTwoCharacters(String resultsString) {
 		int endIndex = resultsString.length() - 2;
 		if (endIndex > 0) {
 			resultsString = resultsString.substring(0, endIndex);
 		}
-		resultsString = resultsString + "}";
 		return resultsString;
 	}
 
