@@ -32,6 +32,7 @@ public class ResultCollector implements JSONAware {
 		results.put(mergeCommit.getName(), new Status().setFailure(true));
 	}
 	
+	@Override
 	public String toJSONString() {
 		String resultsString = "{";
 		ArrayList<String> keysList = getSortedCommits();
