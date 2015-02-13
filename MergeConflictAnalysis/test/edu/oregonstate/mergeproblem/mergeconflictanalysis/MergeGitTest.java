@@ -1,10 +1,18 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
+import org.eclipse.jgit.api.errors.ConcurrentRefUpdateException;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.NoFilepatternException;
+import org.eclipse.jgit.api.errors.NoHeadException;
+import org.eclipse.jgit.api.errors.NoMessageException;
+import org.eclipse.jgit.api.errors.UnmergedPathsException;
+import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -69,4 +77,12 @@ public abstract class MergeGitTest extends GitTestCase {
 		else
 			checkout("branch");
 	}
+
+	protected void addSubmodule() throws Exception {
+				File subRepo = initRepo();
+				Git git = Git.wrap(repository);
+				git.submoduleAdd().setURI(subRepo.toURI().toASCIIString()).setPath("sub").call();
+				git.add().addFilepattern(".gitmodules").addFilepattern("sub").call();
+				git.commit().setMessage("Submodule").call();
+			}
 }
