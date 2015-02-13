@@ -58,7 +58,7 @@ public class ConflictDetector {
 		Status status = git.status().call();
 		if (!status.isClean()) {
 			logger.fine("Working directory was dirty before checking out " + first.getName());
-			git.checkout().setAllPaths(true).call();
+			git.checkout().setAllPaths(true).setForce(true).call();
 		}
 		
 		CheckoutCommand checkoutCommand = git.checkout().setName(first.getName());
