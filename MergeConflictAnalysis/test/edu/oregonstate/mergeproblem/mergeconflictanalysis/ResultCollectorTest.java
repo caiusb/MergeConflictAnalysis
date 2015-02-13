@@ -90,4 +90,12 @@ public class ResultCollectorTest extends MergeGitTest {
 		String expected = "{}";
 		assertEquals(expected, actual);
 	}
+	
+	@Test
+	public void testCollectSubmodule() throws Exception {
+		RevCommit commit = createConflictingCommit();
+		resultCollector.collectSubmodule(commit);
+		String expected = "{\"" + commit.getName() + "\": " + new Status().setStatus(Status.SUBMODULE).toJSONString() + "}";
+		assertEquals(expected, resultCollector.toJSONString());
+	}
 }

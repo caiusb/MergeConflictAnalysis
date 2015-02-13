@@ -56,4 +56,8 @@ public class ResultCollector implements JSONAware {
 		return resultsString;
 	}
 
+	public void collectSubmodule(RevCommit commit) {
+		results.put(commit.getName(), new Status().setStatus(Status.SUBMODULE));
+	}
+
 }
