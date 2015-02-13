@@ -55,6 +55,11 @@ public class ConflictDetector {
 
 	private MergeResult merge(Git git, RevCommit first, RevCommit second)
 			throws Exception {
+		
+		Iterable<RevCommit> versions = git.log().addPath(".gitmodules").call();
+		if (versions.iterator().hasNext())
+			throw new SubmoduleDetectedException();
+		
 		Status status = git.status().call();
 		if (!status.isClean()) {
 			logger.fine("Working directory was dirty before checking out " + first.getName());

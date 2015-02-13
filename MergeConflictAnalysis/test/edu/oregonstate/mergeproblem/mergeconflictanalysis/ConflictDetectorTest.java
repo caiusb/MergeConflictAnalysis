@@ -1,10 +1,13 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
+import java.io.File;
 import java.util.Set;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
@@ -97,5 +100,15 @@ public class ConflictDetectorTest extends MergeGitTest {
 		assertTrue(conflictDetector.isConflict(fix, git));
 		RevCommit secondOne = createConflictingCommit();
 		assertTrue(conflictDetector.isConflict(secondOne, git));
+	}
+	
+	@Test(expected=SubmoduleDetectedException.class)
+	public void testDetectSubmodule() throws Exception {
+		File subRepo = initRepo();
+		Repository submodule = git.submoduleAdd().setURI(subRepo.toURI().toASCIIString()).setPath("sub").call();
+		git.add().addFilepattern(".gitmodules").addFilepattern("sub").call();
+		git.commit().setMessage("Submodule").call();
+		RevCommit commit = createConflictingCommit();
+		conflictDetector.isConflict(commit, git);
 	}
 }
