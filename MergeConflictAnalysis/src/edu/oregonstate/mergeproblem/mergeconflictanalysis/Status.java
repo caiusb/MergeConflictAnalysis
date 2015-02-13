@@ -11,6 +11,9 @@ public class Status implements JSONAware {
 	private String status = "";
 	private List<String> files = new ArrayList<String>();
 	
+	public static final String JSON_FILES = "files";
+	public static final String JSON_STATUS = "status";
+	
 	public final static String CLEAN = "clean";
 	public final static String CONFLICT = "conflict";
 	public final static String FAILURE = "failure";
@@ -44,6 +47,6 @@ public class Status implements JSONAware {
 
 	@Override
 	public String toJSONString() {
-		return "{\"status\": \"" + status + "\", \"files\": " + JSONArray.toJSONString(files) + "}";
+		return "{\"" + JSON_STATUS + "\": \"" + status + "\", \"" + JSON_FILES + "\": " + JSONArray.toJSONString(files) + "}";
 	}
 }
