@@ -1,11 +1,16 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
+import java.io.File;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.submodule.SubmoduleStatus;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -104,5 +109,35 @@ public class ConflictDetectorTest extends MergeGitTest {
 		addSubmodule();
 		RevCommit commit = createConflictingCommit();
 		conflictDetector.isConflict(commit, git);
+	}
+	
+	@Test
+	public void testDeletedSubmodule() throws Exception {
+		RevCommit conflict0 = createConflictingCommit();
+		File submodule = addSubmodule();
+		add(submodule, "bla.txt", "bla bla bla boring");
+		git.add().addFilepattern("sub").call();
+		git.commit().setMessage("Change to submodule at " + new Date()).call();
+		RevCommit conflict1 = createConflictingCommit();
+		submodule.delete();
+		Map<String, SubmoduleStatus> submoduleStatus = git.submoduleStatus().call();
+		git.rm().addFilepattern("sub").call();
+		git.commit().setMessage("Removed submodule").call();
+		new File(testRepo.toString(), "sub").mkdir();
+		git.checkout().setName(conflict1.getName()).call();
+		git.checkout().setName("master").call();
+		
+		RevCommit conflict2 = createConflictingCommit();
+		
+		Iterable<RevCommit> log = git.log().call();
+		Iterator<RevCommit> iterator = log.iterator();
+		while (iterator.hasNext()) {
+			RevCommit revCommit = (RevCommit) iterator.next();
+			System.out.println(revCommit.getName() + ": " + revCommit.getFullMessage() + ": "+ revCommit.getParentCount());
+		}
+		
+		assertTrue(conflictDetector.isConflict(conflict0, git));
+		assertTrue(conflictDetector.isConflict(conflict1, git));
+		assertTrue(conflictDetector.isConflict(conflict2, git));
 	}
 }
