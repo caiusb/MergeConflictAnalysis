@@ -71,11 +71,13 @@ public abstract class MergeGitTest extends GitTestCase {
 			checkout("branch");
 	}
 
-	protected void addSubmodule() throws Exception {
-				File subRepo = initRepo();
-				Git git = Git.wrap(repository);
-				git.submoduleAdd().setURI(subRepo.toURI().toASCIIString()).setPath("sub").call();
-				git.add().addFilepattern(".gitmodules").addFilepattern("sub").call();
-				git.commit().setMessage("Submodule").call();
-			}
+	protected File addSubmodule() throws Exception {
+		File subRepo = initRepo();;
+		Git git = Git.wrap(repository);
+		git.submoduleAdd().setURI(subRepo.toURI().toASCIIString()).setPath("sub").call();
+		git.add().addFilepattern(".gitmodules").addFilepattern("sub").call();
+		git.commit().setMessage("Submodule").call();
+
+		return subRepo;
+	}
 }
