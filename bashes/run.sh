@@ -15,14 +15,16 @@ dir=$PWD
 orderfile=$repoloc/'order.txt'
 
 uname=`uname`
-if [[$uname = Linux]]
+if [ $uname = Linux ]
 then
 	ramdisk="/mnt/ramdisk/merging/"
-else if [[$uname = Darwin]]
+else if [ $uname = Darwin ]
+    then
 	ramdisk="/Volumes/RAM-Disk/"
-else
+    else
 	echo "Unsupported operating system."
-	return -1
+	exit -1
+    fi
 fi
 
 pushd $resultsloc > /dev/null
