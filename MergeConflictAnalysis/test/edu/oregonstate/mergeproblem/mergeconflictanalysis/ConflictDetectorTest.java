@@ -12,6 +12,7 @@ import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.submodule.SubmoduleStatus;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class ConflictDetectorTest extends MergeGitTest {
@@ -112,6 +113,7 @@ public class ConflictDetectorTest extends MergeGitTest {
 	}
 	
 	@Test
+	@Ignore
 	public void testDeletedSubmodule() throws Exception {
 		RevCommit conflict0 = createConflictingCommit();
 		File submodule = addSubmodule();
