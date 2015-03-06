@@ -27,9 +27,9 @@ public class RepositoryWalkerTest extends MergeGitTest {
 	
 	@Test
 	public void testTwoCommitsInChronologicalOrder() throws Exception {
-		RevCommit mergeCommit1 = createNonConflictingMerge();
+		RevCommit mergeCommit1 = createNonConflictingMerge(0);
 		Thread.sleep(1000); // so I get different time stamps
-		RevCommit mergeCommit2 = createNonConflictingMerge();
+		RevCommit mergeCommit2 = createNonConflictingMerge(4);
 		
 		List<RevCommit> mergeCommits = walker.getMergeCommits();
 		assertEquals(2, mergeCommits.size());

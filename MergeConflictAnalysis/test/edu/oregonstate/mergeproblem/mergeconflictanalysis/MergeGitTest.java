@@ -23,11 +23,15 @@ public abstract class MergeGitTest extends GitTestCase {
 	}
 	
 	protected RevCommit createNonConflictingMerge() throws Exception {
-		add("A", "" + Math.random());
+		return createNonConflictingMerge(0);
+	}
+
+	protected RevCommit createNonConflictingMerge(int base) throws Exception {
+		add("A", "" + (base + 1));
 		checkoutBranch();
-		add("B", "" + Math.random());
+		add("B", "" + (base + 2));
 		checkout("master");
-		add("A", "" + Math.random());
+		add("A", "" + (base + 3));
 		MergeResult mergeResult = merge("branch");
 		assertEquals(MergeStatus.MERGED, mergeResult.getMergeStatus());
 		ObjectId newHead = mergeResult.getNewHead();
@@ -36,7 +40,7 @@ public abstract class MergeGitTest extends GitTestCase {
 	}
 
 	protected RevCommit createConflictingCommit() throws Exception {
-		MergeResult merge = createConflictingMergeResult();
+		MergeResult merge = createConflictingMergeResult(0);
 		RevCommit mergeCommit = resolveMergeConflict(merge);
 		return mergeCommit;
 	}
@@ -54,11 +58,15 @@ public abstract class MergeGitTest extends GitTestCase {
 	}
 
 	protected MergeResult createConflictingMergeResult() throws Exception {
-		add("A", "" + Math.random());
+		return createConflictingMergeResult(0);
+	}
+
+	protected MergeResult createConflictingMergeResult(int base) throws Exception {
+		add("A", "" + (base + 1));
 		checkoutBranch();
-		add("A", "" + Math.random());
+		add("A", "" + (base + 2));
 		checkout("master");
-		add("A", "conflicting " + Math.random());
+		add("A", "conflicting " + (base + 3));
 		
 		MergeResult merge = merge("branch");
 		return merge;

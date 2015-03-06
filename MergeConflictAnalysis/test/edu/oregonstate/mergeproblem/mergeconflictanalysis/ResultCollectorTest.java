@@ -41,7 +41,11 @@ public class ResultCollectorTest extends MergeGitTest {
 	}
 
 	protected RevCommit collectConflictingCommit() throws Exception {
-		MergeResult mergeResult = createConflictingMergeResult();
+		return collectConflictingCommit(0);
+	}
+
+	protected RevCommit collectConflictingCommit(int base) throws Exception {
+		MergeResult mergeResult = createConflictingMergeResult(base);
 		RevCommit mergeCommit = resolveMergeConflict(mergeResult);
 		resultCollector.collectConflict(mergeCommit, mergeResult);
 		return mergeCommit;
@@ -57,8 +61,8 @@ public class ResultCollectorTest extends MergeGitTest {
 	
 	@Test
 	public void testTwoLineJSonString() throws Exception {
-		RevCommit commit1 = collectConflictingCommit();
-		RevCommit commit2 = collectConflictingCommit();
+		RevCommit commit1 = collectConflictingCommit(0);
+		RevCommit commit2 = collectConflictingCommit(2);
 		
 		if (commit1.getName().compareTo(commit2.getName()) >= 0) {
 			RevCommit temp = commit1;
