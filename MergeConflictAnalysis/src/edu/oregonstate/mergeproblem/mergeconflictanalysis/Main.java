@@ -32,7 +32,6 @@ public class Main {
 				RepositoryWalker repositoryWalker = new RepositoryWalker(repository);
 				List<RevCommit> mergeCommits = repositoryWalker.getMergeCommits();
 
-
 				for (RevCommit mergeCommit : mergeCommits) {
 					ConflictDetector conflictDetector = new ConflictDetector();
 					try {

@@ -80,7 +80,7 @@ public abstract class MergeGitTest extends GitTestCase {
 	}
 
 	protected File addSubmodule() throws Exception {
-		File subRepo = initRepo();;
+		File subRepo = initRepo();
 		Git git = Git.wrap(repository);
 		git.submoduleAdd().setURI(subRepo.toURI().toASCIIString()).setPath("sub").call();
 		git.add().addFilepattern(".gitmodules").addFilepattern("sub").call();
