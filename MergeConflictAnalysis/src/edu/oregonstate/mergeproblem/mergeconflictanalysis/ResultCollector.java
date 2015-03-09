@@ -7,22 +7,36 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jgit.api.MergeResult;
+import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.json.simple.JSONAware;
 
-public class ResultCollector implements JSONAware {
+public class ResultCollector implements Collector {
 	
 	private Map<String, Status> results = new HashMap<String, Status>();
 
-	public void collectNonConflict(RevCommit mergeCommit) {
-		results.put(mergeCommit.getName(), new Status().setConflict(false));
+	/* (non-Javadoc)
+	 * @see edu.oregonstate.mergeproblem.mergeconflictanalysis.Collector#collectConflict(org.eclipse.jgit.revwalk.RevCommit, org.eclipse.jgit.api.MergeResult)
+	 */
+	@Override
+	public void collect(RevCommit mergeCommit, MergeResult mergeResult) {
+		MergeStatus mergeStatus = mergeResult.getMergeStatus();
+		if(mergeStatus.equals(MergeStatus.CONFLICTING)) {
+			collectConflict(mergeCommit, mergeResult);
+		} else if (mergeStatus.equals(MergeStatus.MERGED)) {
+			collectNonConflict(mergeCommit);
+		}
 	}
-
+	
 	public Map<String, Status> getResults() {
 		return results;
 	}
 
-	public void collectConflict(RevCommit mergeCommit, MergeResult mergeResult) {
+	public void collectNonConflict(RevCommit mergeCommit) {
+		results.put(mergeCommit.getName(), new Status().setConflict(false));
+	}
+	
+
+	private void collectConflict(RevCommit mergeCommit, MergeResult mergeResult) {
 		List<String> conflictingFiles = new ArrayList<String>();
 		conflictingFiles.addAll(mergeResult.getConflicts().keySet());
 		results.put(mergeCommit.getName(), new Status().setConflict(true).setFiles(conflictingFiles));
@@ -32,6 +46,9 @@ public class ResultCollector implements JSONAware {
 		results.put(mergeCommit.getName(), new Status().setFailure(true));
 	}
 	
+	/* (non-Javadoc)
+	 * @see edu.oregonstate.mergeproblem.mergeconflictanalysis.Collector#toJSONString()
+	 */
 	@Override
 	public String toJSONString() {
 		String resultsString = "{";
