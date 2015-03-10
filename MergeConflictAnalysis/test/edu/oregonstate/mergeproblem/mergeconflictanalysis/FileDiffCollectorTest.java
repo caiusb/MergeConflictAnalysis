@@ -11,7 +11,7 @@ public class FileDiffCollectorTest extends MergeGitTest{
 		FileDiffCollector diffCollector = new FileDiffCollector();
 		diffCollector.collect(repository, null, conflictingMergeResult);
 		String actual = diffCollector.toJSONString();
-		String expected = "[{\"filename\": \"A\", \"A\": \"conflicting 3\", \"B\": \"2\"}]";
+		String expected = "[{\"filename\": \"A\", \"A\": \"public class conflictingA3{}\", \"B\": \"public class A2{}\", \"ASTDiff: \"1\"}]";
 		assertEquals(expected, actual);
 	}
 }
