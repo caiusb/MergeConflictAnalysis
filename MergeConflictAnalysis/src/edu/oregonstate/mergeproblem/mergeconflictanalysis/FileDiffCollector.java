@@ -65,8 +65,8 @@ public class FileDiffCollector implements Collector {
 			String baseContent = BlobUtils.getContent(repository, base, file);
 			
 			List<Action> AB_Actions = new ArrayList<Action>();
-			List<Action> baseA_Actions = new ArrayList<>();
-			List<Action> baseB_Actions = new ArrayList<>();
+			List<Action> baseA_Actions = new ArrayList<Action>();
+			List<Action> baseB_Actions = new ArrayList<Action>();
 			try {
 				AB_Actions = getActions(AContent, BContent);
 				baseA_Actions = getActions(baseContent, AContent);
