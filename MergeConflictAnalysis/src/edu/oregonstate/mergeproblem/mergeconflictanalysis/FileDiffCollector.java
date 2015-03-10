@@ -15,7 +15,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.gitective.core.BlobUtils;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONAware;
 import org.json.simple.JSONObject;
 
@@ -114,7 +113,17 @@ public class FileDiffCollector implements Collector {
 	}
 
 	public String toJSONString() {
-		return JSONArray.toJSONString(conflictingFiles);
+		String json = "[";
+		for (PairOfFiles file : conflictingFiles) {
+			json += file.toJSONString();
+			json += "\n";
+		}
+		int endIndex = json.length() - 2;
+		if (endIndex > 0) {
+			json = json.substring(0, endIndex);
+		}
+		json += "]";
+		return json;
 	}
 
 	@Override
