@@ -9,7 +9,7 @@ public class FileDiffCollectorTest extends MergeGitTest{
 	public void collectConflictingFiles() throws Exception {
 		MergeResult conflictingMergeResult = createConflictingMergeResult(0);
 		FileDiffCollector diffCollector = new FileDiffCollector();
-		diffCollector.collectConflictInfo(repository, conflictingMergeResult);
+		diffCollector.collect(repository, null, conflictingMergeResult);
 		String actual = diffCollector.toJSONString();
 		String expected = "[{\"filename\": \"A\", \"A\": \"conflicting 3\", \"B\": \"2\"}]";
 		assertEquals(expected, actual);

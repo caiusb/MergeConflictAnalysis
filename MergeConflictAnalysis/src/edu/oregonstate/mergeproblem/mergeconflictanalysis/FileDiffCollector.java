@@ -7,12 +7,13 @@ import java.util.Map;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.gitective.core.BlobUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONAware;
 import org.json.simple.JSONObject;
 
-public class FileDiffCollector implements JSONAware {
+public class FileDiffCollector implements Collector {
 	
 	private class PairOfFiles implements JSONAware {
 		
@@ -37,7 +38,7 @@ public class FileDiffCollector implements JSONAware {
 	
 	private List<PairOfFiles> conflictingFiles = new ArrayList<PairOfFiles>();
 
-	public void collectConflictInfo(Repository repository, MergeResult conflictingMergeResult) {
+	public void collect(Repository repository, RevCommit commit, MergeResult conflictingMergeResult) {
 		Map<String, int[][]> conflicts = conflictingMergeResult.getConflicts();
 		ObjectId[] mergedCommits = conflictingMergeResult.getMergedCommits();
 		for (String file : conflicts.keySet()) {
@@ -49,6 +50,12 @@ public class FileDiffCollector implements JSONAware {
 
 	public String toJSONString() {
 		return JSONArray.toJSONString(conflictingFiles);
+	}
+
+	@Override
+	public void logException(Repository repository, RevCommit commit, Exception e) {
+		// TODO Auto-generated method stub
+		
 	}		
 
 }

@@ -37,7 +37,7 @@ public class Main {
 					try {
 						if (conflictDetector.isConflict(mergeCommit, git)) {
 							MergeResult mergeResult = conflictDetector.getLastMergeResult();
-							resultCollector.collect(mergeCommit, mergeResult);
+							resultCollector.collect(repository, mergeCommit, mergeResult);
 						} else
 							resultCollector.collectNonConflict(mergeCommit);
 					} catch (MergingException e) {

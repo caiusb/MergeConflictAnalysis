@@ -47,7 +47,7 @@ public class ResultCollectorTest extends MergeGitTest {
 	protected RevCommit collectConflictingCommit(int base) throws Exception {
 		MergeResult mergeResult = createConflictingMergeResult(base);
 		RevCommit mergeCommit = resolveMergeConflict(mergeResult);
-		resultCollector.collect(mergeCommit, mergeResult);
+		resultCollector.collect(this.repository, mergeCommit, mergeResult);
 		return mergeCommit;
 	}
 	
