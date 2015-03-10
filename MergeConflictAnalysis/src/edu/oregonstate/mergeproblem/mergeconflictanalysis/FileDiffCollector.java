@@ -58,6 +58,8 @@ public class FileDiffCollector implements Collector {
 		ObjectId[] mergedCommits = conflictingMergeResult.getMergedCommits();
 		ObjectId base = conflictingMergeResult.getBase();
 		for (String file : conflicts.keySet()) {
+			if (!file.endsWith(".java"))
+				continue;
 			String AContent = BlobUtils.getContent(repository, mergedCommits[0], file);
 			String BContent = BlobUtils.getContent(repository, mergedCommits[1], file);
 			String baseContent = BlobUtils.getContent(repository, base, file);
