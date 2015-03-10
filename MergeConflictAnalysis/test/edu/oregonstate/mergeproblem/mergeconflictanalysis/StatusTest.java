@@ -37,7 +37,7 @@ public class StatusTest {
 	public void testJSON() {
 		Status status = createConflictingStatus();
 		String jsonString = status.toJSONString();
-		String expected = "{\"" + Status.JSON_STATUS + "\": \"" + Status.CONFLICT + "\", \"" + Status.JSON_FILES
+		String expected = "{\"" + Status.JSON_STATUS + "\": \"" + Status.CONFLICT + "\", \"message\": \"\", \"" + Status.JSON_FILES
 				+ "\": [\"FileA\",\"FileB\"]}";
 		assertEquals(expected, jsonString);
 	}
@@ -46,7 +46,7 @@ public class StatusTest {
 	public void testNonConflictJSON() {
 		Status status = new Status().setConflict(false);
 		String jsonString = status.toJSONString();
-		String expected = "{\"" + Status.JSON_STATUS + "\": \"" + Status.CLEAN + "\", \"" + Status.JSON_FILES
+		String expected = "{\"" + Status.JSON_STATUS + "\": \"" + Status.CLEAN + "\", \"message\": \"\", \"" + Status.JSON_FILES
 				+ "\": []}";
 		assertEquals(expected, jsonString);
 	}
@@ -55,7 +55,7 @@ public class StatusTest {
 	public void testFailureJSON() {
 		Status status = new Status().setFailure(true);
 		String jsonString = status.toJSONString();
-		String expected = "{\"" + Status.JSON_STATUS + "\": \"" + Status.FAILURE + "\", \"" + Status.JSON_FILES
+		String expected = "{\"" + Status.JSON_STATUS + "\": \"" + Status.FAILURE + "\", \"message\": \"\", \"" + Status.JSON_FILES
 				+ "\": []}";
 		assertEquals(expected, jsonString);
 	}
