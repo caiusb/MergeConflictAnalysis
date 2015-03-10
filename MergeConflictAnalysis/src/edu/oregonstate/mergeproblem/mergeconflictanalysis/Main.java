@@ -1,6 +1,7 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
 import java.nio.file.Paths;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
@@ -23,9 +24,15 @@ public class Main {
 		ConsoleHandler handler = new ConsoleHandler();
 		handler.setLevel(Level.INFO);
 		logger.addHandler(handler);
+		
+		Logger gumTreeLogger = Logger.getLogger("fr.labri.gumtree.matchers");
+		gumTreeLogger.setLevel(Level.OFF);
+		
+		List<Collector> collectors = new LinkedList<Collector>();
+		collectors.add(new ResultCollector());
+		collectors.add(new FileDiffCollector());
 
 		for (String repositoryPath : args) {
-			ResultCollector resultCollector = new ResultCollector();
 			try {
 				Git git = Git.open(Paths.get(repositoryPath).toFile());
 				Repository repository = git.getRepository();
@@ -35,21 +42,24 @@ public class Main {
 				for (RevCommit mergeCommit : mergeCommits) {
 					ConflictDetector conflictDetector = new ConflictDetector();
 					try {
-						if (conflictDetector.isConflict(mergeCommit, git)) {
-							MergeResult mergeResult = conflictDetector.getLastMergeResult();
-							resultCollector.collect(repository, mergeCommit, mergeResult);
-						} else
-							resultCollector.collectNonConflict(mergeCommit);
+						conflictDetector.isConflict(mergeCommit, git);
+						MergeResult mergeResult = conflictDetector.getLastMergeResult();
+						for (Collector collector : collectors)
+							collector.collect(repository, mergeCommit, mergeResult);
 					} catch (MergingException e) {
-						resultCollector.collectFailure(mergeCommit);
+						for (Collector collector : collectors) {
+							collector.logException(repository, mergeCommit, e);
+						}
 					} catch (SubmoduleDetectedException e) {
-						resultCollector.collectSubmodule(mergeCommit);
+						//resultCollector.collectSubmodule(mergeCommit);
 					}
 				}
 			} catch (Throwable e) {
 				logger.severe("The anaylsis threw this: " + e);
 			} finally {
-				System.out.println(resultCollector.toJSONString());
+				for (Collector collector : collectors) {
+					System.out.println(collector.toJSONString());
+				}
 			}
 		}
 	}
