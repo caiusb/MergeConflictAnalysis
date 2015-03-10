@@ -1,5 +1,7 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
@@ -55,7 +57,9 @@ public class Main {
 					}
 				}
 			} catch (Throwable e) {
-				logger.severe("The anaylsis threw this: " + e);
+				ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+				e.printStackTrace(new PrintStream(byteArrayOutputStream));
+				logger.severe("The anaylsis threw this: " + e + "\n" + byteArrayOutputStream.toString());
 			} finally {
 				for (Collector collector : collectors) {
 					System.out.println(collector.toJSONString());
