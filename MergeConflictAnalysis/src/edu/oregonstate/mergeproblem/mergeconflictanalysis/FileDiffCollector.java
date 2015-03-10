@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -55,6 +56,8 @@ public class FileDiffCollector implements Collector {
 
 	public void collect(Repository repository, RevCommit commit, MergeResult conflictingMergeResult) {
 		Map<String, int[][]> conflicts = conflictingMergeResult.getConflicts();
+		if (conflicts == null)
+			conflicts = new HashMap<String, int[][]>();
 		ObjectId[] mergedCommits = conflictingMergeResult.getMergedCommits();
 		ObjectId base = conflictingMergeResult.getBase();
 		for (String file : conflicts.keySet()) {
