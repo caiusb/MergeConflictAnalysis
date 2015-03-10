@@ -2,4 +2,4 @@
 bin/
 *.jpage
 *.swp
-*.jar
+MergingConflictAnalysis.jar
