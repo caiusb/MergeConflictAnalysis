@@ -13,12 +13,12 @@ import org.eclipse.jgit.api.errors.CheckoutConflictException;
 import org.eclipse.jgit.api.errors.JGitInternalException;
 import org.eclipse.jgit.revwalk.RevCommit;
 
-public class ConflictDetector {
+public class MergeRecreator {
 
 	private MergeResult mergeResult;
 	private Logger logger = Logger.getLogger(Main.LOGGER_NAME);
 	
-	public boolean isConflict(RevCommit mergeCommit, Git git) throws Exception {
+	public boolean recreateMerge(RevCommit mergeCommit, Git git) throws Exception {
 		RevCommit[] parents = mergeCommit.getParents();
 		if (parents.length <= 1)
 			return false;

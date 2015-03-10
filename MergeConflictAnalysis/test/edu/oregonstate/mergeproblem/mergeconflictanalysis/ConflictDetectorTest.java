@@ -17,39 +17,39 @@ import org.junit.Test;
 
 public class ConflictDetectorTest extends MergeGitTest {
 	
-	private ConflictDetector conflictDetector;
+	private MergeRecreator conflictDetector;
 	private Git git;
 
 	@Before
 	public void before() throws Exception {
 		super.before();
-		conflictDetector = new ConflictDetector();
+		conflictDetector = new MergeRecreator();
 		git = Git.open(testRepo);
 	}
 	
 	@Test
 	public void testSingleParentInput() throws Exception {
 		RevCommit one = add("A", "something");
-		conflictDetector.isConflict(one, git);
+		conflictDetector.recreateMerge(one, git);
 	}
 	
 	@Test
 	public void testNoConflict() throws Exception {
 		RevCommit mergeCommit = createNonConflictingMerge();
 		assertEquals(2, mergeCommit.getParentCount());
-		assertFalse(conflictDetector.isConflict(mergeCommit, git));
+		assertFalse(conflictDetector.recreateMerge(mergeCommit, git));
 	}
 	
 	@Test
 	public void testDetectConflict() throws Exception {
 		RevCommit mergeCommit = createConflictingCommit();
-		assertTrue(conflictDetector.isConflict(mergeCommit, git));
+		assertTrue(conflictDetector.recreateMerge(mergeCommit, git));
 	}
 	
 	@Test
 	public void testConflictStatus() throws Exception {
 		RevCommit mergeCommit = createConflictingCommit();
-		assertTrue(conflictDetector.isConflict(mergeCommit, git));
+		assertTrue(conflictDetector.recreateMerge(mergeCommit, git));
 		MergeResult mergeResult = conflictDetector.getLastMergeResult();
 		assertEquals(MergeStatus.CONFLICTING, mergeResult.getMergeStatus());
 	}
@@ -57,7 +57,7 @@ public class ConflictDetectorTest extends MergeGitTest {
 	@Test
 	public void testResetWorkspaceAfterConflict() throws Exception {
 		RevCommit commit = createConflictingCommit();
-		conflictDetector.isConflict(commit, git);
+		conflictDetector.recreateMerge(commit, git);
 		Set<String> conflictingFiles = git.status().call().getConflicting();
 		assertEquals(0, conflictingFiles.size());
 		assertTrue(git.status().call().isClean());
@@ -79,15 +79,15 @@ public class ConflictDetectorTest extends MergeGitTest {
 		assertEquals(MergeStatus.CONFLICTING, mergeResult.getMergeStatus());
 		RevCommit mergeCommit = add("A","three");
 		
-		assertTrue(conflictDetector.isConflict(mergeCommit, git));
+		assertTrue(conflictDetector.recreateMerge(mergeCommit, git));
 	}
 	
 	@Test
 	public void testTwoMergeConflicts() throws Exception {
 		RevCommit firstMerge = createConflictingCommit();
 		RevCommit secondMerge = createNonConflictingMerge();
-		assertTrue(conflictDetector.isConflict(firstMerge, git));
-		assertFalse(conflictDetector.isConflict(secondMerge, git));
+		assertTrue(conflictDetector.recreateMerge(firstMerge, git));
+		assertFalse(conflictDetector.recreateMerge(secondMerge, git));
 	}
 	
 	@Test
@@ -100,16 +100,16 @@ public class ConflictDetectorTest extends MergeGitTest {
 		MergeResult merge = merge("branch");
 		assertTrue(merge.getMergeStatus().equals(MergeStatus.CONFLICTING));
 		RevCommit fix = add("A", "bla");
-		assertTrue(conflictDetector.isConflict(fix, git));
+		assertTrue(conflictDetector.recreateMerge(fix, git));
 		RevCommit secondOne = createConflictingCommit();
-		assertTrue(conflictDetector.isConflict(secondOne, git));
+		assertTrue(conflictDetector.recreateMerge(secondOne, git));
 	}
 	
 	@Test(expected=SubmoduleDetectedException.class)
 	public void testDetectSubmodule() throws Exception {
 		addSubmodule();
 		RevCommit commit = createConflictingCommit();
-		conflictDetector.isConflict(commit, git);
+		conflictDetector.recreateMerge(commit, git);
 	}
 	
 	@Test
@@ -138,8 +138,8 @@ public class ConflictDetectorTest extends MergeGitTest {
 			System.out.println(revCommit.getName() + ": " + revCommit.getFullMessage() + ": "+ revCommit.getParentCount());
 		}
 		
-		assertTrue(conflictDetector.isConflict(conflict0, git));
-		assertTrue(conflictDetector.isConflict(conflict1, git));
-		assertTrue(conflictDetector.isConflict(conflict2, git));
+		assertTrue(conflictDetector.recreateMerge(conflict0, git));
+		assertTrue(conflictDetector.recreateMerge(conflict1, git));
+		assertTrue(conflictDetector.recreateMerge(conflict2, git));
 	}
 }

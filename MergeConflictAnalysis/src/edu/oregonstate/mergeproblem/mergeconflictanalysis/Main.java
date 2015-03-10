@@ -42,9 +42,9 @@ public class Main {
 				List<RevCommit> mergeCommits = repositoryWalker.getMergeCommits();
 
 				for (RevCommit mergeCommit : mergeCommits) {
-					ConflictDetector conflictDetector = new ConflictDetector();
+					MergeRecreator conflictDetector = new MergeRecreator();
 					try {
-						conflictDetector.isConflict(mergeCommit, git);
+						conflictDetector.recreateMerge(mergeCommit, git);
 						MergeResult mergeResult = conflictDetector.getLastMergeResult();
 						for (Collector collector : collectors)
 							collector.collect(repository, mergeCommit, mergeResult);
