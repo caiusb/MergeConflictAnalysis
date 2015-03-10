@@ -56,27 +56,47 @@ public class FileDiffCollector implements Collector {
 	public void collect(Repository repository, RevCommit commit, MergeResult conflictingMergeResult) {
 		Map<String, int[][]> conflicts = conflictingMergeResult.getConflicts();
 		ObjectId[] mergedCommits = conflictingMergeResult.getMergedCommits();
+		ObjectId base = conflictingMergeResult.getBase();
 		for (String file : conflicts.keySet()) {
 			String AContent = BlobUtils.getContent(repository, mergedCommits[0], file);
 			String BContent = BlobUtils.getContent(repository, mergedCommits[1], file);
+			String baseContent = BlobUtils.getContent(repository, base, file);
 			
-			List<Action> actions = new ArrayList<Action>();
-			JdtTreeGenerator jdtTreeGenerator = new JdtTreeGenerator();
+			List<Action> AB_Actions = new ArrayList<Action>();
+			List<Action> baseA_Actions = new ArrayList<>();
+			List<Action> baseB_Actions = new ArrayList<>();
 			try {
-				Tree leftTree = getTree(AContent, jdtTreeGenerator);
-				Tree rightTree = getTree(BContent, jdtTreeGenerator);
-				Matcher matcher = MatcherFactories.newMatcher(leftTree, rightTree);
-				matcher.match();
-				ActionGenerator actionGenerator = new ActionGenerator(leftTree, rightTree, matcher.getMappings());
-				actionGenerator.generate();
-				actions = actionGenerator.getActions();
+				AB_Actions = getActions(AContent, BContent);
+				baseA_Actions = getActions(baseContent, AContent);
+				baseB_Actions = getActions(baseContent, BContent);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
-			conflictingFiles.add(new PairOfFiles(file, AContent, BContent, actions.size()));
+			conflictingFiles.add(new PairOfFiles(file, AContent, BContent, AB_Actions.size()));
+			conflictingFiles.add(new PairOfFiles(file, baseContent, AContent, baseA_Actions.size()));
+			conflictingFiles.add(new PairOfFiles(file, baseContent, BContent, baseB_Actions.size()));
 		}
+	}
+
+	private List<Action> getActions(String AContent, String BContent)
+			throws IOException {
+		JdtTreeGenerator jdtTreeGenerator = new JdtTreeGenerator();
+		Tree leftTree = getTree(AContent, jdtTreeGenerator);
+		Tree rightTree = getTree(BContent, jdtTreeGenerator);
+		List<Action> actions = getActions(leftTree, rightTree);
+		return actions;
+	}
+
+	private List<Action> getActions(Tree leftTree, Tree rightTree) {
+		List<Action> actions;
+		Matcher matcher = MatcherFactories.newMatcher(leftTree, rightTree);
+		matcher.match();
+		ActionGenerator actionGenerator = new ActionGenerator(leftTree, rightTree, matcher.getMappings());
+		actionGenerator.generate();
+		actions = actionGenerator.getActions();
+		return actions;
 	}
 
 	private Tree getTree(String AContent, JdtTreeGenerator jdtTreeGenerator) throws IOException {
@@ -94,8 +114,6 @@ public class FileDiffCollector implements Collector {
 
 	@Override
 	public void logException(Repository repository, RevCommit commit, Exception e) {
-		// TODO Auto-generated method stub
-		
 	}		
 
 }
