@@ -15,7 +15,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class ConflictDetectorTest extends MergeGitTest {
+public class MergeRecreatorTest extends MergeGitTest {
 	
 	private MergeRecreator conflictDetector;
 	private Git git;
