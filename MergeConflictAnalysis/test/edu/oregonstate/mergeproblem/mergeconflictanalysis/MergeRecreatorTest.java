@@ -19,47 +19,47 @@ import org.junit.Test;
 
 public class MergeRecreatorTest extends MergeGitTest {
 	
-	private MergeRecreator conflictDetector;
+	private MergeRecreator mergeRecreator;
 	private Git git;
 
 	@Before
 	public void before() throws Exception {
 		super.before();
-		conflictDetector = new MergeRecreator();
+		mergeRecreator = new MergeRecreator();
 		git = Git.open(testRepo);
 	}
 	
 	@Test
 	public void testSingleParentInput() throws Exception {
 		RevCommit one = add("A", "something");
-		conflictDetector.recreateMerge(one, git);
+		mergeRecreator.recreateMerge(one, git);
 	}
 	
 	@Test
 	public void testNoConflict() throws Exception {
 		RevCommit mergeCommit = createNonConflictingMerge();
 		assertEquals(2, mergeCommit.getParentCount());
-		assertFalse(conflictDetector.recreateMerge(mergeCommit, git));
+		assertFalse(mergeRecreator.recreateMerge(mergeCommit, git));
 	}
 	
 	@Test
 	public void testDetectConflict() throws Exception {
 		RevCommit mergeCommit = createConflictingCommit();
-		assertTrue(conflictDetector.recreateMerge(mergeCommit, git));
+		assertTrue(mergeRecreator.recreateMerge(mergeCommit, git));
 	}
 	
 	@Test
 	public void testConflictStatus() throws Exception {
 		RevCommit mergeCommit = createConflictingCommit();
-		assertTrue(conflictDetector.recreateMerge(mergeCommit, git));
-		MergeResult mergeResult = conflictDetector.getLastMergeResult();
+		assertTrue(mergeRecreator.recreateMerge(mergeCommit, git));
+		MergeResult mergeResult = mergeRecreator.getLastMergeResult();
 		assertEquals(MergeStatus.CONFLICTING, mergeResult.getMergeStatus());
 	}
 	
 	@Test
 	public void testResetWorkspaceAfterConflict() throws Exception {
 		RevCommit commit = createConflictingCommit();
-		conflictDetector.recreateMerge(commit, git);
+		mergeRecreator.recreateMerge(commit, git);
 		Set<String> conflictingFiles = git.status().call().getConflicting();
 		assertEquals(0, conflictingFiles.size());
 		assertTrue(git.status().call().isClean());
@@ -81,15 +81,15 @@ public class MergeRecreatorTest extends MergeGitTest {
 		assertEquals(MergeStatus.CONFLICTING, mergeResult.getMergeStatus());
 		RevCommit mergeCommit = add("A","three");
 		
-		assertTrue(conflictDetector.recreateMerge(mergeCommit, git));
+		assertTrue(mergeRecreator.recreateMerge(mergeCommit, git));
 	}
 	
 	@Test
 	public void testTwoMergeConflicts() throws Exception {
 		RevCommit firstMerge = createConflictingCommit();
 		RevCommit secondMerge = createNonConflictingMerge();
-		assertTrue(conflictDetector.recreateMerge(firstMerge, git));
-		assertFalse(conflictDetector.recreateMerge(secondMerge, git));
+		assertTrue(mergeRecreator.recreateMerge(firstMerge, git));
+		assertFalse(mergeRecreator.recreateMerge(secondMerge, git));
 	}
 	
 	@Test
@@ -102,16 +102,16 @@ public class MergeRecreatorTest extends MergeGitTest {
 		MergeResult merge = merge("branch");
 		assertTrue(merge.getMergeStatus().equals(MergeStatus.CONFLICTING));
 		RevCommit fix = add("A", "bla");
-		assertTrue(conflictDetector.recreateMerge(fix, git));
+		assertTrue(mergeRecreator.recreateMerge(fix, git));
 		RevCommit secondOne = createConflictingCommit();
-		assertTrue(conflictDetector.recreateMerge(secondOne, git));
+		assertTrue(mergeRecreator.recreateMerge(secondOne, git));
 	}
 	
 	@Test(expected=SubmoduleDetectedException.class)
 	public void testDetectSubmodule() throws Exception {
 		addSubmodule();
 		RevCommit commit = createConflictingCommit();
-		conflictDetector.recreateMerge(commit, git);
+		mergeRecreator.recreateMerge(commit, git);
 	}
 	
 	@Test
@@ -140,9 +140,9 @@ public class MergeRecreatorTest extends MergeGitTest {
 			System.out.println(revCommit.getName() + ": " + revCommit.getFullMessage() + ": "+ revCommit.getParentCount());
 		}
 		
-		assertTrue(conflictDetector.recreateMerge(conflict0, git));
-		assertTrue(conflictDetector.recreateMerge(conflict1, git));
-		assertTrue(conflictDetector.recreateMerge(conflict2, git));
+		assertTrue(mergeRecreator.recreateMerge(conflict0, git));
+		assertTrue(mergeRecreator.recreateMerge(conflict1, git));
+		assertTrue(mergeRecreator.recreateMerge(conflict2, git));
 	}
 	
 	@Test
@@ -157,8 +157,8 @@ public class MergeRecreatorTest extends MergeGitTest {
 		assertTrue(mergeResult.getMergeStatus().equals(MergeStatus.MERGED));
 		ObjectId newHeadID = mergeResult.getNewHead();
 		RevCommit mergeCommit = CommitUtils.getCommit(repository, newHeadID);
-		conflictDetector.recreateMerge(mergeCommit, git);
-		MergeResult recreatedMergeResult = conflictDetector.getLastMergeResult();
+		mergeRecreator.recreateMerge(mergeCommit, git);
+		MergeResult recreatedMergeResult = mergeRecreator.getLastMergeResult();
 		assertTrue(recreatedMergeResult.getMergeStatus().equals(MergeStatus.MERGED));
 	}
 	
