@@ -9,8 +9,10 @@ import java.util.Set;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.submodule.SubmoduleStatus;
+import org.gitective.core.CommitUtils;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -142,4 +144,22 @@ public class MergeRecreatorTest extends MergeGitTest {
 		assertTrue(conflictDetector.recreateMerge(conflict1, git));
 		assertTrue(conflictDetector.recreateMerge(conflict2, git));
 	}
+	
+	@Test
+	public void testConcurrentlyChangedFilesCleanMerge() throws Exception {
+		add("A.java", "public class A{\n\n}\n");
+		branch("second");
+		add("A.java", "public class B{\n\n}\n");
+		checkout("master");
+		add("A.java", "public class A{\n\npublic void m(){}\n}\n}");
+		
+		MergeResult mergeResult = merge("second");
+		assertTrue(mergeResult.getMergeStatus().equals(MergeStatus.MERGED));
+		ObjectId newHeadID = mergeResult.getNewHead();
+		RevCommit mergeCommit = CommitUtils.getCommit(repository, newHeadID);
+		conflictDetector.recreateMerge(mergeCommit, git);
+		MergeResult recreatedMergeResult = conflictDetector.getLastMergeResult();
+		assertTrue(recreatedMergeResult.getMergeStatus().equals(MergeStatus.MERGED));
+	}
+	
 }
