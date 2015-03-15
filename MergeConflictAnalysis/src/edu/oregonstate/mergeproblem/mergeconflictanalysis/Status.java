@@ -1,12 +1,14 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONAware;
 
-public class Status implements JSONAware {
+public class Status implements JSONAware, SQLFriendly {
 
 	private String status = "";
 	private String message = "";
@@ -60,5 +62,23 @@ public class Status implements JSONAware {
 	public Status setMessage(String message) {
 		this.message = message;
 		return this;
+	}
+
+	@Override
+	public List<String> getInsertQueries() {
+		List<String> queries = new ArrayList<String>();
+		queries.add("insert into status () values (");
+		return queries;
+	}
+
+	@Override
+	public List<String> getTableNames() {
+		return Arrays.asList("status");
+	}
+
+	@Override
+	public Map<String, String> getColumnNames() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

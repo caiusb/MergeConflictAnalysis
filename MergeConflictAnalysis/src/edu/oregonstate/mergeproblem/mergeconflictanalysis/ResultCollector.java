@@ -1,6 +1,7 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,7 @@ import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 
-public class ResultCollector implements Collector {
+public class ResultCollector implements Collector, SQLFriendly {
 	
 	private Map<String, Status> results = new HashMap<String, Status>();
 
@@ -86,6 +87,26 @@ public class ResultCollector implements Collector {
 
 	public void collectSubmodule(RevCommit commit) {
 		results.put(commit.getName(), new Status().setStatus(Status.SUBMODULE));
+	}
+
+	@Override
+	public List<String> getInsertQueries() {
+		List<String> queries = new ArrayList<String>();
+		for (String key : results.keySet()) {
+			Status status = results.get(key);	
+			queries.addAll(status.getInsertQueries());
+		}
+		return queries;
+	}
+
+	@Override
+	public List<String> getTableNames() {
+		return Arrays.asList(new String[]{"commits"});
+	}
+
+	@Override
+	public Map<String, String> getColumnNames() {
+		return null;
 	}
 
 }

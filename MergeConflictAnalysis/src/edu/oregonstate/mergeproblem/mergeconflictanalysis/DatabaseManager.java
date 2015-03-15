@@ -18,5 +18,9 @@ public class DatabaseManager {
 	public void execute(String query) throws SQLException {
 		statement.execute(query);
 	}
+	
+	public void createTables() {
+		String commitTable = "";
+	}
 
 }
