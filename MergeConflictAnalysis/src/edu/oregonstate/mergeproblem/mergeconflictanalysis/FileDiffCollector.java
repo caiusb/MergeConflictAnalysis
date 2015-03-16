@@ -116,7 +116,7 @@ public class FileDiffCollector implements Collector {
 		String json = "[";
 		for (PairOfFiles file : conflictingFiles) {
 			json += file.toJSONString();
-			json += "\n";
+			json += ",\n";
 		}
 		int endIndex = json.length() - 2;
 		if (endIndex > 0) {
