@@ -43,8 +43,8 @@ public class ConflictCollector implements Collector {
 		conflictingFiles.addAll(mergeResult.getConflicts().keySet());
 		for (String file : conflictingFiles) {
 			MergeDiffInfo mergeDiffInfo = new MergeDiffInfo();
-			mergeDiffInfo.diffFile(file, repository, mergeResult);
-			status.setConflictDiffInfo(file, mergeDiffInfo);
+			if (mergeDiffInfo.diffFile(file, repository, mergeResult))
+				status.setConflictDiffInfo(file, mergeDiffInfo);
 		}
 		results.put(mergeCommit.getName(), status);
 	}

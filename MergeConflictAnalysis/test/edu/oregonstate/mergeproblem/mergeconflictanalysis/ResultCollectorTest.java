@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import org.eclipse.jgit.api.MergeResult;
+import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
@@ -111,5 +112,22 @@ public class ResultCollectorTest extends MergeGitTest {
 		resultCollector.collectSubmodule(commit);
 		String expected = "{\"" + commit.getName() + "\": " + new Status().setStatus(Status.SUBMODULE).toJSONString() + "}";
 		assertEquals(expected, resultCollector.toJSONString());
+	}
+	
+	@Test
+	public void testCollectConflictInNonJavaFile() throws Exception {
+		add("bla.xml", "xxxx");
+		branch("branch");
+		add("bla.xml", "ppppp");
+		checkout("master");
+		add("bla.xml", "aaaaaa");
+		MergeResult mergeResult = merge("branch");
+		assertTrue(mergeResult.getMergeStatus().equals(MergeStatus.CONFLICTING));
+		
+		RevCommit commit = resolveMergeConflict(mergeResult, "bla.xml");
+		resultCollector.collect(repository, commit, mergeResult);
+		String actual = resultCollector.toJSONString();
+		String expected = "{\"" + commit.getName() + "\": " + new Status().setStatus(Status.CONFLICT).setFiles(Arrays.asList("bla.xml")).toJSONString() + "}";
+		assertEquals(expected, actual);
 	}
 }
