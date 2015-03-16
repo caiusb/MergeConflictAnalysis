@@ -36,7 +36,7 @@ public class FileDiffCollector implements Collector {
 		}
 	}
 	
-	private void diffFile(String file, Repository repository, MergeResult status) {
+	public void diffFile(String file, Repository repository, MergeResult status) {
 		ObjectId[] mergedCommits = status.getMergedCommits();
 		ObjectId base = status.getBase();
 		
