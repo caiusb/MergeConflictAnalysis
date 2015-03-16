@@ -14,7 +14,7 @@ public class Status implements JSONAware {
 	private String status = "";
 	private String message = "";
 	private List<String> files = new ArrayList<String>();
-	private Map<String, MergeDiffInfo> mergeInfo = new HashMap<String, MergeDiffInfo>();
+	private List<MergeDiffInfo> mergeInfo = new ArrayList<MergeDiffInfo>();
 	
 	public static final String JSON_FILES = "files";
 	public static final String JSON_STATUS = "status";
@@ -53,8 +53,8 @@ public class Status implements JSONAware {
 		return this;
 	}
 	
-	public Status setConflictDiffInfo(String file, MergeDiffInfo info) {
-		mergeInfo.put(file, info);
+	public Status setConflictDiffInfo(MergeDiffInfo info) {
+		mergeInfo.add(info);
 		return this;
 	}
 
@@ -67,7 +67,7 @@ public class Status implements JSONAware {
 		return "{\"" + JSON_STATUS + "\": \"" + status + "\", \"" + 
 				JSON_MESSAGE + "\": \"" + message + "\", \"" + 
 				JSON_FILES + "\": " + JSONArray.toJSONString(files) + ", \"" +
-				JSON_DIFFS + "\": " + JSONObject.toJSONString(mergeInfo) + 
+				JSON_DIFFS + "\": " + JSONArray.toJSONString(mergeInfo) + 
 				"}";
 	}
 

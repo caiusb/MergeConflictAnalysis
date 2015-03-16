@@ -38,7 +38,7 @@ public class StatusTest {
 		Status status = createConflictingStatus();
 		String jsonString = status.toJSONString();
 		String expected = "{\"" + Status.JSON_STATUS + "\": \"" + Status.CONFLICT + "\", \"message\": \"\", \"" + Status.JSON_FILES
-				+ "\": [\"FileA\",\"FileB\"], \"diffs\": {}}";
+				+ "\": [\"FileA\",\"FileB\"], \"diffs\": []}";
 		assertEquals(expected, jsonString);
 	}
 
@@ -47,7 +47,7 @@ public class StatusTest {
 		Status status = new Status().setConflict(false);
 		String jsonString = status.toJSONString();
 		String expected = "{\"" + Status.JSON_STATUS + "\": \"" + Status.CLEAN + "\", \"message\": \"\", \"" + Status.JSON_FILES
-				+ "\": [], \"diffs\": {}}";
+				+ "\": [], \"diffs\": []}";
 		assertEquals(expected, jsonString);
 	}
 
@@ -56,7 +56,7 @@ public class StatusTest {
 		Status status = new Status().setFailure(true);
 		String jsonString = status.toJSONString();
 		String expected = "{\"" + Status.JSON_STATUS + "\": \"" + Status.FAILURE + "\", \"message\": \"\", \"" + Status.JSON_FILES
-				+ "\": [], \"diffs\": {}}";
+				+ "\": [], \"diffs\": []}";
 		assertEquals(expected, jsonString);
 	}
 }

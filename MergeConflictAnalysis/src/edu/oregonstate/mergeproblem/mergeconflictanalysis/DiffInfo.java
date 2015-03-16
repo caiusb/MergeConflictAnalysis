@@ -22,6 +22,6 @@ class DiffInfo implements JSONAware {
 		return "{\"filename\": \""+ JSONObject.escape(filename) + "\", " + 
 				"\"A\": \"" + JSONObject.escape(AContent) + "\", " +
 				"\"B\": \"" + JSONObject.escape(BContent) + "\", " +
-				"\"ASTDiff: \"" + astDiff + "\"}";
+				"\"ASTDiff\": \"" + astDiff + "\"}";
 	}
 }

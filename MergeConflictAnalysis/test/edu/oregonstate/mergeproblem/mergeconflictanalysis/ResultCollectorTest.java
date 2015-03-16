@@ -87,7 +87,7 @@ public class ResultCollectorTest extends MergeGitTest {
 	private String createConflictingStatusWithOneFile(MergeResult result) {
 		MergeDiffInfo info = new MergeDiffInfo();
 		info.diffFile("A.java", repository, result);
-		String jsonString = new Status().setConflict(true).setFiles(Arrays.asList(new String[]{"A.java"})).setConflictDiffInfo("A.java", info).toJSONString();
+		String jsonString = new Status().setConflict(true).setFiles(Arrays.asList(new String[]{"A.java"})).setConflictDiffInfo(info).toJSONString();
 		return jsonString;
 	}
 	
