@@ -32,7 +32,6 @@ public class Main {
 		
 		List<Collector> collectors = new LinkedList<Collector>();
 		collectors.add(new ResultCollector());
-		collectors.add(new FileDiffCollector());
 
 		for (String repositoryPath : args) {
 			try {
