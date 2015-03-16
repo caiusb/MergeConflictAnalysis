@@ -22,7 +22,7 @@ public class ConflictCollector implements Collector {
 	public void collect(Repository repository, RevCommit mergeCommit, MergeResult mergeResult) {
 		MergeStatus mergeStatus = mergeResult.getMergeStatus();
 		if(mergeStatus.equals(MergeStatus.CONFLICTING)) {
-			collectConflict(mergeCommit, mergeResult);
+			collectConflict(repository, mergeCommit, mergeResult);
 		} else if (mergeStatus.equals(MergeStatus.MERGED)) {
 			collectNonConflict(mergeCommit);
 		}
@@ -37,10 +37,16 @@ public class ConflictCollector implements Collector {
 	}
 	
 
-	private void collectConflict(RevCommit mergeCommit, MergeResult mergeResult) {
+	private void collectConflict(Repository repository, RevCommit mergeCommit, MergeResult mergeResult) {
 		List<String> conflictingFiles = new ArrayList<String>();
+		Status status = new Status().setConflict(true).setFiles(conflictingFiles);
 		conflictingFiles.addAll(mergeResult.getConflicts().keySet());
-		results.put(mergeCommit.getName(), new Status().setConflict(true).setFiles(conflictingFiles));
+		for (String file : conflictingFiles) {
+			MergeDiffInfo mergeDiffInfo = new MergeDiffInfo();
+			mergeDiffInfo.diffFile(file, repository, mergeResult);
+			status.setConflictDiffInfo(file, mergeDiffInfo);
+		}
+		results.put(mergeCommit.getName(), status);
 	}
 	
 	public void logException(Repository repository, RevCommit commit, Exception e) {
