@@ -77,7 +77,7 @@ public class ResultCollectorTest extends MergeGitTest {
 	}
 
 	private String createConflictingStatusWithOneFile() {
-		return new Status().setConflict(true).setFiles(Arrays.asList(new String[]{"A"})).toJSONString();
+		return new Status().setConflict(true).setFiles(Arrays.asList(new String[]{"A.java"})).toJSONString();
 	}
 	
 	@Test
