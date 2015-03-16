@@ -1,17 +1,20 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONAware;
+import org.json.simple.JSONObject;
 
 public class Status implements JSONAware {
 
 	private String status = "";
 	private String message = "";
 	private List<String> files = new ArrayList<String>();
-	private MergeDiffInfo info;
+	private Map<String, MergeDiffInfo> mergeInfo = new HashMap<String, MergeDiffInfo>();
 	
 	public static final String JSON_FILES = "files";
 	public static final String JSON_STATUS = "status";
@@ -50,8 +53,8 @@ public class Status implements JSONAware {
 		return this;
 	}
 	
-	public Status setConflictDiffInfo(MergeDiffInfo info) {
-		this.info = info;
+	public Status setConflictDiffInfo(String file, MergeDiffInfo info) {
+		mergeInfo.put(file, info);
 		return this;
 	}
 
@@ -64,7 +67,7 @@ public class Status implements JSONAware {
 		return "{\"" + JSON_STATUS + "\": \"" + status + "\", \"" + 
 				JSON_MESSAGE + "\": \"" + message + "\", \"" + 
 				JSON_FILES + "\": " + JSONArray.toJSONString(files) + ", \"" +
-				JSON_DIFFS + "\": " + (info == null ? "{}" : info.toJSONString()) + 
+				JSON_DIFFS + "\": " + JSONObject.toJSONString(mergeInfo) + 
 				"}";
 	}
 

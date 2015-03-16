@@ -53,31 +53,41 @@ public class ResultCollectorTest extends MergeGitTest {
 	
 	@Test
 	public void testJSONString() throws Exception {
-		RevCommit commit = collectConflictingCommit();
+		MergeResult mergeResult = createConflictingMergeResult();
+		RevCommit commit = resolveMergeConflict(mergeResult);
+		resultCollector.collect(repository, commit, mergeResult);
 		String json = resultCollector.toJSONString();
-		String expected = "{\"" + commit.getName() + "\": " + createConflictingStatusWithOneFile() + "}";
+		String expected = "{\"" + commit.getName() + "\": " + createConflictingStatusWithOneFile(mergeResult) + "}";
 		assertEquals(expected,json);
 	}
 	
 	@Test
 	public void testTwoLineJSonString() throws Exception {
-		RevCommit commit1 = collectConflictingCommit(0);
-		RevCommit commit2 = collectConflictingCommit(2);
+		MergeResult mergeResult1 = createConflictingMergeResult(0);
+		RevCommit commit1 = resolveMergeConflict(mergeResult1);
+		MergeResult mergeResult2 = createConflictingMergeResult(2);
+		RevCommit commit2 = resolveMergeConflict(mergeResult2);
 		
 		if (commit1.getName().compareTo(commit2.getName()) >= 0) {
 			RevCommit temp = commit1;
 			commit1 = commit2;
 			commit2 = temp; 
 		}
+
+		resultCollector.collect(repository, commit1, mergeResult1);
+		resultCollector.collect(repository, commit2, mergeResult2);
 		
 		String actual = resultCollector.toJSONString();
-		String expected = "{\"" + commit1.getName() + "\": " + createConflictingStatusWithOneFile();
-		expected += ",\n\"" + commit2.getName() + "\": " + createConflictingStatusWithOneFile() + "}";
+		String expected = "{\"" + commit1.getName() + "\": " + createConflictingStatusWithOneFile(mergeResult1);
+		expected += ",\n\"" + commit2.getName() + "\": " + createConflictingStatusWithOneFile(mergeResult2) + "}";
 		assertEquals(expected, actual);
 	}
 
-	private String createConflictingStatusWithOneFile() {
-		return new Status().setConflict(true).setFiles(Arrays.asList(new String[]{"A.java"})).toJSONString();
+	private String createConflictingStatusWithOneFile(MergeResult result) {
+		MergeDiffInfo info = new MergeDiffInfo();
+		info.diffFile("A.java", repository, result);
+		String jsonString = new Status().setConflict(true).setFiles(Arrays.asList(new String[]{"A.java"})).setConflictDiffInfo("A.java", info).toJSONString();
+		return jsonString;
 	}
 	
 	@Test
