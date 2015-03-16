@@ -23,18 +23,10 @@ import fr.labri.gumtree.matchers.Matcher;
 import fr.labri.gumtree.matchers.MatcherFactories;
 import fr.labri.gumtree.tree.Tree;
 
-public class FileDiffCollector implements Collector {
+public class FileDiffCollector {
 	
 	private List<DiffInfo> conflictingFiles = new ArrayList<DiffInfo>();
 
-	public void collect(Repository repository, RevCommit commit, MergeResult conflictingMergeResult) {
-		Map<String, int[][]> conflicts = conflictingMergeResult.getConflicts();
-		if (conflicts == null)
-			conflicts = new HashMap<String, int[][]>();
-		for (String file : conflicts.keySet()) {
-			diffFile(file, repository, conflictingMergeResult);
-		}
-	}
 	
 	public void diffFile(String file, Repository repository, MergeResult status) {
 		ObjectId[] mergedCommits = status.getMergedCommits();
@@ -104,9 +96,4 @@ public class FileDiffCollector implements Collector {
 		json += "]";
 		return json;
 	}
-
-	@Override
-	public void logException(Repository repository, RevCommit commit, Exception e) {
-	}		
-
 }
