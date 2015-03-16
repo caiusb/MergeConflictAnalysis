@@ -27,31 +27,7 @@ import fr.labri.gumtree.tree.Tree;
 
 public class FileDiffCollector implements Collector {
 	
-	private class PairOfFiles implements JSONAware {
-		
-		private String filename;
-		private String AContent;
-		private String BContent;
-		private int astDiff;
-		
-		public PairOfFiles(String filename, String AContent, String BContent, int astDiff) {
-			this.filename = filename;
-			this.AContent = AContent;
-			this.BContent = BContent;
-			this.astDiff = astDiff;
-		}
-
-		@Override
-		public String toJSONString() {
-			return "{\"filename\": \""+ JSONObject.escape(filename) + "\", " + 
-					"\"A\": \"" + JSONObject.escape(AContent) + "\", " +
-					"\"B\": \"" + JSONObject.escape(BContent) + "\", " +
-					"\"ASTDiff: \"" + astDiff + "\"}";
-		}
-	}
-	
 	private List<PairOfFiles> conflictingFiles = new ArrayList<PairOfFiles>();
-	
 
 	public void collect(Repository repository, RevCommit commit, MergeResult conflictingMergeResult) {
 		Map<String, int[][]> conflicts = conflictingMergeResult.getConflicts();
