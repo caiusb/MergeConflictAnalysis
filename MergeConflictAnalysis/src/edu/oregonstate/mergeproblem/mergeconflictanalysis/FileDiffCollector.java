@@ -25,9 +25,14 @@ import fr.labri.gumtree.tree.Tree;
 
 public class FileDiffCollector {
 	
-	private List<DiffInfo> conflictingFiles = new ArrayList<DiffInfo>();
-
+	public static final String JSON_A_TO_B = "AtoB";
+	public static final String JSON_BASE_TO_A = "baseToA";
+	public static final String JSON_BASE_TO_B = "baseToB";
 	
+	private DiffInfo AtoB;
+	private DiffInfo baseToA;
+	private DiffInfo baseToB;
+
 	public void diffFile(String file, Repository repository, MergeResult status) {
 		ObjectId[] mergedCommits = status.getMergedCommits();
 		ObjectId base = status.getBase();
@@ -50,9 +55,9 @@ public class FileDiffCollector {
 			e.printStackTrace();
 		}
 		
-		conflictingFiles.add(new DiffInfo(file, AContent, BContent, AB_Actions.size()));
-		conflictingFiles.add(new DiffInfo(file, baseContent, AContent, baseA_Actions.size()));
-		conflictingFiles.add(new DiffInfo(file, baseContent, BContent, baseB_Actions.size()));
+		AtoB = new DiffInfo(file, AContent, BContent, AB_Actions.size());
+		baseToA = new DiffInfo(file, baseContent, AContent, baseA_Actions.size());
+		baseToB = new DiffInfo(file, baseContent, BContent, baseB_Actions.size());
 	}
 
 	private List<Action> getActions(String AContent, String BContent)
@@ -84,16 +89,11 @@ public class FileDiffCollector {
 	}
 
 	public String toJSONString() {
-		String json = "[";
-		for (DiffInfo file : conflictingFiles) {
-			json += file.toJSONString();
-			json += ",\n";
-		}
-		int endIndex = json.length() - 2;
-		if (endIndex > 0) {
-			json = json.substring(0, endIndex);
-		}
-		json += "]";
+		String json = "{";
+		json += "\"" + JSON_A_TO_B +"\": " + AtoB.toJSONString() + ", ";
+		json += "\"" + JSON_BASE_TO_A + "\": " + baseToA.toJSONString() + ", ";
+		json += "\"" + JSON_BASE_TO_B + "\": " + baseToB.toJSONString();
+		json += "}";
 		return json;
 	}
 }
