@@ -96,4 +96,9 @@ public class MergeDiffInfo {
 		json += "}";
 		return json;
 	}
+	
+	@Override
+	public String toString() {
+		return toJSONString();
+	}
 }
