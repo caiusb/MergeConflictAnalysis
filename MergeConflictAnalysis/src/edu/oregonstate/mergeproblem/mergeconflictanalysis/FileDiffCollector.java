@@ -25,7 +25,7 @@ import fr.labri.gumtree.tree.Tree;
 
 public class FileDiffCollector implements Collector {
 	
-	private List<PairOfFiles> conflictingFiles = new ArrayList<PairOfFiles>();
+	private List<DiffInfo> conflictingFiles = new ArrayList<DiffInfo>();
 
 	public void collect(Repository repository, RevCommit commit, MergeResult conflictingMergeResult) {
 		Map<String, int[][]> conflicts = conflictingMergeResult.getConflicts();
@@ -58,9 +58,9 @@ public class FileDiffCollector implements Collector {
 			e.printStackTrace();
 		}
 		
-		conflictingFiles.add(new PairOfFiles(file, AContent, BContent, AB_Actions.size()));
-		conflictingFiles.add(new PairOfFiles(file, baseContent, AContent, baseA_Actions.size()));
-		conflictingFiles.add(new PairOfFiles(file, baseContent, BContent, baseB_Actions.size()));
+		conflictingFiles.add(new DiffInfo(file, AContent, BContent, AB_Actions.size()));
+		conflictingFiles.add(new DiffInfo(file, baseContent, AContent, baseA_Actions.size()));
+		conflictingFiles.add(new DiffInfo(file, baseContent, BContent, baseB_Actions.size()));
 	}
 
 	private List<Action> getActions(String AContent, String BContent)
@@ -93,7 +93,7 @@ public class FileDiffCollector implements Collector {
 
 	public String toJSONString() {
 		String json = "[";
-		for (PairOfFiles file : conflictingFiles) {
+		for (DiffInfo file : conflictingFiles) {
 			json += file.toJSONString();
 			json += ",\n";
 		}
