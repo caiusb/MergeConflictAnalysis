@@ -33,31 +33,36 @@ public class FileDiffCollector implements Collector {
 		Map<String, int[][]> conflicts = conflictingMergeResult.getConflicts();
 		if (conflicts == null)
 			conflicts = new HashMap<String, int[][]>();
-		ObjectId[] mergedCommits = conflictingMergeResult.getMergedCommits();
-		ObjectId base = conflictingMergeResult.getBase();
 		for (String file : conflicts.keySet()) {
-			if (!file.endsWith(".java"))
-				continue;
-			String AContent = BlobUtils.getContent(repository, mergedCommits[0], file);
-			String BContent = BlobUtils.getContent(repository, mergedCommits[1], file);
-			String baseContent = BlobUtils.getContent(repository, base, file);
-			
-			List<Action> AB_Actions = new ArrayList<Action>();
-			List<Action> baseA_Actions = new ArrayList<Action>();
-			List<Action> baseB_Actions = new ArrayList<Action>();
-			try {
-				AB_Actions = getActions(AContent, BContent);
-				baseA_Actions = getActions(baseContent, AContent);
-				baseB_Actions = getActions(baseContent, BContent);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			conflictingFiles.add(new PairOfFiles(file, AContent, BContent, AB_Actions.size()));
-			conflictingFiles.add(new PairOfFiles(file, baseContent, AContent, baseA_Actions.size()));
-			conflictingFiles.add(new PairOfFiles(file, baseContent, BContent, baseB_Actions.size()));
+			diffFile(file, repository, conflictingMergeResult);
 		}
+	}
+	
+	private void diffFile(String file, Repository repository, MergeResult status) {
+		ObjectId[] mergedCommits = status.getMergedCommits();
+		ObjectId base = status.getBase();
+		
+		if (!file.endsWith(".java"))
+			return;
+		String AContent = BlobUtils.getContent(repository, mergedCommits[0], file);
+		String BContent = BlobUtils.getContent(repository, mergedCommits[1], file);
+		String baseContent = BlobUtils.getContent(repository, base, file);
+		
+		List<Action> AB_Actions = new ArrayList<Action>();
+		List<Action> baseA_Actions = new ArrayList<Action>();
+		List<Action> baseB_Actions = new ArrayList<Action>();
+		try {
+			AB_Actions = getActions(AContent, BContent);
+			baseA_Actions = getActions(baseContent, AContent);
+			baseB_Actions = getActions(baseContent, BContent);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		conflictingFiles.add(new PairOfFiles(file, AContent, BContent, AB_Actions.size()));
+		conflictingFiles.add(new PairOfFiles(file, baseContent, AContent, baseA_Actions.size()));
+		conflictingFiles.add(new PairOfFiles(file, baseContent, BContent, baseB_Actions.size()));
 	}
 
 	private List<Action> getActions(String AContent, String BContent)
