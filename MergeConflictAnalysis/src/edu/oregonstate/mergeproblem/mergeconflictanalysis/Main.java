@@ -3,16 +3,25 @@ package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.nio.file.Paths;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.bson.Document;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 
 public class Main {
 
@@ -32,6 +41,10 @@ public class Main {
 		
 		List<Collector> collectors = new LinkedList<Collector>();
 		collectors.add(new ConflictCollector());
+		
+		MongoClient mongoClient = new MongoClient("localhost");
+		MongoDatabase database = mongoClient.getDatabase("development");
+		MongoCollection<Document> commitCollection = database.getCollection("commits");
 
 		for (String repositoryPath : args) {
 			try {
@@ -62,9 +75,12 @@ public class Main {
 			} finally {
 				for (Collector collector : collectors) {
 					System.out.println(collector.toJSONString());
+					commitCollection.insertOne(new Document((Map) new JSONParser().parse(collector.toJSONString())));
 				}
+				mongoClient.close();
 			}
 		}
+		
 	}
 
 }
