@@ -15,8 +15,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.gitective.core.BlobUtils;
-import org.json.simple.JSONAware;
-import org.json.simple.JSONObject;
 
 import fr.labri.gumtree.actions.ActionGenerator;
 import fr.labri.gumtree.actions.model.Action;
