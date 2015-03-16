@@ -30,12 +30,12 @@ public class MergeDiffInfo {
 	private DiffInfo baseToA;
 	private DiffInfo baseToB;
 
-	public void diffFile(String file, Repository repository, MergeResult status) {
+	public boolean diffFile(String file, Repository repository, MergeResult status) {
 		ObjectId[] mergedCommits = status.getMergedCommits();
 		ObjectId base = status.getBase();
 		
 		if (!file.endsWith(".java"))
-			return;
+			return false; 
 		String AContent = BlobUtils.getContent(repository, mergedCommits[0], file);
 		String BContent = BlobUtils.getContent(repository, mergedCommits[1], file);
 		String baseContent = BlobUtils.getContent(repository, base, file);
@@ -55,6 +55,8 @@ public class MergeDiffInfo {
 		AtoB = new DiffInfo(file, AContent, BContent, AB_Actions.size());
 		baseToA = new DiffInfo(file, baseContent, AContent, baseA_Actions.size());
 		baseToB = new DiffInfo(file, baseContent, BContent, baseB_Actions.size());
+		
+		return true;
 	}
 
 	private List<Action> getActions(String AContent, String BContent)
