@@ -31,7 +31,7 @@ public class Main {
 		gumTreeLogger.setLevel(Level.OFF);
 		
 		List<Collector> collectors = new LinkedList<Collector>();
-		collectors.add(new ResultCollector());
+		collectors.add(new ConflictCollector());
 
 		for (String repositoryPath : args) {
 			try {

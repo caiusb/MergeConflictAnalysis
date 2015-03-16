@@ -10,12 +10,12 @@ import org.junit.Test;
 
 public class ResultCollectorTest extends MergeGitTest {
 	
-	private ResultCollector resultCollector;
+	private ConflictCollector resultCollector;
 
 	@Before
 	public void before() throws Exception {
 		super.before();
-		resultCollector = new ResultCollector();
+		resultCollector = new ConflictCollector();
 	}
 
 	@Test

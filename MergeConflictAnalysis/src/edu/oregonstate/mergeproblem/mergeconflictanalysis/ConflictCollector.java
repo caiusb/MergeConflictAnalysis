@@ -11,7 +11,7 @@ import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 
-public class ResultCollector implements Collector {
+public class ConflictCollector implements Collector {
 	
 	private Map<String, Status> results = new HashMap<String, Status>();
 
