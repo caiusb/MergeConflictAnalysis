@@ -11,10 +11,12 @@ public class Status implements JSONAware {
 	private String status = "";
 	private String message = "";
 	private List<String> files = new ArrayList<String>();
+	private MergeDiffInfo info;
 	
 	public static final String JSON_FILES = "files";
 	public static final String JSON_STATUS = "status";
 	public static final String JSON_MESSAGE = "message";
+	public static final String JSON_DIFFS= "diffs";
 	
 	public final static String CLEAN = "clean";
 	public final static String CONFLICT = "conflict";
@@ -47,6 +49,11 @@ public class Status implements JSONAware {
 		this.files = files;
 		return this;
 	}
+	
+	public Status setConflictDiffInfo(MergeDiffInfo info) {
+		this.info = info;
+		return this;
+	}
 
 	public List<String> getFiles() {
 		return files;
@@ -54,7 +61,11 @@ public class Status implements JSONAware {
 
 	@Override
 	public String toJSONString() {
-		return "{\"" + JSON_STATUS + "\": \"" + status + "\", \"" + JSON_MESSAGE + "\": \"" + message + "\", \"" + JSON_FILES + "\": " + JSONArray.toJSONString(files) + "}";
+		return "{\"" + JSON_STATUS + "\": \"" + status + "\", \"" + 
+				JSON_MESSAGE + "\": \"" + message + "\", \"" + 
+				JSON_FILES + "\": " + JSONArray.toJSONString(files) + ", \"" +
+				JSON_DIFFS + "\": " + (info == null ? "{}" : info.toJSONString()) + 
+				"}";
 	}
 
 	public Status setMessage(String message) {
