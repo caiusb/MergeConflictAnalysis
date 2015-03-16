@@ -23,7 +23,7 @@ import fr.labri.gumtree.matchers.Matcher;
 import fr.labri.gumtree.matchers.MatcherFactories;
 import fr.labri.gumtree.tree.Tree;
 
-public class FileDiffCollector {
+public class MergeDiffInfo {
 	
 	public static final String JSON_A_TO_B = "AtoB";
 	public static final String JSON_BASE_TO_A = "baseToA";

@@ -3,12 +3,12 @@ package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 import org.eclipse.jgit.api.MergeResult;
 import org.junit.Test;
 
-public class FileDiffCollectorTest extends MergeGitTest{
+public class MergeDiffInfoTest extends MergeGitTest{
 
 	@Test
 	public void collectConflictingFiles() throws Exception {
 		MergeResult conflictingMergeResult = createConflictingMergeResult(0);
-		FileDiffCollector diffCollector = new FileDiffCollector();
+		MergeDiffInfo diffCollector = new MergeDiffInfo();
 		diffCollector.diffFile("A.java", repository, conflictingMergeResult);
 		String actual = diffCollector.toJSONString();
 		String expected = "{\"AtoB\": {\"filename\": \"A.java\", \"A\": \"public class conflictingA3{}\", \"B\": \"public class A2{}\", \"ASTDiff: \"1\"}, " + 
