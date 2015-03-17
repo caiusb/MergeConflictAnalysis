@@ -58,7 +58,7 @@ public class ResultCollectorTest extends MergeGitTest {
 		RevCommit commit = resolveMergeConflict(mergeResult);
 		resultCollector.collect(repository, commit, mergeResult);
 		String json = resultCollector.toJSONString();
-		String expected = "{\"" + commit.getName() + "\": " + createConflictingStatusWithOneFile(mergeResult) + "}";
+		String expected = "[{\"sha1\": \"" + commit.getName() + "\", \"status\": " + createConflictingStatusWithOneFile(mergeResult) + "}]";
 		assertEquals(expected,json);
 	}
 	
@@ -79,8 +79,8 @@ public class ResultCollectorTest extends MergeGitTest {
 		resultCollector.collect(repository, commit2, mergeResult2);
 		
 		String actual = resultCollector.toJSONString();
-		String expected = "{\"" + commit1.getName() + "\": " + createConflictingStatusWithOneFile(mergeResult1);
-		expected += ",\n\"" + commit2.getName() + "\": " + createConflictingStatusWithOneFile(mergeResult2) + "}";
+		String expected = "[{\"sha1\": \"" + commit1.getName() + "\", \"status\": " + createConflictingStatusWithOneFile(mergeResult1);
+		expected += "},\n{\"sha1\": \"" + commit2.getName() + "\", \"status\": " + createConflictingStatusWithOneFile(mergeResult2) + "}]";
 		assertEquals(expected, actual);
 	}
 
@@ -95,14 +95,14 @@ public class ResultCollectorTest extends MergeGitTest {
 	public void testFailingJSON() throws Exception {
 		RevCommit commit = collectConflictingCommit();
 		resultCollector.collectFailure(commit);
-		String expected = "{\"" + commit.getName() + "\": "+ new Status().setFailure(true).toJSONString() +"}";
+		String expected = "[{\"sha1\": \"" + commit.getName() + "\", \"status\": "+ new Status().setFailure(true).toJSONString() +"}]";
 		assertEquals(expected, resultCollector.toJSONString());
 	}
 	
 	@Test
 	public void testEmptyResults() throws Exception {
 		String actual = resultCollector.toJSONString();
-		String expected = "{}";
+		String expected = "[]";
 		assertEquals(expected, actual);
 	}
 	
@@ -110,7 +110,7 @@ public class ResultCollectorTest extends MergeGitTest {
 	public void testCollectSubmodule() throws Exception {
 		RevCommit commit = createConflictingCommit();
 		resultCollector.collectSubmodule(commit);
-		String expected = "{\"" + commit.getName() + "\": " + new Status().setStatus(Status.SUBMODULE).toJSONString() + "}";
+		String expected = "[{\"sha1\": \"" + commit.getName() + "\", \"status\": " + new Status().setStatus(Status.SUBMODULE).toJSONString() + "}]";
 		assertEquals(expected, resultCollector.toJSONString());
 	}
 	
@@ -127,7 +127,7 @@ public class ResultCollectorTest extends MergeGitTest {
 		RevCommit commit = resolveMergeConflict(mergeResult, "bla.xml");
 		resultCollector.collect(repository, commit, mergeResult);
 		String actual = resultCollector.toJSONString();
-		String expected = "{\"" + commit.getName() + "\": " + new Status().setStatus(Status.CONFLICT).setFiles(Arrays.asList("bla.xml")).toJSONString() + "}";
+		String expected = "[{\"sha1\": \"" + commit.getName() + "\", \"status\": " + new Status().setStatus(Status.CONFLICT).setFiles(Arrays.asList("bla.xml")).toJSONString() + "}]";
 		assertEquals(expected, actual);
 	}
 }

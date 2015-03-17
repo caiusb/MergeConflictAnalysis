@@ -62,15 +62,15 @@ public class ConflictCollector implements Collector {
 	 */
 	@Override
 	public String toJSONString() {
-		String resultsString = "{";
+		String resultsString = "[";
 		ArrayList<String> keysList = getSortedCommits();
 		
 		for (String key : keysList) {
 			Status value = results.get(key);
-			resultsString = resultsString + "\"" + key + "\": " + value.toJSONString() + ",\n";
+			resultsString = resultsString + "{\"sha1\": \"" + key + "\", \"status\": " + value.toJSONString() + "},\n";
 		}
 		resultsString = trimTheLastTwoCharacters(resultsString);
-		resultsString = resultsString + "}";
+		resultsString = resultsString + "]";
 		return resultsString;
 	}
 
