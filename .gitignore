@@ -3,3 +3,4 @@ bin/
 *.jpage
 *.swp
 MergingConflictAnalysis.jar
+__pycache__/
