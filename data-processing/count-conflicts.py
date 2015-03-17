@@ -1,17 +1,13 @@
 #!/opt/local/bin/python
 
-import json
-import os
 import sys
 
+import common
+
 resultsFolder = sys.argv[1]
-files = os.listdir(resultsFolder)
 
 filesField = 'files'
 statusField= 'status'
-
-def shouldIgnore(file):
-	return not file.endswith('.json')
 
 def convertToBool(string):
 	if (string == 'failure'):
@@ -19,19 +15,6 @@ def convertToBool(string):
 	if (string == 'true'):
 		return True
 	return False
-
-def loadJson(file):
-	print(file + ',', end="")
-	pathToFile = os.path.join(resultsFolder,file)
-	jsonString = ''
-	with open(pathToFile, 'r') as f:
-		for line in f:
-			if not line.startswith('Error checking out'):
-				jsonString += line
-	if (jsonString == ''):
-		jsonString = '{}'
-	data = json.loads(jsonString)
-	return data
 
 def countConflicts(data):
 	conflicts = 0
@@ -55,9 +38,5 @@ def countConflicts(data):
 	print(str(conflicts) + ',' + str(ok) + "," + str(failures))
 
 print('Project, Conflicts, OK, Failures')
-for file in files:
-	if shouldIgnore(file):
-		continue
-	data = loadJson(file)
-	countConflicts(data)
+common.processJSONFilesInFolder(resultsFolder, countConflicts)
 
