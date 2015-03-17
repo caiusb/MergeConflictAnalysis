@@ -16,7 +16,7 @@ def convertToBool(string):
 		return True
 	return False
 
-def countConflicts(data):
+def countConflicts(file, data):
 	conflicts = 0
 	ok = 0
 	failures = 0

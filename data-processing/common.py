@@ -24,4 +24,4 @@ def processJSONFilesInFolder(folder, processFunction):
 		if (shouldIgnore(file)):
 			continue;
 		data = loadJson(os.path.join(folder,file))
-		processFunction(data)
+		processFunction(file, data)
