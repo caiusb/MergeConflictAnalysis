@@ -5,7 +5,6 @@ import os
 import sys
 
 def loadJson(file):
-	print(file + ',', end="")
 	jsonString = ''
 	with open(file, 'r') as f:
 		for line in f:
