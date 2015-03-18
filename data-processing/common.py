@@ -2,6 +2,7 @@
 
 import json
 import os
+import sys
 
 def loadJson(file):
 	print(file + ',', end="")
