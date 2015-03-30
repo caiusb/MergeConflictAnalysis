@@ -1,13 +1,10 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONAware;
-import org.json.simple.JSONObject;
 
 public class Status implements JSONAware {
 
