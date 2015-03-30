@@ -4,3 +4,4 @@ bin/
 *.swp
 MergingConflictAnalysis.jar
 __pycache__/
+*.sublime-workspace
