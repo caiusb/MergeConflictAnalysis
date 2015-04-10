@@ -16,6 +16,9 @@ class CombinedFile {
 		}
 
 		public boolean isOwner(ChunkOwner a) {
+			if (owner.equals(ChunkOwner.BOTH))
+				return true;
+			
 			return owner.equals(a);
 		}
 
