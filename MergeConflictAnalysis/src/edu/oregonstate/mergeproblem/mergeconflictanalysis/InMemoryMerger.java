@@ -18,8 +18,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
 
 public class InMemoryMerger {
 	
-	private Repository repository;
-	private List<String> names;
+	private final Repository repository;
+	private final List<String> names;
 	
 	public InMemoryMerger(Repository repository) {
 		this.repository = repository;
