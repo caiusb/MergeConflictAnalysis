@@ -25,6 +25,18 @@ public class InMemoryMerger {
 		this.repository = repository;
 		names = Arrays.asList(new String[]{"base", "A", "B"});
 	}
+	
+	public CommitStatus recreateMerge(RevCommit mergeCommit) {
+		RevCommit[] parents = mergeCommit.getParents();
+		if (parents.length < 2)
+			throw new IllegalArgumentException();
+		
+		try {
+			return new CommitStatus(mergeCommit.getName(), merge(parents[0], parents[1]));
+		} catch (IOException e) {
+			return null;
+		}
+	}
 
 	public Map<String, CombinedFile> merge(RevCommit first, RevCommit second) throws IOException {
 		Map<String, CombinedFile> results = new HashMap<String, CombinedFile>();
