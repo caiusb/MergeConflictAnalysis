@@ -22,6 +22,7 @@ pushd $repoloc > /dev/null
 
 while read line
 do
+    date=`date`
     java -Xmx1G -jar $dir/../MergingConflictAnalysis.jar "$line" > $resultsloc/$line.json 2>$resultsloc/log/$line.txt
 
     pushd $resultsloc > /dev/null
