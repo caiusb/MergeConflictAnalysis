@@ -44,9 +44,10 @@ public class MergeDiffInfo {
 		List<Action> baseA_Actions = new ArrayList<Action>();
 		List<Action> baseB_Actions = new ArrayList<Action>();
 		try {
-			AB_Actions = getActions(AContent, BContent);
-			baseA_Actions = getActions(baseContent, AContent);
-			baseB_Actions = getActions(baseContent, BContent);
+			ASTDiff astDiff = new ASTDiff();
+			AB_Actions = astDiff.getActions(AContent, BContent);
+			baseA_Actions = astDiff.getActions(baseContent, AContent);
+			baseB_Actions = astDiff.getActions(baseContent, BContent);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -57,34 +58,6 @@ public class MergeDiffInfo {
 		baseToB = new DiffInfo(file, baseContent, BContent, baseB_Actions.size());
 		
 		return true;
-	}
-
-	private List<Action> getActions(String AContent, String BContent)
-			throws IOException {
-		JdtTreeGenerator jdtTreeGenerator = new JdtTreeGenerator();
-		Tree leftTree = getTree(AContent, jdtTreeGenerator);
-		Tree rightTree = getTree(BContent, jdtTreeGenerator);
-		List<Action> actions = getActions(leftTree, rightTree);
-		return actions;
-	}
-
-	private List<Action> getActions(Tree leftTree, Tree rightTree) {
-		List<Action> actions;
-		Matcher matcher = MatcherFactories.newMatcher(leftTree, rightTree);
-		matcher.match();
-		ActionGenerator actionGenerator = new ActionGenerator(leftTree, rightTree, matcher.getMappings());
-		actionGenerator.generate();
-		actions = actionGenerator.getActions();
-		return actions;
-	}
-
-	private Tree getTree(String AContent, JdtTreeGenerator jdtTreeGenerator) throws IOException {
-		Path leftFilePath = Files.createTempFile("", "java");
-		Files.write(leftFilePath, AContent.getBytes(), StandardOpenOption.WRITE);
-		File leftFile = leftFilePath.toFile();
-		Tree leftTree = jdtTreeGenerator.fromFile(leftFile.getCanonicalPath());
-		leftFile.delete();
-		return leftTree;
 	}
 
 	public String toJSONString() {
