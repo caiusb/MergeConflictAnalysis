@@ -24,7 +24,7 @@ while read line
 do
     echo "Processing: $line"
     date=`date`
-    java -Xmx4G -jar $dir/../MergingConflictAnalysis.jar "$line" > $resultsloc/$line.json 2>$resultsloc/log/$line.txt
+    java -Xmx12G -jar $dir/../MergingConflictAnalysis.jar "$line" > $resultsloc/$line.json 2>$resultsloc/log/$line.txt
 
     pushd $resultsloc > /dev/null
     git add $line.json log/$line.txt > /dev/null
