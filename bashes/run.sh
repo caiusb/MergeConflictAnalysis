@@ -22,6 +22,7 @@ pushd $repoloc > /dev/null
 
 while read line
 do
+    echo "Processing: $line"
     date=`date`
     java -Xmx4G -jar $dir/../MergingConflictAnalysis.jar "$line" > $resultsloc/$line.json 2>$resultsloc/log/$line.txt
 
