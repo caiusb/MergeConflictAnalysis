@@ -15,7 +15,7 @@ dir=$PWD
 orderfile=$repoloc/'order.txt'
 
 pushd $resultsloc > /dev/null
-git pull
+git pull > /dev/null
 popd > /dev/null
 
 pushd $repoloc > /dev/null
