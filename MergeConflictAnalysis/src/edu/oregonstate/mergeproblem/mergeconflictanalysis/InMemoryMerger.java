@@ -32,7 +32,7 @@ public class InMemoryMerger {
 			throw new IllegalArgumentException();
 		
 		try {
-			return new CommitStatus(mergeCommit.getName(), merge(parents[0], parents[1]));
+			return new CommitStatus(repository, mergeCommit.getName(), merge(parents[0], parents[1]));
 		} catch (IOException e) {
 			return null;
 		}
