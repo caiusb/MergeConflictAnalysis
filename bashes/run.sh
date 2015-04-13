@@ -14,19 +14,6 @@ resultsloc=$(resolve-path $2 )
 dir=$PWD
 orderfile=$repoloc/'order.txt'
 
-uname=`uname`
-if [ $uname = Linux ]
-then
-	ramdisk="/mnt/ramdisk/merging/"
-else if [ $uname = Darwin ]
-    then
-	ramdisk="/Volumes/RAM-Disk/"
-    else
-	echo "Unsupported operating system."
-	exit -1
-    fi
-fi
-
 pushd $resultsloc > /dev/null
 git pull
 popd > /dev/null
@@ -35,15 +22,7 @@ pushd $repoloc > /dev/null
 
 while read line
 do
-    tmploc="$ramdisk$line"
-    date=`date`
-    echo "Processing $line"
-    cp -r $line "$tmploc"
-    pushd "$tmploc" > /dev/null
-    git checkout -f master > /dev/null
-    popd > /dev/null
-    java -Xmx1G -jar $dir/../MergingConflictAnalysis.jar "$tmploc" > $resultsloc/$line.json 2>$resultsloc/log/$line.txt
-    rm -rf $tmploc
+    java -Xmx1G -jar $dir/../MergingConflictAnalysis.jar "$line" > $resultsloc/$line.json 2>$resultsloc/log/$line.txt
 
     pushd $resultsloc > /dev/null
     git add $line.json log/$line.txt > /dev/null
