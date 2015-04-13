@@ -5,3 +5,4 @@ bin/
 MergingConflictAnalysis.jar
 __pycache__/
 *.sublime-workspace
+.Rproj.user
