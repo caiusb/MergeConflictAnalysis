@@ -29,7 +29,7 @@ do
     git add $line.json log/$line.txt > /dev/null
     git commit -m "Results as of $date" > /dev/null
     git push > /dev/null
-    popd < /dev/null
+    popd > /dev/null
 done < $orderfile
 
 popd > /dev/null
