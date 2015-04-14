@@ -18,6 +18,10 @@ data <- data[data$A_TO_SOLVED >= 0, ]
 data <- data[data$B_TO_SOLVED >= 0, ]
 data <- data[data$A_TO_B >= 0, ]
 
+hist(data$A_TO_SOLVED, breaks=20)
+hist(data$B_TO_SOLVED, breaks=20)
+hist(data$A_TO_B, breaks=20)
+
 plot(data$A_TO_SOLVED, data$B_TO_SOLVED)
 plot(data$A_TO_B, data$A_TO_SOLVED)
 plot(data$A_TO_B, data$B_TO_SOLVED)
