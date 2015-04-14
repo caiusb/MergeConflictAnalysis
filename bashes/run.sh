@@ -10,6 +10,7 @@ fi
 
 repoloc=$(resolve-path $1)
 resultsloc=$(resolve-path $2 )
+results_suffix='.csv'
 
 dir=$PWD
 orderfile=$repoloc/'order.txt'
@@ -24,10 +25,10 @@ while read line
 do
     echo "Processing: $line"
     date=`date`
-    java -Xmx12G -jar $dir/../MergingConflictAnalysis.jar "$line" > $resultsloc/$line.json 2>$resultsloc/log/$line.txt
+    java -Xmx12G -jar $dir/../MergingConflictAnalysis.jar "$line" > $resultsloc/$line$results_suffix 2>$resultsloc/log/$line.txt
 
     pushd $resultsloc > /dev/null
-    git add $line.json log/$line.txt > /dev/null
+    git add $line$results_suffix log/$line.txt > /dev/null
     git commit -m "Results as of $date" > /dev/null
     git push > /dev/null
     popd > /dev/null
