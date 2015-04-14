@@ -13,7 +13,7 @@ lapply(files, function(file) {
   data <<- rbind(data, currentDataFile)
 })
 
-#Trimming the cases where I couldn't find a Diff
+#Trimming the cases where I couldn't find a diff, for various reasons...
 data <- data[data$A_TO_SOLVED >= 0, ]
 data <- data[data$B_TO_SOLVED >= 0, ]
 data <- data[data$A_TO_B >= 0, ]
