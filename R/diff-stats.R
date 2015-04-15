@@ -1,6 +1,6 @@
 resultsFolder = "../../results"
 
-files <- list.files(path=resultsFolder, pattern="*.json", full.names=T, recursive=FALSE)
+files <- list.files(path=resultsFolder, pattern="*.csv", full.names=T, recursive=FALSE)
 data <- data.frame(SHA = character(0),
                    FILE = character(0),
                    A_TO_B = integer(0),
