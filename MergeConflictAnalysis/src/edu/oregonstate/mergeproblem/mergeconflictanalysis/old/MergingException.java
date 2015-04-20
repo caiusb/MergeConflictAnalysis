@@ -1,4 +1,4 @@
-package edu.oregonstate.mergeproblem.mergeconflictanalysis;
+package edu.oregonstate.mergeproblem.mergeconflictanalysis.old;
 
 public class MergingException extends Exception {
 

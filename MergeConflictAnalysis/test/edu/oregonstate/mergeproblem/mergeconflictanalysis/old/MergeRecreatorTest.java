@@ -1,4 +1,4 @@
-package edu.oregonstate.mergeproblem.mergeconflictanalysis;
+package edu.oregonstate.mergeproblem.mergeconflictanalysis.old;
 
 import java.io.File;
 import java.util.Date;
@@ -16,6 +16,9 @@ import org.gitective.core.CommitUtils;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.MergeGitTest;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.old.MergeRecreator;
 
 public class MergeRecreatorTest extends MergeGitTest {
 	

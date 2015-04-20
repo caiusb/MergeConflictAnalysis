@@ -1,4 +1,4 @@
-package edu.oregonstate.mergeproblem.mergeconflictanalysis;
+package edu.oregonstate.mergeproblem.mergeconflictanalysis.old;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -8,6 +8,11 @@ import org.eclipse.jgit.api.MergeResult.MergeStatus;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
+
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.MergeGitTest;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.old.ConflictCollector;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.old.MergeDiffInfo;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.old.Status;
 
 public class ResultCollectorTest extends MergeGitTest {
 	

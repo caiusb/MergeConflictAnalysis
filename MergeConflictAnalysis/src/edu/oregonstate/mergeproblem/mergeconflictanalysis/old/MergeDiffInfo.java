@@ -1,4 +1,4 @@
-package edu.oregonstate.mergeproblem.mergeconflictanalysis;
+package edu.oregonstate.mergeproblem.mergeconflictanalysis.old;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +13,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.gitective.core.BlobUtils;
 
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.ASTDiff;
 import fr.labri.gumtree.actions.ActionGenerator;
 import fr.labri.gumtree.actions.model.Action;
 import fr.labri.gumtree.gen.jdt.JdtTreeGenerator;
