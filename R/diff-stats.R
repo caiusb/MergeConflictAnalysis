@@ -8,9 +8,15 @@ data <- data.frame(SHA = character(0),
                    B_TO_SOLVED = integer(0))
 
 lapply(files, function(file) {
-  fileInfo <- file.info(file)
-  currentDataFile <- read.csv(file, header=T, sep=',', blank.lines.skip=T, as.is=T)
-  data <<- rbind(data, currentDataFile)
+  fileLength = length(readLines(file))
+  if (fileLength <= 1)
+    return 
+  else {
+    print(file)
+    fileInfo <- file.info(file)
+    currentDataFile <- read.csv(file, header=T, sep=',', blank.lines.skip=T, as.is=T)
+    data <<- rbind(data, currentDataFile)
+  }
 })
 
 #Trimming the cases where I couldn't find a diff, for various reasons...
