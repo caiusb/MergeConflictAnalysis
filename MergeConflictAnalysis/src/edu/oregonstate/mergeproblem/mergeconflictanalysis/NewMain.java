@@ -51,7 +51,7 @@ public class NewMain {
 			
 			System.out.println(result);
 			
-			System.out.println("The processing took " + (finish - start)/1000000 + " miliseconds");
+//			System.out.println("The processing took " + (finish - start)/1000000 + " miliseconds");
 		}
 	}
 	
