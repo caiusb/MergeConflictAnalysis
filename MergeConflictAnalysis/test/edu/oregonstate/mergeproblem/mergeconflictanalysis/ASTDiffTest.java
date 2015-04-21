@@ -42,4 +42,12 @@ public class ASTDiffTest {
 		List<Action> actions = astDiff.getActions("public class A {}", "public class B {}");
 		assertEquals(1, actions.size());
 	}
+
+	@Test
+	public void testABiggerExample() throws Exception {
+		String a = "public class A{public void m(){} public void unchanged(){}}";
+		String b = "public class A{public void n(){} public void unchanged(){}}";
+		List<Action> actions = astDiff.getActions(a, b);
+		assertEquals(1, actions.size());
+	}
 }
