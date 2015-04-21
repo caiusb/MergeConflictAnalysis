@@ -39,7 +39,7 @@ public class ASTDiff {
 		Path filePath = Files.createTempFile("", "java");
 		Files.write(filePath, AContent.getBytes(), StandardOpenOption.WRITE);
 		File file = filePath.toFile();
-		Tree tree = jdtTreeGenerator.fromFile(file.getCanonicalPath());
+		Tree tree = jdtTreeGenerator.generate(file.getCanonicalPath());
 		file.delete();
 		return tree;
 	}
