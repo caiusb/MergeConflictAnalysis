@@ -40,6 +40,6 @@ public class ASTDiffTest {
 	@Test
 	public void testValid() throws Exception {
 		List<Action> actions = astDiff.getActions("public class A {}", "public class B {}");
-		assertEquals(6, actions.size());
+		assertEquals(1, actions.size());
 	}
 }
