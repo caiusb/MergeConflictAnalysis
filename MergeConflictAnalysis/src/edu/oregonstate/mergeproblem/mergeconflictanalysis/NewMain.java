@@ -26,33 +26,39 @@ public class NewMain {
 		gumtreeLogger.setLevel(Level.OFF);
 		
 		for (String repositoryPath : args) {
-			Repository repository = Git.open(new File(repositoryPath)).getRepository();
-			List<RevCommit> mergeCommits = new RepositoryWalker(repository).getMergeCommits();
-			InMemoryMerger merger = new InMemoryMerger(repository);
-
-			long start = System.nanoTime();
-			List<CommitStatus> statuses = mergeCommits.stream().parallel()
-					.map((commit) -> merger.recreateMerge(commit))
-					.collect(Collectors.toList());
-			
-			String result = "SHA, FILE, LOC_A_TO_B, LOC_A_TO_SOLVED, LOC_B_TO_SOLVED, AST_A_TO_B, AST_A_TO_SOLVED, AST_B_TO_SOLVED\n";
-			result += statuses.stream().parallel().map((status) ->{
-				String statusResult = status.getListOfConflictingFiles().stream()
-					.filter((file) -> file.endsWith("java"))
-					.map((file) -> processFile(status, file))
-					.collect(Collectors.joining("\n"));
-				if (statusResult.equals(""))
-					return statusResult;
-				else
-					return statusResult += "\n";
-			}).collect(Collectors.joining());
-						
-			long finish = System.nanoTime();
-			
-			System.out.println(result);
-			
-//			System.out.println("The processing took " + (finish - start)/1000000 + " miliseconds");
+			List<CommitStatus> statuses = recreateMergesInRepository(repositoryPath);
+			processResults(statuses);
 		}
+	}
+	
+	private static List<CommitStatus> recreateMergesInRepository(String repositoryPath) throws IOException,
+			WalkException {
+		Repository repository = Git.open(new File(repositoryPath)).getRepository();
+		List<RevCommit> mergeCommits = new RepositoryWalker(repository).getMergeCommits();
+		InMemoryMerger merger = new InMemoryMerger(repository);
+
+		long start = System.nanoTime();
+		List<CommitStatus> statuses = mergeCommits.stream().parallel().map((commit) -> merger.recreateMerge(commit))
+				.collect(Collectors.toList());
+		return statuses;
+	}
+
+	private static void processResults(List<CommitStatus> statuses) {
+		String result = "SHA, FILE, LOC_A_TO_B, LOC_A_TO_SOLVED, LOC_B_TO_SOLVED, AST_A_TO_B, AST_A_TO_SOLVED, AST_B_TO_SOLVED\n";
+		result += statuses.stream().parallel().map((status) ->{
+			String statusResult = status.getListOfConflictingFiles().stream()
+				.filter((file) -> file.endsWith("java"))
+				.map((file) -> processFile(status, file))
+				.collect(Collectors.joining("\n"));
+			if (statusResult.equals(""))
+				return statusResult;
+			else
+				return statusResult += "\n";
+		}).collect(Collectors.joining());
+					
+		long finish = System.nanoTime();
+		
+		System.out.println(result);
 	}
 	
 	private static String processFile(CommitStatus status, String fileName) {
