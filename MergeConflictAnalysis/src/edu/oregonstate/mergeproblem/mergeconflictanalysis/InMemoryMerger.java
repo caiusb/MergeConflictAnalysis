@@ -42,6 +42,13 @@ public class InMemoryMerger {
 		Map<String, CombinedFile> results = new HashMap<String, CombinedFile>();
 		
 		RecursiveMerger recursiveMerger = (RecursiveMerger) new StrategyRecursive().newMerger(repository, true);
+		
+		if (first.getCommitTime() < second.getCommitTime()) {
+			RevCommit tmp = first;
+			first = second;
+			second = tmp;
+		}
+		
 		recursiveMerger.merge(first, second);
 		
 		Map<String, MergeResult<? extends Sequence>> mergeResults = recursiveMerger.getMergeResults();
