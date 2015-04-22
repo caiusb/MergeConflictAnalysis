@@ -70,10 +70,12 @@ public class NewMain {
 		int aToSolved = -1;
 		int bToSolved = -1;
 		
-		if (aVersion != null && bVersion != null && solvedVersion != null) {
+		if (aVersion != null && bVersion != null) {
 			aToB = diffFunction.apply(aVersion, bVersion);
-			aToSolved = diffFunction.apply(aVersion, solvedVersion);
-			bToSolved = diffFunction.apply(bVersion, solvedVersion);
+			if (solvedVersion != null) {
+				aToSolved = diffFunction.apply(aVersion, solvedVersion);
+				bToSolved = diffFunction.apply(bVersion, solvedVersion);
+			}
 		}
 		String locDiff = aToB + "," + aToSolved + "," + bToSolved;
 		return locDiff;
