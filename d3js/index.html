@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Merge Visualizer</title>
+	<link rel="stylesheet" href="scatterPlot.css"/>
+</head>
+
+<body>
+	<div id="scatterplot"></div>
+
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<script src="scatterPlot.js"></script>
+
+	<script>
+  		//configure the plot
+  		var myScatterPlot = scatterPlot()
+  			.height(600)
+  			.width(parseInt(d3.select("body").style("width")))
+  			.circleRadius(4);
+
+  		d3.csv("all.csv", function(error, data) {
+
+  		//convert strings into numbers
+  		data.forEach(function(d) {
+  			d.LOC_A_TO_B = +d.LOC_A_TO_B;
+  			d.LOC_A_TO_SOLVED = +d.LOC_A_TO_SOLVED;
+  			d.LOC_B_TO_SOLVED = +d.LOC_B_TO_SOLVED;
+
+  			d.AST_A_TO_B = +d.AST_A_TO_B;
+  			d.AST_A_TO_SOLVED = +d.AST_A_TO_SOVLED;
+  			d.AST_B_TO_SOLVED = +d.AST_B_TO_SOLVED;
+  		});
+
+		//data to be shown
+		myScatterPlot.xValue(function(d) { return d.LOC_A_TO_SOLVED; })
+			.yValue(function(d) { return +d.LOC_B_TO_SOLVED; })
+			.label(function(d) { return d.PROJECT + "\n" + d.SHA + "\n" + d.FILE; })
+			.category(function(d) { return d.PROJECT; })
+
+		d3.select("#scatterplot").datum(data).call(myScatterPlot);
+	});
+
+
+  		</script>
+  	</body>
+  	</html>
