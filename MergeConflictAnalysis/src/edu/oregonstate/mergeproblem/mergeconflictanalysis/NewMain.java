@@ -32,7 +32,12 @@ public class NewMain {
 		for (String repositoryPath : args) {
 			List<CommitStatus> statuses = recreateMergesInRepository(repositoryPath);
 			processResults(statuses);
+			generateDiffs(statuses);
 		}
+	}
+
+	private void generateDiffs(List<CommitStatus> statuses) {
+		String targetFolder = "../../diffs";
 	}
 	
 	private List<CommitStatus> recreateMergesInRepository(String repositoryPath) throws IOException,
