@@ -48,7 +48,7 @@ public class NewMain {
 		} catch (CmdLineException e) {
 		}
 		
-		for (String repositoryPath : args) {
+		for (String repositoryPath : repositories) {
 			String projectName = Paths.get(repositoryPath).getFileName().toString();
 			
 			List<CommitStatus> statuses = recreateMergesInRepository(repositoryPath);
