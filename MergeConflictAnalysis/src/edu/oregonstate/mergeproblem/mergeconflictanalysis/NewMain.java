@@ -2,6 +2,7 @@ package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.logging.Level;
@@ -15,10 +16,20 @@ import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
 
 public class NewMain {
 
 	private static DiffAlgorithm diffAlgorithm = DiffAlgorithm.getAlgorithm(SupportedAlgorithm.MYERS);
+	
+	@Option(name="-viz-folder", usage="Where the files for the visualization will be generated")
+	private String vizFolder = null;
+	
+	@Argument
+	private List<String> repositories = new ArrayList<String>();
 	
 	public static void main(String[] args) throws Exception {
 		
@@ -29,15 +40,22 @@ public class NewMain {
 		Logger gumtreeLogger = Logger.getLogger("fr.labri.gumtree");
 		gumtreeLogger.setLevel(Level.OFF);
 		
+		CmdLineParser cmdLineParser = new CmdLineParser(this);
+		try {
+			cmdLineParser.parseArgument(args);
+		} catch (CmdLineException e) {
+		}
+		
 		for (String repositoryPath : args) {
 			List<CommitStatus> statuses = recreateMergesInRepository(repositoryPath);
 			processResults(statuses);
-			generateDiffs(statuses);
+			if (vizFolder != null)
+				generateDiffs(statuses);
 		}
 	}
 
 	private void generateDiffs(List<CommitStatus> statuses) {
-		String targetFolder = "../../diffs";
+		System.out.println("Generating diffs!!!");
 	}
 	
 	private List<CommitStatus> recreateMergesInRepository(String repositoryPath) throws IOException,
