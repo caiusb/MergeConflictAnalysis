@@ -54,12 +54,13 @@ public class NewMain {
 			List<CommitStatus> statuses = recreateMergesInRepository(repositoryPath);
 			processResults(statuses);
 			if (vizFolder != null)
-				generateDiffs(statuses);
+				generateDiffs(projectName, statuses);
 		}
 	}
 
-	private void generateDiffs(List<CommitStatus> statuses) {
-		System.out.println("Generating diffs!!!");
+	private void generateDiffs(String projectName, List<CommitStatus> statuses) {
+		VisualizationDataGenerator dataGenerator = new VisualizationDataGenerator();
+		statuses.forEach((status) -> dataGenerator.generateData(projectName, statuses, vizFolder));
 	}
 	
 	private List<CommitStatus> recreateMergesInRepository(String repositoryPath) throws IOException,
