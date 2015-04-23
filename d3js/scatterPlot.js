@@ -19,6 +19,7 @@ function scatterPlot() {
 	var yValue = function(d) { return +d.yValue; } // force to number
 	var label = function(d) { return d.label; } 
 	var category = function(d) { return d.category; }
+	var clickAction = function(d) {}
 
 	var chart = function(selection) {
 		selection.each(function(data) {
@@ -66,7 +67,8 @@ function scatterPlot() {
 					tooltip.transition()
 						.duration(200)
 						.style("opacity",0);
-				});
+				})
+				.on("click", clickAction);
 
 			var xAxis = d3.svg.axis()
 				.scale(xScale)
@@ -151,6 +153,13 @@ function scatterPlot() {
 		if (arguments.length == 0)
 			return category;
 		category = newCategoryFunction;
+		return chart;
+	}
+
+	chart.clickAction = function(newClickActionFunction) {
+		if (arguments.length == 0)
+			return clickAction;
+		clickAction = newClickActionFunction;
 		return chart;
 	}
 
