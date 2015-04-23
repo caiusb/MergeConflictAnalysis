@@ -33,11 +33,19 @@
   			d.AST_B_TO_SOLVED = +d.AST_B_TO_SOLVED;
   		});
 
+      function goToData(d) {
+        project = d.PROJECT;
+        commit = d.SHA;
+        file = d.FILE;
+        window.location.href = "data/" + project + "/" + commit + "/" +file + "/loc/";
+      }
+
 		//data to be shown
 		myScatterPlot.xValue(function(d) { return d.LOC_A_TO_SOLVED; })
 			.yValue(function(d) { return +d.LOC_B_TO_SOLVED; })
 			.label(function(d) { return d.PROJECT + "\n" + d.SHA + "\n" + d.FILE; })
 			.category(function(d) { return d.PROJECT; })
+      .clickAction(goToData);
 
 		d3.select("#scatterplot").datum(data).call(myScatterPlot);
 	});
