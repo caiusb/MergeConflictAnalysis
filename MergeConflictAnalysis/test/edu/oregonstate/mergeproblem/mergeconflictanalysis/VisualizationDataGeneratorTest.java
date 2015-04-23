@@ -118,6 +118,13 @@ public class VisualizationDataGeneratorTest extends MergeGitTest {
 		assertFileContains(locFolder, "public class conflictingA3{}\n", "A");
 		assertFileContains(locFolder, "public class A2{}\n", "B");
 	}
+	
+	@Test
+	public void testIndexGeneration() throws Exception {
+		Path locFolder = generateLOCPath();
+		
+		assertFileContains(locFolder, LOCIndexHtml.LOC_INDEX, "index.html");
+	}
 
 	private void assertFileContains(Path locFolder, String fileContents, String fileName) throws IOException {
 		Path aPath = locFolder.resolve(fileName);

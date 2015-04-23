@@ -23,11 +23,14 @@ public class VisualizationDataGenerator {
 				
 				Path a = locPath.resolve("A");
 				Path b = locPath.resolve("B");
+				Path index=locPath.resolve("index.html");
 				try {
 					a.toFile().createNewFile();
 					Files.write(a, status.getCombinedFile(file).getVersion(ChunkOwner.A).getBytes(), StandardOpenOption.WRITE);
 					b.toFile().createNewFile();
 					Files.write(b, status.getCombinedFile(file).getVersion(ChunkOwner.B).getBytes(), StandardOpenOption.WRITE);
+					index.toFile().createNewFile();
+					Files.write(index, LOCIndexHtml.LOC_INDEX.getBytes(), StandardOpenOption.WRITE);
 				} catch (Exception e) {
 				}
 			}); 
