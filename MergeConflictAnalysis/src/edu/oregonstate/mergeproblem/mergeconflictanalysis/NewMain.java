@@ -2,6 +2,8 @@ package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
@@ -47,6 +49,8 @@ public class NewMain {
 		}
 		
 		for (String repositoryPath : args) {
+			String projectName = Paths.get(repositoryPath).getFileName().toString();
+			
 			List<CommitStatus> statuses = recreateMergesInRepository(repositoryPath);
 			processResults(statuses);
 			if (vizFolder != null)
