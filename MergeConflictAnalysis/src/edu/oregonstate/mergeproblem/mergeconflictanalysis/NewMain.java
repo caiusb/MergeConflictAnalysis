@@ -22,6 +22,10 @@ public class NewMain {
 	
 	public static void main(String[] args) throws Exception {
 		
+		new NewMain().doMain(args);
+	}
+
+	private void doMain(String[] args) throws IOException, WalkException {
 		Logger gumtreeLogger = Logger.getLogger("fr.labri.gumtree");
 		gumtreeLogger.setLevel(Level.OFF);
 		
@@ -31,7 +35,7 @@ public class NewMain {
 		}
 	}
 	
-	private static List<CommitStatus> recreateMergesInRepository(String repositoryPath) throws IOException,
+	private List<CommitStatus> recreateMergesInRepository(String repositoryPath) throws IOException,
 			WalkException {
 		Repository repository = Git.open(new File(repositoryPath)).getRepository();
 		List<RevCommit> mergeCommits = new RepositoryWalker(repository).getMergeCommits();
@@ -43,7 +47,7 @@ public class NewMain {
 		return statuses;
 	}
 
-	private static void processResults(List<CommitStatus> statuses) {
+	private void processResults(List<CommitStatus> statuses) {
 		String result = "SHA, FILE, LOC_A_TO_B, LOC_A_TO_SOLVED, LOC_B_TO_SOLVED, AST_A_TO_B, AST_A_TO_SOLVED, AST_B_TO_SOLVED\n";
 		result += statuses.stream().parallel().map((status) ->{
 			String statusResult = status.getListOfConflictingFiles().stream()
@@ -61,17 +65,17 @@ public class NewMain {
 		System.out.println(result);
 	}
 	
-	private static String processFile(CommitStatus status, String fileName) {
+	private String processFile(CommitStatus status, String fileName) {
 		String solvedVersion = status.getSolvedVersion(fileName);
 		CombinedFile combinedFile = status.getCombinedFile(fileName);
 		String aVersion = combinedFile.getVersion(ChunkOwner.A);
 		String bVersion = combinedFile.getVersion(ChunkOwner.B);
-		String locDiff = getDiff(solvedVersion, aVersion, bVersion, NewMain::getLOCDiffSize);
-		String astDiff = getDiff(solvedVersion, aVersion, bVersion, NewMain::getASTDIffSize);
+		String locDiff = getDiff(solvedVersion, aVersion, bVersion, (a, b) -> getLOCDiffSize(a, b));
+		String astDiff = getDiff(solvedVersion, aVersion, bVersion, (a, b) -> getASTDIffSize(a, b));
 		return status.getSHA1() + "," + fileName + "," + locDiff + "," + astDiff;
 	}
 	
-	private static String getDiff(String solvedVersion, String aVersion, String bVersion, BiFunction<String, String, Integer> diffFunction) {
+	private String getDiff(String solvedVersion, String aVersion, String bVersion, BiFunction<String, String, Integer> diffFunction) {
 		int aToB = -1;
 		int aToSolved = -1;
 		int bToSolved = -1;
@@ -87,11 +91,11 @@ public class NewMain {
 		return locDiff;
 	}
 
-	private static int getLOCDiffSize(String aVersion, String bVersion) {
+	private int getLOCDiffSize(String aVersion, String bVersion) {
 		return diffAlgorithm.diff(RawTextComparator.DEFAULT, new RawText(aVersion.getBytes()), new RawText(bVersion.getBytes())).size();
 	}
 	
-	private static int getASTDIffSize(String aVersion, String bVersion) {
+	private int getASTDIffSize(String aVersion, String bVersion) {
 		try {
 			return new ASTDiff().getActions(aVersion, bVersion).size();
 		} catch (IOException e) {
