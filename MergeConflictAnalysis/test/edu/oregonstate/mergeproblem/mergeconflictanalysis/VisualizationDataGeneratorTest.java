@@ -120,6 +120,13 @@ public class VisualizationDataGeneratorTest extends MergeGitTest {
 	}
 	
 	@Test
+	public void testSolvedfContents() throws Exception {
+		Path locFolder = generateLOCPath();
+		
+		assertFileContains(locFolder, "version two+three", "S");
+	}
+	
+	@Test
 	public void testIndexGeneration() throws Exception {
 		Path locFolder = generateLOCPath();
 		
