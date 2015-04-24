@@ -45,7 +45,6 @@ public class NewMain {
 		new NewMain().doMain(args);
 	}
 
-	@SuppressWarnings("resource")
 	private void doMain(String[] args) throws IOException, WalkException {
 		Logger gumtreeLogger = Logger.getLogger("fr.labri.gumtree");
 		gumtreeLogger.setLevel(Level.OFF);
