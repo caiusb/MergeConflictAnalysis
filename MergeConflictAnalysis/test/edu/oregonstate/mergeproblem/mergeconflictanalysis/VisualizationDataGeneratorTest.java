@@ -123,7 +123,7 @@ public class VisualizationDataGeneratorTest extends MergeGitTest {
 	public void testIndexGeneration() throws Exception {
 		Path locFolder = generateLOCPath();
 		
-		assertFileContains(locFolder, LOCIndexHtml.LOC_INDEX, "index.html");
+		assertFileContains(locFolder, new LOCIndexHtml().getIndex(), "index.html");
 	}
 
 	private void assertFileContains(Path locFolder, String fileContents, String fileName) throws IOException {

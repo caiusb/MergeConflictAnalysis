@@ -8,7 +8,14 @@ import java.util.List;
 
 public class VisualizationDataGenerator {
 	
+	private String urlFolder = "";
+
+	public void setURLFolder(String folder) {
+		this.urlFolder = folder;
+	}
+	
 	public void generateData(String projectName, List<CommitStatus> statuses, String targetFolder) {
+		LOCIndexHtml locIndexHtml = new LOCIndexHtml(urlFolder);
 		Path projectPath = Paths.get(targetFolder).resolve(projectName);
 		projectPath.toFile().mkdir();
 		statuses.forEach((status) -> {
@@ -30,7 +37,7 @@ public class VisualizationDataGenerator {
 					b.toFile().createNewFile();
 					Files.write(b, status.getCombinedFile(file).getVersion(ChunkOwner.B).getBytes(), StandardOpenOption.WRITE);
 					index.toFile().createNewFile();
-					Files.write(index, LOCIndexHtml.LOC_INDEX.getBytes(), StandardOpenOption.WRITE);
+					Files.write(index, locIndexHtml.getIndex().getBytes(), StandardOpenOption.WRITE);
 				} catch (Exception e) {
 				}
 			}); 

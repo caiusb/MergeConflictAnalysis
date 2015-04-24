@@ -29,6 +29,9 @@ public class NewMain {
 	@Option(name="-viz-folder", usage="Where the files for the visualization will be generated")
 	private String vizFolder = null;
 	
+	@Option(name="-url-folder", usage="Folder where the viz will be stored in the url")
+	private String urlFolder = "";
+	
 	@Argument
 	private List<String> repositories = new ArrayList<String>();
 	
@@ -59,6 +62,7 @@ public class NewMain {
 
 	private void generateDiffs(String projectName, List<CommitStatus> statuses) {
 		VisualizationDataGenerator dataGenerator = new VisualizationDataGenerator();
+		dataGenerator.setURLFolder(urlFolder);
 		statuses.forEach((status) -> dataGenerator.generateData(projectName, statuses, vizFolder));
 	}
 	
