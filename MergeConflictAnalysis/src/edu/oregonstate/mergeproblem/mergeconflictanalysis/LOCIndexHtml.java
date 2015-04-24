@@ -23,7 +23,11 @@ public class LOCIndexHtml {
 					"	<link rel=\"stylesheet\" href=\"/" + urlFolder + "/jsdifflib/diffview.css\"/>\n" + 
 					"</head>\n" + 
 					"\n" + 
-					"<body>\n" + 
+					"<body>\n" +
+					"   <div id=\"buttons\"></div>\n" + 
+					"	<button onclick=\"AtoB()\">A - B</button>\n" + 
+					"	<button onclick=\"AtoS()\">A - S</button>\n" + 
+					"	<button onclick=\"BtoS()\">B - S</button>\n" + 
 					"	<div id=\"diffoutput\"></div>\n" + 
 					"\n" + 
 					"	<script src=\"https://code.jquery.com/jquery-1.11.2.min.js\"></script>\n" + 
@@ -31,7 +35,7 @@ public class LOCIndexHtml {
 					"	<script src=\"/" + urlFolder + "/jsdifflib/diffview.js\"></script>\n" + 
 					"	<script src=\"/" + urlFolder + "/diffLOC.js\"></script>\n" + 
 					"	<script>\n" + 
-					"		diffLOC('./A', './B');\n" + 
+					"		diffLOC(a, b);\n" + 
 					"	</script>\n" + 
 					"\n" + 
 					"</body>\n" + 
