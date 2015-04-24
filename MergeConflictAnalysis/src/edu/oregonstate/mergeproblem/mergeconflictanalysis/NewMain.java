@@ -1,6 +1,8 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -32,6 +34,9 @@ public class NewMain {
 	@Option(name="-url-folder", usage="Folder where the viz will be stored in the url")
 	private String urlFolder = "";
 	
+	@Option(name="-output", usage="The file where to output the results")
+	private String outputFile = null;
+	
 	@Argument
 	private List<String> repositories = new ArrayList<String>();
 	
@@ -40,6 +45,7 @@ public class NewMain {
 		new NewMain().doMain(args);
 	}
 
+	@SuppressWarnings("resource")
 	private void doMain(String[] args) throws IOException, WalkException {
 		Logger gumtreeLogger = Logger.getLogger("fr.labri.gumtree");
 		gumtreeLogger.setLevel(Level.OFF);
@@ -50,11 +56,20 @@ public class NewMain {
 		} catch (CmdLineException e) {
 		}
 		
+		BufferedOutputStream outputStream = new BufferedOutputStream(System.out);;
+		if (outputFile != null) {
+			File file = new File(outputFile);
+			if (!file.exists())
+				file.createNewFile();
+			outputStream = new BufferedOutputStream(new FileOutputStream(file));
+		}
+		
 		for (String repositoryPath : repositories) {
 			String projectName = Paths.get(repositoryPath).getFileName().toString();
 			
 			List<CommitStatus> statuses = recreateMergesInRepository(repositoryPath);
-			processResults(statuses);
+			String results = processResults(statuses);
+			outputStream.write(results.getBytes());
 			if (vizFolder != null)
 				generateDiffs(projectName, statuses);
 		}
@@ -72,13 +87,12 @@ public class NewMain {
 		List<RevCommit> mergeCommits = new RepositoryWalker(repository).getMergeCommits();
 		InMemoryMerger merger = new InMemoryMerger(repository);
 
-		long start = System.nanoTime();
 		List<CommitStatus> statuses = mergeCommits.stream().parallel().map((commit) -> merger.recreateMerge(commit))
 				.collect(Collectors.toList());
 		return statuses;
 	}
 
-	private void processResults(List<CommitStatus> statuses) {
+	private String processResults(List<CommitStatus> statuses) {
 		String result = "SHA, FILE, LOC_A_TO_B, LOC_A_TO_SOLVED, LOC_B_TO_SOLVED, AST_A_TO_B, AST_A_TO_SOLVED, AST_B_TO_SOLVED\n";
 		result += statuses.stream().parallel().map((status) ->{
 			String statusResult = status.getListOfConflictingFiles().stream()
@@ -91,9 +105,7 @@ public class NewMain {
 				return statusResult += "\n";
 		}).collect(Collectors.joining());
 					
-		long finish = System.nanoTime();
-		
-		System.out.println(result);
+		return result;
 	}
 	
 	private String processFile(CommitStatus status, String fileName) {
