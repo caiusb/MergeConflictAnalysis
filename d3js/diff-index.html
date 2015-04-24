@@ -8,6 +8,10 @@
 </head>
 
 <body>
+	<div id="buttons"></div>
+	<button onclick="AtoB()">A - B</button>
+	<button onclick="AtoS()">A - S</button>
+	<button onclick="BtoS()">B - S</button>
 	<div id="diffoutput"></div>
 
 	<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
@@ -15,7 +19,7 @@
 	<script src="/jsdifflib/diffview.js"></script>
 	<script src="/diffLOC.js"></script>
 	<script>
-		diffLOC('./A', './B');
+		diffLOC(a, b);
 	</script>
 
 </body>

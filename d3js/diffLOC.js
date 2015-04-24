@@ -38,3 +38,22 @@ function diffLOC(a, b) {
     // scroll down to the diff view window.
     location = url + "#diff";
 }
+
+var a = "./A"
+var b = "./B"
+
+function AtoB() {
+    var a = "./A";
+    var b = "./B";
+    diffLOC(a, b);
+}
+function AtoS() {
+    var a = "./A"
+    var b = "./S"
+    diffLOC(a, b)
+}
+function BtoS() {
+    var a = "./B"
+    var b = "./S"
+    diffLOC(a, b)
+}
