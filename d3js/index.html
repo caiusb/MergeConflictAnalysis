@@ -9,6 +9,7 @@
 
 <body>
 	<div id="scatterplot"></div>
+  <div id="dataselection"></div>
 
 	<script src="http://d3js.org/d3.v3.min.js"></script>
 
@@ -41,8 +42,8 @@
   		});
 
 		//data to be shown
-		myScatterPlot.xValue(function(d) { return d.LOC_A_TO_SOLVED; })
-			.yValue(function(d) { return +d.LOC_B_TO_SOLVED; })
+		myScatterPlot.xValue(xAxisFunction)
+			.yValue(yAxisFunction)
 			.label(function(d) { return d.PROJECT + "\n" + d.SHA + "\n" + d.FILE; })
 			.category(function(d) { return d.PROJECT; })
       .clickAction(goToData);
