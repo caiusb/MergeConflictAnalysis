@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.function.BiFunction;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import java.util.logging.StreamHandler;
 import java.util.stream.Collectors;
 
 import org.eclipse.jgit.api.Git;
@@ -37,11 +39,15 @@ public class NewMain {
 	@Option(name="-output", usage="The file where to output the results")
 	private String outputFile = null;
 	
+	@Option(name="-log-to-console", usage="If I should log to the console, using a fine level")
+	private boolean logToConsole = false;
+	
 	@Argument
 	private List<String> repositories = new ArrayList<String>();
 	
+	private static Logger logger = Logger.getLogger("edu.oregonstate.mergeproblem");
+	
 	public static void main(String[] args) throws Exception {
-		
 		new NewMain().doMain(args);
 	}
 
@@ -53,6 +59,12 @@ public class NewMain {
 		try {
 			cmdLineParser.parseArgument(args);
 		} catch (CmdLineException e) {
+		}
+		
+		if (logToConsole) {
+			StreamHandler consoleHandler = new StreamHandler(System.out, new SimpleFormatter());
+			consoleHandler.setLevel(Level.INFO);
+			logger.addHandler(consoleHandler);
 		}
 		
 		BufferedOutputStream outputStream = new BufferedOutputStream(System.out);;

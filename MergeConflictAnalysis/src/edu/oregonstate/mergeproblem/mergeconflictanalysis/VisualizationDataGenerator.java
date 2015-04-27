@@ -6,8 +6,12 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class VisualizationDataGenerator {
+	
+	Logger logger = Logger.getLogger("edu.oregonstate.mergeproblem");
 	
 	private String urlFolder = "";
 	private LOCIndexHtml locIndexHtml = new LOCIndexHtml();
@@ -34,6 +38,7 @@ public class VisualizationDataGenerator {
 	}
 
 	private void generateLOCData(LOCIndexHtml locIndexHtml, CommitStatus status, String fileName, Path pathToPopulate) {
+		logger.log(Level.INFO, "Generating LOC info for file " + fileName + " in commit " + status.getSHA1());
 		Path locPath = pathToPopulate.resolve("loc");
 		locPath.toFile().mkdir();
 		
@@ -47,10 +52,12 @@ public class VisualizationDataGenerator {
 			Path index = createFile(locPath, "index.html");
 			writeToFile(index, locIndexHtml.getIndex());
 		} catch (Exception e) {
+			logger.log(Level.SEVERE, "Error writing to file: " + e.getMessage());
 		}
 	}
 	
 	private void generateASTData(CommitStatus status, String file, Path pathToPopulate) {
+		logger.log(Level.INFO, "Generating AST info for file " + file + " in commit " + status.getSHA1());
 		Path astPath = pathToPopulate.resolve("ast");
 		astPath.toFile().mkdir();
 		ASTFileGenerator astFileGenerator = new ASTFileGenerator(urlFolder);
@@ -67,6 +74,7 @@ public class VisualizationDataGenerator {
 			writeToFile(atos, astFileGenerator.generateDiff(a, s, "A", "Solved"));
 			writeToFile(btos, astFileGenerator.generateDiff(b, s, "B", "Solved"));
 		} catch (IOException e) {
+			logger.log(Level.SEVERE, "Error creating file; " + e.getMessage()); 
 		}
 	}
 
