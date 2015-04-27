@@ -27,9 +27,9 @@ public class ASTFileGenerator {
 				"</body>";
 	}
 	
-	public String generateDiff(String aContents, String bContents) {
+	public String generateDiff(String aContents, String bContents, String aName, String bName) {
 		try {
-			return new StringHtmlDiff().getHtmlOfDiff(urlFolder, aContents, bContents);		
+			return new StringHtmlDiff().getHtmlOfDiff(urlFolder, aContents, bContents, aName, bName);		
 		} catch (Exception e) {
 			return "There was an exception generating this file: \n " + e.getMessage();
 		}
