@@ -9,13 +9,14 @@ import java.util.List;
 public class VisualizationDataGenerator {
 	
 	private String urlFolder = "";
+	private LOCIndexHtml locIndexHtml;
 
 	public void setURLFolder(String folder) {
 		this.urlFolder = folder;
+		locIndexHtml = new LOCIndexHtml(urlFolder);
 	}
 	
 	public void generateData(String projectName, List<CommitStatus> statuses, String targetFolder) {
-		LOCIndexHtml locIndexHtml = new LOCIndexHtml(urlFolder);
 		Path projectPath = Paths.get(targetFolder).resolve(projectName);
 		projectPath.toFile().mkdir();
 		statuses.forEach((status) -> {
