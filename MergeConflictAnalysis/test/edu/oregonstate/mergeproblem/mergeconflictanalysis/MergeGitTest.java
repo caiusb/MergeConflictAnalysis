@@ -27,16 +27,32 @@ public abstract class MergeGitTest extends GitTestCase {
 	}
 
 	protected RevCommit createNonConflictingMerge(int base) throws Exception {
-		add("A.java", "public class A" + (base + 1) + "{}");
+		add("A.java", getBase(base));
 		checkoutBranch();
-		add("B.java", "public class A" + (base + 2) + "{}");
+		add("B.java", getBranchVersion(base));
 		checkout("master");
-		add("A.java", "public class A" + (base + 3)+ "{}");
+		add("A.java", getMasterVersion(base));
 		MergeResult mergeResult = merge("branch");
 		assertEquals(MergeStatus.MERGED, mergeResult.getMergeStatus());
 		ObjectId newHead = mergeResult.getNewHead();
 		RevCommit mergeCommit = CommitUtils.getCommit(repository, newHead);
 		return mergeCommit;
+	}
+
+	protected String getBase(int base) {
+		return "public class A" + (base + 1) + "{}";
+	}
+	
+	protected String getBranchVersion(int base) {
+		return "public class A" + (base + 2) + "{}";
+		
+	}
+	protected String getMasterVersion(int base) {
+		return "public class A" + (base + 3)+ "{}";
+	}
+	
+	protected String getResolvedVersion(int base) {
+		return "public class conflictingA" + (base + 3) + "{}";
 	}
 
 	protected RevCommit createConflictingCommit() throws Exception {
@@ -67,11 +83,11 @@ public abstract class MergeGitTest extends GitTestCase {
 	}
 
 	protected MergeResult createConflictingMergeResult(int base) throws Exception {
-		add("A.java", "public class A" + (base + 1) + "{}");
+		add("A.java", getBase(base));
 		checkoutBranch();
-		add("A.java", "public class A" + (base + 2)+ "{}");
+		add("A.java", getBranchVersion(base));
 		checkout("master");
-		add("A.java", "public class conflictingA" + (base + 3) + "{}");
+		add("A.java", getResolvedVersion(base));
 		
 		MergeResult merge = merge("branch");
 		return merge;
