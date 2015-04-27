@@ -58,6 +58,14 @@ public class VisualizationDataGenerator {
 			Path index = createFile(astPath, "index.html");
 			writeToFile(index, astFileGenerator.generateIndex());
 			Path atob = createFile(astPath, "atob.html");
+			Path atos = createFile(astPath, "atos.html");
+			Path btos = createFile(astPath, "btos.html");
+			String a = status.getCombinedFile(file).getVersion(ChunkOwner.A);
+			String b = status.getCombinedFile(file).getVersion(ChunkOwner.B);
+			String s = status.getSolvedVersion(file);
+			writeToFile(atob, astFileGenerator.generateDiff(a, b, "A", "B"));
+			writeToFile(atos, astFileGenerator.generateDiff(a, s, "A", "Solved"));
+			writeToFile(btos, astFileGenerator.generateDiff(b, s, "B", "Solved"));
 		} catch (IOException e) {
 		}
 	}
