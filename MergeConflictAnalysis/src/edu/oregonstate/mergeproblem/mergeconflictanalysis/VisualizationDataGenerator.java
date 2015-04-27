@@ -53,8 +53,11 @@ public class VisualizationDataGenerator {
 	private void generateASTData(CommitStatus status, String file, Path pathToPopulate) {
 		Path astPath = pathToPopulate.resolve("ast");
 		astPath.toFile().mkdir();
+		ASTFileGenerator astFileGenerator = new ASTFileGenerator(urlFolder);
 		try {
-			createFile(astPath, "index.html");
+			Path index = createFile(astPath, "index.html");
+			writeToFile(index, astFileGenerator.generateIndex());
+			Path atob = createFile(astPath, "atob.html");
 		} catch (IOException e) {
 		}
 	}
