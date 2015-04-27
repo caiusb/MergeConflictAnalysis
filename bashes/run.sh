@@ -25,7 +25,7 @@ while read line
 do
     echo "Processing: $line"
     date=`date`
-    java -Xmx12G -jar $dir/../MergingConflictAnalysis.jar -output $resultsloc/$line$results_suffix -url-folder "mergeviz" -viz-folder "../../viz/data" "$line" 2>$resultsloc/log/$line.txt
+    java -Xmx12G -jar $dir/../MergingConflictAnalysis.jar -output $resultsloc/$line$results_suffix -url-folder "mergeviz" -viz-folder "../viz/data" "$line" 2>$resultsloc/log/$line.txt
 
     pushd $resultsloc > /dev/null
     git add $line$results_suffix log/$line.txt > /dev/null
