@@ -18,6 +18,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
 	<script src="scatterPlot.js"></script>
+  <script src="data-visualizer.js"></script>
 
 	<script>
   		//configure the plot
@@ -38,13 +39,6 @@
   			d.AST_A_TO_SOLVED = +d.AST_A_TO_SOVLED;
   			d.AST_B_TO_SOLVED = +d.AST_B_TO_SOLVED;
   		});
-
-      function goToData(d) {
-        project = d.PROJECT;
-        commit = d.SHA;
-        file = d.FILE;
-        window.location.href = "data/" + project + "/" + commit + "/" +file + "/loc/";
-      }
 
 		//data to be shown
 		myScatterPlot.xValue(function(d) { return d.LOC_A_TO_SOLVED; })
