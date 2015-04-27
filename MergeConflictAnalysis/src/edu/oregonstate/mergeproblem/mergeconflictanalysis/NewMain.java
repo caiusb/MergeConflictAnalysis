@@ -65,6 +65,8 @@ public class NewMain {
 			StreamHandler consoleHandler = new StreamHandler(System.out, new SimpleFormatter());
 			consoleHandler.setLevel(Level.INFO);
 			logger.addHandler(consoleHandler);
+		} else {
+			logger.setLevel(Level.SEVERE);
 		}
 		
 		BufferedOutputStream outputStream = new BufferedOutputStream(System.out);;
