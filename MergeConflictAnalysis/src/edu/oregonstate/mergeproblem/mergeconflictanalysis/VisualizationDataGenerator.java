@@ -10,7 +10,7 @@ import java.util.List;
 public class VisualizationDataGenerator {
 	
 	private String urlFolder = "";
-	private LOCIndexHtml locIndexHtml;
+	private LOCIndexHtml locIndexHtml = new LOCIndexHtml();
 
 	public void setURLFolder(String folder) {
 		this.urlFolder = folder;
