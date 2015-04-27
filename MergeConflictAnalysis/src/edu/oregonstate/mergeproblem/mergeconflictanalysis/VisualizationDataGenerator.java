@@ -1,5 +1,6 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -35,21 +36,27 @@ public class VisualizationDataGenerator {
 		Path locPath = pathToPopulate.resolve("loc");
 		locPath.toFile().mkdir();
 		
-		Path a = locPath.resolve("A");
-		Path b = locPath.resolve("B");
-		Path s = locPath.resolve("S");
-		Path index=locPath.resolve("index.html");
 		try {
-			a.toFile().createNewFile();
-			Files.write(a, status.getCombinedFile(fileName).getVersion(ChunkOwner.A).getBytes(), StandardOpenOption.WRITE);
-			b.toFile().createNewFile();
-			Files.write(b, status.getCombinedFile(fileName).getVersion(ChunkOwner.B).getBytes(), StandardOpenOption.WRITE);
-			s.toFile().createNewFile();
-			Files.write(s, status.getSolvedVersion(fileName).getBytes(), StandardOpenOption.WRITE);
-			index.toFile().createNewFile();
-			Files.write(index, locIndexHtml.getIndex().getBytes(), StandardOpenOption.WRITE);
+			Path a = createFile(locPath, "A");
+			writeToFile(a, status.getCombinedFile(fileName).getVersion(ChunkOwner.A));
+			Path b = createFile(locPath, "B");
+			writeToFile(b, status.getCombinedFile(fileName).getVersion(ChunkOwner.B));
+			Path s = createFile(locPath, "S");
+			writeToFile(s, status.getSolvedVersion(fileName));
+			Path index = createFile(locPath, "index.html");
+			writeToFile(index, locIndexHtml.getIndex());
 		} catch (Exception e) {
 		}
+	}
+
+	private void writeToFile(Path a, String contents) throws IOException {
+		Files.write(a, contents.getBytes(), StandardOpenOption.WRITE);
+	}
+
+	private Path createFile(Path folder, String fileName) throws IOException {
+		Path a = folder.resolve(fileName);
+		a.toFile().createNewFile();
+		return a;
 	}
 
 }
