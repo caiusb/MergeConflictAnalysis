@@ -28,6 +28,7 @@ public class VisualizationDataGenerator {
 				Path filePath = commitPath.resolve(file);
 				filePath.toFile().mkdirs();
 				generateLOCData(locIndexHtml, status, file, filePath);
+				generateASTData(status, file, filePath);
 			}); 
 		});
 	}
@@ -46,6 +47,15 @@ public class VisualizationDataGenerator {
 			Path index = createFile(locPath, "index.html");
 			writeToFile(index, locIndexHtml.getIndex());
 		} catch (Exception e) {
+		}
+	}
+	
+	private void generateASTData(CommitStatus status, String file, Path pathToPopulate) {
+		Path astPath = pathToPopulate.resolve("ast");
+		astPath.toFile().mkdir();
+		try {
+			createFile(astPath, "index.html");
+		} catch (IOException e) {
 		}
 	}
 

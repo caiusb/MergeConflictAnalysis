@@ -133,21 +133,26 @@ public class VisualizationDataGeneratorTest extends MergeGitTest {
 		assertFileContains(locFolder, new LOCIndexHtml().getIndex(), "index.html");
 	}
 
-	private void assertFileContains(Path locFolder, String fileContents, String fileName) throws IOException {
-		Path aPath = locFolder.resolve(fileName);
+	private void assertFileContains(Path path, String fileContents, String fileName) throws IOException {
+		Path aPath = path.resolve(fileName);
 		byte[] bytes = Files.readAllBytes(aPath);
 		String aContents = new String(bytes);
 		assertEquals(fileContents, aContents);
 	}
 
 	private Path generateLOCPath() throws Exception {
+		Path fileFolder = generateFileFolder();
+		
+		Path locFolder = fileFolder.resolve("loc");
+		return locFolder;
+	}
+
+	private Path generateFileFolder() throws Exception {
 		RevCommit commit = createConflictingCommit();
 		CommitStatus commitStatus = new InMemoryMerger(repository).recreateMerge(commit);
 		new VisualizationDataGenerator().generateData(projectName, asList(commitStatus), tempFolderAbsolutePath);
 		Path fileFolder = resolveFileFolder(commit, getConflictingFileName(commitStatus));
-		
-		Path locFolder = fileFolder.resolve("loc");
-		return locFolder;
+		return fileFolder;
 	}
 
 	private String getConflictingFileName(CommitStatus commitStatus) {
@@ -157,5 +162,29 @@ public class VisualizationDataGeneratorTest extends MergeGitTest {
 	private List<CommitStatus> asList(CommitStatus commitStatus) {
 		return Arrays.asList(new CommitStatus[]{commitStatus});
 	}
+	
+	@Test
+	public void testCreateASTPath() throws Exception {
+		Path astFolder = generateASTFolder();
+		assertIsFolder(astFolder);
+	}
 
+	private Path generateASTFolder() throws Exception {
+		Path fileFolder = generateFileFolder();
+		Path astFolder = fileFolder.resolve("ast");
+		return astFolder;
+	}
+	
+	@Test
+	public void testCreateASTIndex() throws Exception {
+		Path astFolder = generateASTFolder();
+		Path index = astFolder.resolve("index.html");
+		assertTrue(index.toFile().exists());
+		assertFileContains(astFolder, "", "index.html");
+	}
+	
+	@Test
+	public void testCreateASTDiff() {
+		
+	}
 }
