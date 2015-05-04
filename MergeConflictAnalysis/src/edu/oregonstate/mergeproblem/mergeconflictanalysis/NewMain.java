@@ -69,7 +69,7 @@ public class NewMain {
 			logger.setLevel(Level.SEVERE);
 		}
 		
-		BufferedOutputStream outputStream = new BufferedOutputStream(System.out);;
+		BufferedOutputStream outputStream = new BufferedOutputStream(System.out);
 		if (outputFile != null) {
 			File file = new File(outputFile);
 			if (!file.exists())
