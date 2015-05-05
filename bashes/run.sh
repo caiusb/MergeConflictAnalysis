@@ -8,6 +8,19 @@ then
 	exit
 fi
 
+name=`uname`
+if [ $uname = Linux ]
+then
+    tmpfolder="/tmp/"
+elif[ $uname = Darwin ]
+    then
+    tmpfolder="/var/folders/"
+else
+    echo "Unsupported operating system."
+    exit -1
+fi
+
+
 repoloc=$(resolve-path $1)
 resultsloc=$(resolve-path $2 )
 results_suffix='.csv'
@@ -32,6 +45,8 @@ do
     git commit -m "Results as of $date" > /dev/null
     git push > /dev/null
     popd > /dev/null
+
+    find $tmpfolder -name '*java' -exec rm {} +
 done < $orderfile
 
 popd > /dev/null
