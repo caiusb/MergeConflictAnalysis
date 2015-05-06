@@ -29,7 +29,7 @@ function scatterPlot() {
 				attr("width", width);
 		
 			var xScale = d3.scale.linear()
-				.rangeRound([margin.left, getInnerWidth()])
+				.rangeRound([margin.left, getInnerWidth() - 200])
 				.domain([d3.min(data, xValue) - 1, d3.max(data,xValue) + 1]);
 			var yScale = d3.scale.linear()
 				.rangeRound([getInnerHeight(), margin.top])
