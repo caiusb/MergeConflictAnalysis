@@ -83,6 +83,8 @@ public class NewMain {
 			List<CommitStatus> statuses = recreateMergesInRepository(repositoryPath);
 			String results = processResults(statuses);
 			outputStream.write(results.getBytes());
+			outputStream.flush();
+			outputStream.close();
 			if (vizFolder != null)
 				generateDiffs(projectName, statuses);
 		}
