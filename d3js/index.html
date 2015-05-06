@@ -8,18 +8,17 @@
 </head>
 
 <body>
-	<div id="scatterplot"></div>
-  <div id="dataselection"></div>
+  <script src="http://d3js.org/d3.v3.min.js"></script>
 
-	<script src="http://d3js.org/d3.v3.min.js"></script>
-
-  <!-- Bootstrap -->
+  <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
-	<script src="scatterPlot.js"></script>
+  <script src="scatterPlot.js"></script>
   <script src="data-visualizer.js"></script>
+
+	<div id="scatterplot"></div>
 
 	<script>
   		//configure the plot
@@ -41,17 +40,17 @@
   			d.AST_B_TO_SOLVED = +d.AST_B_TO_SOLVED;
   		});
 
-		//data to be shown
-		myScatterPlot.xValue(xAxisFunction)
-			.yValue(yAxisFunction)
-			.label(function(d) { return d.PROJECT + "\n" + d.SHA + "\n" + d.FILE; })
-			.category(function(d) { return d.PROJECT; })
-      .clickAction(goToData);
+		  //data to be shown
+		  myScatterPlot.xValue(xAxisFunction)
+		    .yValue(yAxisFunction)
+		    .label(function(d) { return d.PROJECT + "\n" + d.SHA + "\n" + d.FILE; })
+		    .category(function(d) { return d.PROJECT; })
+        .clickAction(goToData);
 
-		d3.select("#scatterplot").datum(data).call(myScatterPlot);
+		  d3.select("#scatterplot").datum(data).call(myScatterPlot);
 	});
 
 
-  		</script>
-  	</body>
-  	</html>
+	</script>
+</body>
+</html>

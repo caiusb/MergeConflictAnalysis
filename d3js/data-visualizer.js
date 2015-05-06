@@ -7,4 +7,3 @@ function goToData(d) {
 	file = d.FILE;
 	window.location.href = "data/" + project + "/" + commit + "/" +file + "/loc/";
 }
-
