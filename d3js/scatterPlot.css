@@ -23,3 +23,8 @@ circle {
 	height: 28px;
 	pointer-events: none;
 }
+
+.overlay {
+	fill: none;
+	pointer-events: all;
+}

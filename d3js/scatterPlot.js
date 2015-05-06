@@ -23,17 +23,35 @@ function scatterPlot() {
 
 	var chart = function(selection) {
 		selection.each(function(data) {
-			var svg = d3.select(this).append("svg");
-
-			svg.attr("height", height).
-				attr("width", width);
-		
 			var xScale = d3.scale.linear()
 				.rangeRound([margin.left, getInnerWidth() - 200])
 				.domain([d3.min(data, xValue) - 1, d3.max(data,xValue) + 1]);
 			var yScale = d3.scale.linear()
 				.rangeRound([getInnerHeight(), margin.top])
 				.domain([d3.min(data, yValue) - 1, d3.max(data, yValue) + 1]);
+
+			var zoom = function() {
+				svg.select("g.x.axis").call(xAxis);
+				svg.select("g.y.axis").call(yAxis);
+				svg.selectAll("circle").attr("transform", circleTransform);
+			}
+
+			var svg = d3.select(this).append("svg")
+				.attr("height", height)
+				.attr("width", width)
+				.append("g")
+				.attr("height", getInnerHeight())
+				.attr("width", getInnerWidth())
+				.call(d3.behavior.zoom().x(xScale).y(yScale).scaleExtent([1, 8]).on("zoom", zoom));
+
+			svg.append("rect")
+    			.attr("class", "overlay")
+    			.attr("width", getInnerWidth())
+    			.attr("height", getInnerHeight());
+
+			var circleTransform = function(d) {
+				return "translate(" + xScale(xValue(d)) + "," + yScale(yValue(d)) + ")";
+			};
 
 			var color = d3.scale.category20();
 			color.domain(data.map(function(d) { return category(d); }));
@@ -47,13 +65,8 @@ function scatterPlot() {
 				.enter()
 				.append("circle")
 				.style("fill", function(d) { return color(category(d)); })
+				.attr("transform", circleTransform)
 				.attr("r", circleRadius)
-				.attr("cx", function(d) {
-					return xScale(xValue(d));
-				})
-				.attr("cy", function(d) {
-					return yScale(yValue(d));
-				})
 				.on("mouseover", function(d) {
 					tooltip.transition()
 						.duration(200)
@@ -84,6 +97,7 @@ function scatterPlot() {
 			svg.append("g")
 				.attr("class","axis")
 				.attr("transform","translate(" + margin.left + ",0)")
+				.call(d3.behavior.zoom().x(xScale).y(yScale).scaleExtent([1, 8]).on("zoom", zoom))
 				.call(yAxis);
 
 			var legend = svg.selectAll(".legend")
