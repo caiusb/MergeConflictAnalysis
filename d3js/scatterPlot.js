@@ -26,9 +26,16 @@ function scatterPlot() {
 			var xScale = d3.scale.linear()
 				.rangeRound([margin.left, getInnerWidth() - 200])
 				.domain([d3.min(data, xValue) - 1, d3.max(data,xValue) + 1]);
+			var xAxis = d3.svg.axis()
+				.scale(xScale)
+				.orient("bottom");
+
 			var yScale = d3.scale.linear()
 				.rangeRound([getInnerHeight(), margin.top])
 				.domain([d3.min(data, yValue) - 1, d3.max(data, yValue) + 1]);
+			var yAxis = d3.svg.axis()
+				.scale(yScale)
+				.orient("left");
 
 			var zoom = function() {
 				svg.select("g.x.axis").call(xAxis);
@@ -83,21 +90,14 @@ function scatterPlot() {
 				})
 				.on("click", clickAction);
 
-			var xAxis = d3.svg.axis()
-				.scale(xScale)
-				.orient("bottom");
 			svg.append("g")
-				.attr("class","axis")
+				.attr("class","x axis")
 				.attr("transform","translate(0," + getInnerHeight() + ")")
 				.call(xAxis);
-
-			var yAxis = d3.svg.axis()
-				.scale(yScale)
-				.orient("left");
+			
 			svg.append("g")
-				.attr("class","axis")
+				.attr("class","y axis")
 				.attr("transform","translate(" + margin.left + ",0)")
-				.call(d3.behavior.zoom().x(xScale).y(yScale).scaleExtent([1, 8]).on("zoom", zoom))
 				.call(yAxis);
 
 			var legend = svg.selectAll(".legend")
