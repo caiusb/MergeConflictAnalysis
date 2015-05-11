@@ -78,6 +78,7 @@ function scatterPlot() {
 
 				var configureCircle = function(circle) {
 					circle.style("fill", function(d) { return color(category(d)); })
+						.style("fill-opacity",1e-6)
 						.attr("transform", circleTransform)
 						.attr("r", circleRadius)
 						.on("mouseover", function(d) {
@@ -94,7 +95,9 @@ function scatterPlot() {
 								.duration(200)
 								.style("opacity",0);
 						})
-						.on("click", clickAction);
+						.on("click", clickAction)
+						.transition()
+						.style("fill-opacity", 1);
 				}
 
 			var circle = svg.selectAll(".dot")
@@ -121,7 +124,8 @@ function scatterPlot() {
 				.enter()
 				.append("g")
 				.attr("class", "legend")
-				.attr("transform", function(d,i) { return "translate(0," + i *20 + ")"; });
+				.attr("transform", function(d,i) { return "translate(0," + i *20 + ")"; })
+				.attr("height", getInnerHeight());
 			legend.append("rect")
 				.attr("x",width - 18)
 				.attr("width",18)
@@ -138,7 +142,7 @@ function scatterPlot() {
 						});
 					newCircle = svg.selectAll("circle").data(newData, dataKey);
 					newCircle.transition().duration(2000);
-					newCircle.exit().remove();
+					newCircle.exit().transition().style("fill-opacity", 1e-6).remove();
 					configureCircle(newCircle.enter().append("circle"));
 				});
 

@@ -8,7 +8,7 @@ function dataKey (d) {
 }
 
 function createTableHead(columns) {
-	var table = d3.select("body").append("table");
+	var table = d3.select("body").append("table").attr("class","table table-bordered table-hover");
 	head = table.append("thead");
 	table.append("tbody");
 
@@ -47,8 +47,6 @@ function tabulate(data, columns) {
 }
 
 function showTable(d) {
-	//window.location.href = "data/" + project + "/" + commit + "/" +file + "/loc/";
-
 	points = d3.selectAll("circle").data()
 		.filter(function (data) {
 			return (xAxisFunction(data) == xAxisFunction(d) && yAxisFunction(data) == yAxisFunction(d));
@@ -59,7 +57,7 @@ function showTable(d) {
 
 function drawPlot() {
 	var myScatterPlot = scatterPlot()
-		.height(700)
+		.height(600)
 		.width(parseInt(d3.select("body").style("width")))
 		.circleRadius(4);
 

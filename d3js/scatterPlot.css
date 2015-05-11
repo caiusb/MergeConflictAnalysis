@@ -28,3 +28,7 @@ circle {
 	fill: none;
 	pointer-events: all;
 }
+
+legend {
+	overflow: auto;
+}
