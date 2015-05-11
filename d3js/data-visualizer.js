@@ -1,27 +1,16 @@
 var xAxisFunction = function(d) { return d.LOC_A_TO_SOLVED; }
 var yAxisFunction = function(d) { return d.LOC_B_TO_SOLVED; }
 
-var columnsToTabulate = ["PROJECT", "SHA", "FILE", "AST", "LOC"];
+var columnsToTabulate = ["PROJECT", "SHA", "FILE", "AST_A_TO_SOLVED", "AST_B_TO_SOLVED"];
 
 function dataKey (d) { 
 	return d.SHA + d.PROJECT + d.FILE; 
 }
 
-function getProjectName(d) {
-	return d.PROJECT;
-}
-
-function getFile(d) {
-	return d.FILE;
-}
-
-function getSHA(d) {
-	return d.SHA;
-}
-
 function createTableHead(columns) {
 	var table = d3.select("body").append("table");
 	head = table.append("thead");
+	table.append("tbody");
 
 	head.append("tr")
 		.selectAll("th")
@@ -33,10 +22,18 @@ function createTableHead(columns) {
 
 function tabulate(data, columns) {
 
-	dataRows = body.selectAll("tr").data(points, dataKey);
-	//dataRows.exit().remove();
+	dataRows = d3.select("tbody").selectAll("tr").data(points, dataKey);
+	dataRows.exit().remove();
 	rows = dataRows.enter().append("tr");
-	rows.selectAll("td");
+	rows.selectAll("td")
+		.data(function (row) {
+			return columns.map(function (column) {
+				return {column: column, value: row[column]};
+			});
+		})
+		.enter()
+		.append("td")
+		.html(function (d) { return  d.value; });
 }
 
 function goToData(d) {
