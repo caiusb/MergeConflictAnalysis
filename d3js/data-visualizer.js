@@ -36,7 +36,7 @@ function tabulate(data, columns) {
 		.html(function (d) { return  d.value; });
 }
 
-function goToData(d) {
+function showTable(d) {
 	project = d.PROJECT;
 	commit = d.SHA;
 	file = d.FILE;
@@ -75,7 +75,7 @@ function drawPlot() {
 	    	.label(function (d) { return d.PROJECT + "\n" + d.SHA + "\n" + d.FILE; })
 	    	.category(function (d) { return d.PROJECT; })
 	    	.dataKey(dataKey)
-			.clickAction(goToData);
+			.clickAction(showTable);
 
 		myScatterPlot.legends=[];
 
