@@ -2,6 +2,7 @@ function scatterPlot() {
 
 	var height = 500;
 	var width = 900;
+	var legendWidth = 200;
 
 	var margin = {top: 20, left: 30, right: 30, bottom: 20};
 
@@ -28,7 +29,7 @@ function scatterPlot() {
 			var initialData = data;
 
 			var xScale = d3.scale.linear()
-				.rangeRound([margin.left, getInnerWidth() - 200])
+				.rangeRound([margin.left, getInnerWidth() - legendWidth])
 				.domain([d3.min(data, xValue) - 1, d3.max(data,xValue) + 1]);
 			var xAxis = d3.svg.axis()
 				.scale(xScale)
@@ -56,10 +57,20 @@ function scatterPlot() {
 				.attr("width", getInnerWidth())
 				.call(d3.behavior.zoom().x(xScale).y(yScale).scaleExtent([1, 8]).on("zoom", zoom));
 
+			var clip = svg.append("clipPath")
+				.attr("id","clip")
+				.append("rect")
+				.attr("x", margin.left)
+				.attr("y", margin.top)
+				.attr("width", getInnerWidth() - legendWidth)
+				.attr("height", getInnerHeight() - margin.top);
+
 			svg.append("rect")
     			.attr("class", "overlay")
-    			.attr("width", getInnerWidth())
-    			.attr("height", getInnerHeight());
+    			.attr("x", margin.left)
+    			.attr("y", margin.top)
+    			.attr("width", getInnerWidth() - legendWidth)
+    			.attr("height", getInnerHeight() - margin.top);
 
 			var circleTransform = function(d) {
 				return "translate(" + xScale(xValue(d)) + "," + yScale(yValue(d)) + ")";
@@ -100,7 +111,10 @@ function scatterPlot() {
 						.style("fill-opacity", 1);
 				}
 
-			var circle = svg.selectAll(".dot")
+			var circle = svg
+				.append("g")
+				.attr("clip-path", "url(#clip)")
+				.selectAll(".dot")	
 				.data(data, dataKey)
 				.enter()
 				.append("circle");
