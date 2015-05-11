@@ -1,7 +1,7 @@
 var xAxisFunction = function(d) { return d.LOC_A_TO_SOLVED; }
 var yAxisFunction = function(d) { return d.LOC_B_TO_SOLVED; }
 
-var columnsToTabulate = ["PROJECT", "SHA", "FILE", "AST_A_TO_SOLVED", "AST_B_TO_SOLVED"];
+var columnsToTabulate = ["PROJECT", "SHA", "FILE", "LOC_A_TO_SOLVED", "LOC_B_TO_SOLVED", "AST", "LOC"];
 
 function dataKey (d) { 
 	return d.SHA + d.PROJECT + d.FILE; 
@@ -28,7 +28,17 @@ function tabulate(data, columns) {
 	rows.selectAll("td")
 		.data(function (row) {
 			return columns.map(function (column) {
-				return {column: column, value: row[column]};
+				project = row.PROJECT;
+				commit = row.SHA;
+				file = row.FILE;
+				stub = "<a href=\"data/" + project + "/" + commit + "/" + file;
+				if (column == "AST")
+					value = stub + "/ast/\">AST</a>" ;
+				else if (column == "LOC")
+					value = stub + "/loc/\">LOC</a>";
+				else 
+					value = row[column];
+ 				return {column: column, value: value};
 			});
 		})
 		.enter()
@@ -37,9 +47,6 @@ function tabulate(data, columns) {
 }
 
 function showTable(d) {
-	project = d.PROJECT;
-	commit = d.SHA;
-	file = d.FILE;
 	//window.location.href = "data/" + project + "/" + commit + "/" +file + "/loc/";
 
 	points = d3.selectAll("circle").data()
