@@ -10,7 +10,7 @@ function goToData(d) {
 
 function drawPlot() {
 	var myScatterPlot = scatterPlot()
-		.height(600)
+		.height(700)
 		.width(parseInt(d3.select("body").style("width")))
 		.circleRadius(4);
 
@@ -30,8 +30,9 @@ function drawPlot() {
 	  	//data to be shown
 	  	myScatterPlot.xValue(xAxisFunction)
 	    	.yValue(yAxisFunction)
-	    	.label(function(d) { return d.PROJECT + "\n" + d.SHA + "\n" + d.FILE; })
-	    	.category(function(d) { return d.PROJECT; })
+	    	.label(function (d) { return d.PROJECT + "\n" + d.SHA + "\n" + d.FILE; })
+	    	.category(function (d) { return d.PROJECT; })
+	    	.dataKey(function (d) { return d.SHA + d.PROJECT + d.FILE; })
 			.clickAction(goToData);
 
 		myScatterPlot.legends=[];

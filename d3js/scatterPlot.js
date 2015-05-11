@@ -20,9 +20,12 @@ function scatterPlot() {
 	var label = function(d) { return d.label; } 
 	var category = function(d) { return d.category; }
 	var clickAction = function(d) {}
+	var dataKey = function(d) { return d; }
 
 	var chart = function(selection) {
 		selection.each(function(data) {
+
+			var initialData = data;
 
 			var xScale = d3.scale.linear()
 				.rangeRound([margin.left, getInnerWidth() - 200])
@@ -41,7 +44,8 @@ function scatterPlot() {
 			var zoom = function() {
 				svg.select("g.x.axis").call(xAxis);
 				svg.select("g.y.axis").call(yAxis);
-				svg.selectAll("circle").attr("transform", circleTransform);
+				circle = svg.selectAll("circle");
+				circle.attr("transform", circleTransform);
 			}
 
 			var svg = d3.select(this).append("svg")
@@ -64,10 +68,8 @@ function scatterPlot() {
 			var color = d3.scale.category20();
 			color.domain(data.map(function(d) { return category(d); }));
 			var isVisible = {};
-			var colors = {}
-			color.domain().map(function (name) {
+			color.domain().forEach(function (name) {
 				isVisible[name] = true;
-				colors[name] = color(name);
 			});
 
 			var tooltip = d3.select("body").append("div")
@@ -75,7 +77,7 @@ function scatterPlot() {
 				.style("opacity", 0);
 
 				var configureCircle = function(circle) {
-					circle.style("fill", function(d) { return colors[category(d)]; })
+					circle.style("fill", function(d) { return color(category(d)); })
 						.attr("transform", circleTransform)
 						.attr("r", circleRadius)
 						.on("mouseover", function(d) {
@@ -96,7 +98,7 @@ function scatterPlot() {
 				}
 
 			var circle = svg.selectAll(".dot")
-				.data(data)
+				.data(data, dataKey)
 				.enter()
 				.append("circle");
 			configureCircle(circle);
@@ -112,7 +114,7 @@ function scatterPlot() {
 				.call(yAxis);
 
 			var legendColorFunction = function(d) { 
-				return isVisible[d] ? colors[d] : "#F1F2F2"
+				return isVisible[d] ? color(d) : "#F1F2F2"
 			};
 			var legend = svg.selectAll(".legend")
 				.data(color.domain())
@@ -127,18 +129,17 @@ function scatterPlot() {
 				.style("fill", legendColorFunction)
 				.on("click", function(d) {
 					isVisible[d] = !isVisible[d];
-					legend.select("rect")
-						.style("fill", legendColorFunction)
+					d3.select(this).transition().duration(500)
+						.style("fill", legendColorFunction);
 
-					var newData = d3.selectAll("circle")
-						.data()
+					var newData = initialData
 						.filter(function (d) {
-							if (isVisible[d.PROJECT])
-								return d;
-							return null;
-						})
-					d3.selectAll("circle").data(newData).exit().remove();
-					configureCircle(d3.selectAll("circle").data(newData).enter().append("circle"));
+							return isVisible[d.PROJECT];
+						});
+					newCircle = svg.selectAll("circle").data(newData, dataKey);
+					newCircle.transition().duration(2000);
+					newCircle.exit().remove();
+					configureCircle(newCircle.enter().append("circle"));
 				});
 
 
@@ -204,6 +205,13 @@ function scatterPlot() {
 		if (arguments.length == 0)
 			return clickAction;
 		clickAction = newClickActionFunction;
+		return chart;
+	}
+
+	chart.dataKey = function(newDataKeyFunction) {
+		if (arguments.length == 0)
+			return dataKey;
+		dataKey = newDataKeyFunction;
 		return chart;
 	}
 
