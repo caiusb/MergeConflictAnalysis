@@ -108,7 +108,7 @@ public class NewMain {
 	}
 
 	private String processResults(List<CommitStatus> statuses) {
-		String result = "SHA, FILE, LOC_A_TO_B, LOC_A_TO_SOLVED, LOC_B_TO_SOLVED, AST_A_TO_B, AST_A_TO_SOLVED, AST_B_TO_SOLVED\n";
+		String result = "SHA, FILE, TIME_A, TIME_B, TIME_SOLVED, LOC_A_TO_B, LOC_A_TO_SOLVED, LOC_B_TO_SOLVED, AST_A_TO_B, AST_A_TO_SOLVED, AST_B_TO_SOLVED\n";
 		result += statuses.stream().parallel().map((status) ->{
 			String statusResult = status.getListOfConflictingFiles().stream()
 				.filter((file) -> file.endsWith("java"))
@@ -130,7 +130,7 @@ public class NewMain {
 		String bVersion = combinedFile.getVersion(ChunkOwner.B);
 		String locDiff = getDiff(solvedVersion, aVersion, bVersion, (a, b) -> getLOCDiffSize(a, b));
 		String astDiff = getDiff(solvedVersion, aVersion, bVersion, (a, b) -> getASTDIffSize(a, b));
-		return status.getSHA1() + "," + fileName + "," + locDiff + "," + astDiff;
+		return status.getSHA1() + "," + combinedFile.getATime() + "," + combinedFile.getBTime() + "," + status.getSolvedTime() + "," + fileName + "," + locDiff + "," + astDiff;
 	}
 	
 	private String getDiff(String solvedVersion, String aVersion, String bVersion, BiFunction<String, String, Integer> diffFunction) {
