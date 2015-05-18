@@ -3,6 +3,9 @@ resultsFolder = "../../results"
 files <- list.files(path=resultsFolder, pattern="*.csv", full.names=T, recursive=FALSE)
 data <- data.frame(SHA = character(0),
                    FILE = character(0),
+                   TIME_A = integer(0),
+                   TIME_B = integer(0),
+                   TIME_SOLVED = integer(0),
                    LOC_A_TO_B = integer(0),
                    LOC_A_TO_SOLVED = integer(0),
                    LOC_B_TO_SOLVED = integer(0),
