@@ -130,7 +130,7 @@ public class NewMain {
 		String bVersion = combinedFile.getVersion(ChunkOwner.B);
 		String locDiff = getDiff(solvedVersion, aVersion, bVersion, (a, b) -> getLOCDiffSize(a, b));
 		String astDiff = getDiff(solvedVersion, aVersion, bVersion, (a, b) -> getASTDIffSize(a, b));
-		return status.getSHA1() + "," + combinedFile.getATime() + "," + combinedFile.getBTime() + "," + status.getSolvedTime() + "," + fileName + "," + locDiff + "," + astDiff;
+		return status.getSHA1() + "," + fileName + "," + combinedFile.getATime() + "," + combinedFile.getBTime() + "," + status.getSolvedTime() + "," + locDiff + "," + astDiff;
 	}
 	
 	private String getDiff(String solvedVersion, String aVersion, String bVersion, BiFunction<String, String, Integer> diffFunction) {
