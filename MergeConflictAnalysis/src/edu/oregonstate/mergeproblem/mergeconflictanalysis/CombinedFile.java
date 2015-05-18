@@ -31,6 +31,8 @@ class CombinedFile implements JSONAware {
 	}
 
 	private List<Chunk> chunks = new ArrayList<Chunk>();
+	private int aTime;
+	private int bTime;
 
 	public void addChunk(ChunkOwner owner, String content) {
 		chunks.add(new Chunk(owner, content));
@@ -41,6 +43,22 @@ class CombinedFile implements JSONAware {
 				.map((chunk) -> chunk.getContent())
 				.collect(Collectors.joining());
 		return version;
+	}
+	
+	public void setATime(int time) {
+		this.aTime = time;
+	}
+	
+	public int getATime() {
+		return aTime;
+	}
+	
+	public void setBTime(int time) {
+		this.bTime = time;
+	}
+	
+	public int getBTime() {
+		return bTime;
 	}
 
 	@Override

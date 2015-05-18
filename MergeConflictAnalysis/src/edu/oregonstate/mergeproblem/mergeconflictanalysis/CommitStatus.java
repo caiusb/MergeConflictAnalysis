@@ -16,11 +16,13 @@ public class CommitStatus implements JSONAware {
 	private String sha1;
 	private Map<String, CombinedFile> conflictingFiles;
 	private Map<String, String> solvedVersions;
+	private int time;
 	
-	public CommitStatus(Repository repository, String sha1, Map<String, CombinedFile> conflictingFiles) {
+	public CommitStatus(Repository repository, String sha1, Map<String, CombinedFile> conflictingFiles, int time) {
 		this.sha1 = sha1;
 		this.conflictingFiles = conflictingFiles;
 		this.solvedVersions = new HashMap<String, String>(conflictingFiles.size());
+		this.time = time;
 		Set<String> conflictingFilesSet = conflictingFiles.keySet();
 		for (String file : conflictingFilesSet) {
 			String fileContents = FileRetriver.retrieveFile(repository, sha1, file);

@@ -51,7 +51,7 @@ public class VisualizationDataGeneratorTest extends MergeGitTest {
 	
 	@Test
 	public void testCreateCommitFolder() {
-		CommitStatus commitStatus = new CommitStatus(null, "abcde", new HashMap<String, CombinedFile>());
+		CommitStatus commitStatus = new CommitStatus(null, "abcde", new HashMap<String, CombinedFile>(), -1);
 		generator.generateData(projectName, asList(commitStatus), tempFolderAbsolutePath);
 		Path commitPath = tempDirectory.resolve(projectName).resolve("abcde");
 		assertIsFolder(commitPath);

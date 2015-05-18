@@ -32,7 +32,7 @@ public class InMemoryMerger {
 			throw new IllegalArgumentException();
 		
 		try {
-			return new CommitStatus(repository, mergeCommit.getName(), merge(parents[0], parents[1]));
+			return new CommitStatus(repository, mergeCommit.getName(), merge(parents[0], parents[1]), mergeCommit.getCommitTime());
 		} catch (IOException e) {
 			return null;
 		}
@@ -43,24 +43,28 @@ public class InMemoryMerger {
 		
 		RecursiveMerger recursiveMerger = (RecursiveMerger) new StrategyRecursive().newMerger(repository, true);
 		
-		if (first.getCommitTime() < second.getCommitTime())
-			recursiveMerger.merge(second,first);
-		else
-			recursiveMerger.merge(first, second);
+		if (first.getCommitTime() < second.getCommitTime()) {
+			RevCommit tmp = second; 
+			second = first;
+			first = tmp;
+		}		
+		recursiveMerger.merge(first,second);
 		
 		Map<String, MergeResult<? extends Sequence>> mergeResults = recursiveMerger.getMergeResults();
 		for (String touchedFile : mergeResults.keySet()) {
 			MergeResult<? extends Sequence> mergeResult = mergeResults.get(touchedFile);
-			CombinedFile fileResult = processMergeResult(mergeResult);
+			CombinedFile fileResult = processMergeResult(first, second, mergeResult);
 			results.put(touchedFile, fileResult);
 		}
 		
 		return results;
 	}
 
-	private CombinedFile processMergeResult(MergeResult<? extends Sequence> mergeResult) {
+	private CombinedFile processMergeResult(RevCommit first, RevCommit second, MergeResult<? extends Sequence> mergeResult) {
 		List<? extends Sequence> sequences = mergeResult.getSequences();
 		CombinedFile combinedFile = new CombinedFile();
+		combinedFile.setATime(first.getCommitTime());
+		combinedFile.setBTime(second.getCommitTime());
 		mergeResult.forEach((chunk) -> processChunk(chunk, sequences, combinedFile));
 		
 		return combinedFile;
