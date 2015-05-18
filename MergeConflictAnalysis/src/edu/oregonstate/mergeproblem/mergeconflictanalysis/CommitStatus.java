@@ -47,6 +47,10 @@ public class CommitStatus implements JSONAware {
 	public String getSHA1() {
 		return sha1;
 	}
+	
+	public int getSolvedTime() {
+		return time;
+	}
 
 	public String toJSONString() {
 		String json = "{";
