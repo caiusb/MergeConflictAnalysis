@@ -131,20 +131,4 @@ public class NewMain {
 		String basicData = basicDataProcessor.getDataForMerge(status, fileName);
 		return basicData + "," + locDiff + "," + astDiff;
 	}
-	
-	private String getDiff(String solvedVersion, String aVersion, String bVersion, BiFunction<String, String, Integer> diffFunction) {
-		int aToB = -1;
-		int aToSolved = -1;
-		int bToSolved = -1;
-		
-		if (aVersion != null && bVersion != null) {
-			aToB = diffFunction.apply(aVersion, bVersion);
-			if (solvedVersion != null) {
-				aToSolved = diffFunction.apply(aVersion, solvedVersion);
-				bToSolved = diffFunction.apply(bVersion, solvedVersion);
-			}
-		}
-		String locDiff = aToB + "," + aToSolved + "," + bToSolved;
-		return locDiff;
-	}
-}
+}	
