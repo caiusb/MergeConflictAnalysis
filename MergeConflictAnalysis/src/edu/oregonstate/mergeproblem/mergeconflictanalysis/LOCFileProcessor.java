@@ -17,7 +17,7 @@ public class LOCFileProcessor extends DiffFileProcessor {
 	@Override
 	public String getDataForMerge(CommitStatus status, String fileName) {
 		CombinedFile combinedFile = status.getCombinedFile(fileName);
-		String locDiff = getDiff(status.getSolvedVersion(fileName), combinedFile.getVersion(ChunkOwner.A), combinedFile.getVersion(ChunkOwner.BOTH), (a, b) -> getLOCDiffSize(a, b));
+		String locDiff = getDiff(status.getSolvedVersion(fileName), combinedFile.getVersion(ChunkOwner.A), combinedFile.getVersion(ChunkOwner.B), (a, b) -> getLOCDiffSize(a, b));
 		return locDiff;
 	}
 
