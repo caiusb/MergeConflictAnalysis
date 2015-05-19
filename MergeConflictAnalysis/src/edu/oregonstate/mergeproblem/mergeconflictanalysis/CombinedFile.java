@@ -60,7 +60,7 @@ class CombinedFile implements JSONAware {
 	public int getBTime() {
 		return bTime;
 	}
-
+	
 	@Override
 	public String toJSONString() {
 		return "{\"A-only\": " + JSONObject.escape(getVersion(ChunkOwner.A)) +
