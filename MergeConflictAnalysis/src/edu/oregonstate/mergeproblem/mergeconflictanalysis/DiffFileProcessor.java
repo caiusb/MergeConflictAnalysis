@@ -20,4 +20,12 @@ public abstract class DiffFileProcessor implements FileProcessor {
 		return locDiff;
 	}
 
+	@Override
+	public String getDataForMerge(CommitStatus status, String fileName) {
+		CombinedFile combinedFile = status.getCombinedFile(fileName);
+		String diff = getDiff(status.getSolvedVersion(fileName), combinedFile.getVersion(ChunkOwner.A), combinedFile.getVersion(ChunkOwner.B), (a, b) -> getDiffSize(a, b));
+		return diff;
+	}
+	
+	public abstract int getDiffSize(String aContent, String bContent);
 }
