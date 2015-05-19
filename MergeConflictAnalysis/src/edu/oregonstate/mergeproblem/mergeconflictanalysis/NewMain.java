@@ -26,6 +26,10 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.ASTFileProcessor;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.DiffFileProcessor;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.LOCFileProcessor;
+
 public class NewMain {
 	
 	@Option(name="-viz-folder", usage="Where the files for the visualization will be generated")

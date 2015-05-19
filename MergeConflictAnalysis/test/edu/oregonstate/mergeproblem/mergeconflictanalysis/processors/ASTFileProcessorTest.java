@@ -1,8 +1,13 @@
-package edu.oregonstate.mergeproblem.mergeconflictanalysis;
+package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors;
 
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
+
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.CommitStatus;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.InMemoryMerger;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.MergeGitTest;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.ASTFileProcessor;
 
 public class ASTFileProcessorTest extends MergeGitTest {
 	

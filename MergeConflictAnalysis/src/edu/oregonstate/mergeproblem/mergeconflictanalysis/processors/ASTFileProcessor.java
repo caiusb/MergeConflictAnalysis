@@ -1,6 +1,8 @@
-package edu.oregonstate.mergeproblem.mergeconflictanalysis;
+package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors;
 
 import java.io.IOException;
+
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.ASTDiff;
 
 public class ASTFileProcessor extends DiffFileProcessor {
 

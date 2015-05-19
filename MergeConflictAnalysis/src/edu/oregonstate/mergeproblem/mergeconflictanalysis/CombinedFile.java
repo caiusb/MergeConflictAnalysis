@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import org.json.simple.JSONAware;
 import org.json.simple.JSONObject;
 
-class CombinedFile implements JSONAware {
+public class CombinedFile implements JSONAware {
 
 	private class Chunk {
 		private ChunkOwner owner;

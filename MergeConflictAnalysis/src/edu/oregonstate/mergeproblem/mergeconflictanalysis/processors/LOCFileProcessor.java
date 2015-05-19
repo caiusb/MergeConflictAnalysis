@@ -1,4 +1,4 @@
-package edu.oregonstate.mergeproblem.mergeconflictanalysis;
+package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors;
 
 import org.eclipse.jgit.diff.DiffAlgorithm;
 import org.eclipse.jgit.diff.RawText;
