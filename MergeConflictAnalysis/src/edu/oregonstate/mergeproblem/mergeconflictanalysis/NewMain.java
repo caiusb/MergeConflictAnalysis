@@ -27,8 +27,6 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
 public class NewMain {
-
-	private static DiffAlgorithm diffAlgorithm = DiffAlgorithm.getAlgorithm(SupportedAlgorithm.MYERS);
 	
 	@Option(name="-viz-folder", usage="Where the files for the visualization will be generated")
 	private String vizFolder = null;
@@ -46,6 +44,8 @@ public class NewMain {
 	private List<String> repositories = new ArrayList<String>();
 	
 	private static Logger logger = Logger.getLogger("edu.oregonstate.mergeproblem");
+
+	private LOCFileProcessor locFileProcessor = new LOCFileProcessor();;
 	
 	public static void main(String[] args) throws Exception {
 		new NewMain().doMain(args);
@@ -128,7 +128,7 @@ public class NewMain {
 		CombinedFile combinedFile = status.getCombinedFile(fileName);
 		String aVersion = combinedFile.getVersion(ChunkOwner.A);
 		String bVersion = combinedFile.getVersion(ChunkOwner.B);
-		String locDiff = getDiff(solvedVersion, aVersion, bVersion, (a, b) -> getLOCDiffSize(a, b));
+		String locDiff = locFileProcessor.getDataForMerge(status, fileName);
 		String astDiff = getDiff(solvedVersion, aVersion, bVersion, (a, b) -> getASTDIffSize(a, b));
 		return status.getSHA1() + "," + fileName + "," + combinedFile.getATime() + "," + combinedFile.getBTime() + "," + status.getSolvedTime() + "," + locDiff + "," + astDiff;
 	}
@@ -149,10 +149,6 @@ public class NewMain {
 		return locDiff;
 	}
 
-	private int getLOCDiffSize(String aVersion, String bVersion) {
-		return diffAlgorithm.diff(RawTextComparator.DEFAULT, new RawText(aVersion.getBytes()), new RawText(bVersion.getBytes())).size();
-	}
-	
 	private int getASTDIffSize(String aVersion, String bVersion) {
 		try {
 			return new ASTDiff().getActions(aVersion, bVersion).size();
