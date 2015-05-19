@@ -1,4 +1,5 @@
 source("distance-metrics.R")
+source("time-metrics.R")
 
 resultsFolder = "../../results"
 
@@ -32,4 +33,5 @@ data <- data[data$LOC_A_TO_SOLVED >= 0, ]
 data <- data[data$LOC_B_TO_SOLVED >= 0, ]
 data <- data[data$LOC_A_TO_B >= 0, ]
 
-plotDistanceMetrics(data);
+plotDistanceMetrics(data)
+data = plotTimeMetrics(data)
