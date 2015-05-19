@@ -45,7 +45,8 @@ public class NewMain {
 	
 	private static Logger logger = Logger.getLogger("edu.oregonstate.mergeproblem");
 
-	private LOCFileProcessor locFileProcessor = new LOCFileProcessor();;
+	private DiffFileProcessor locFileProcessor = new LOCFileProcessor();
+	private ASTFileProcessor astFileProcessor = new ASTFileProcessor();
 	
 	public static void main(String[] args) throws Exception {
 		new NewMain().doMain(args);
@@ -129,7 +130,7 @@ public class NewMain {
 		String aVersion = combinedFile.getVersion(ChunkOwner.A);
 		String bVersion = combinedFile.getVersion(ChunkOwner.B);
 		String locDiff = locFileProcessor.getDataForMerge(status, fileName);
-		String astDiff = getDiff(solvedVersion, aVersion, bVersion, (a, b) -> getASTDIffSize(a, b));
+		String astDiff = astFileProcessor.getDataForMerge(status, fileName);
 		return status.getSHA1() + "," + fileName + "," + combinedFile.getATime() + "," + combinedFile.getBTime() + "," + status.getSolvedTime() + "," + locDiff + "," + astDiff;
 	}
 	
@@ -147,13 +148,5 @@ public class NewMain {
 		}
 		String locDiff = aToB + "," + aToSolved + "," + bToSolved;
 		return locDiff;
-	}
-
-	private int getASTDIffSize(String aVersion, String bVersion) {
-		try {
-			return new ASTDiff().getActions(aVersion, bVersion).size();
-		} catch (IOException e) {
-			return -1;
-		}
 	}
 }
