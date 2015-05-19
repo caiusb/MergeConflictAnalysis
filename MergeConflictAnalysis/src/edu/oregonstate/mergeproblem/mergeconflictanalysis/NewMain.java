@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiFunction;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -15,10 +14,6 @@ import java.util.logging.StreamHandler;
 import java.util.stream.Collectors;
 
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.diff.DiffAlgorithm;
-import org.eclipse.jgit.diff.DiffAlgorithm.SupportedAlgorithm;
-import org.eclipse.jgit.diff.RawText;
-import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.kohsuke.args4j.Argument;
@@ -27,6 +22,7 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.ASTFileProcessor;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.BasicDataProcessor;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.DiffFileProcessor;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.LOCFileProcessor;
 
@@ -51,6 +47,7 @@ public class NewMain {
 
 	private DiffFileProcessor locFileProcessor = new LOCFileProcessor();
 	private ASTFileProcessor astFileProcessor = new ASTFileProcessor();
+	private BasicDataProcessor basicDataProcessor = new BasicDataProcessor();
 	
 	public static void main(String[] args) throws Exception {
 		new NewMain().doMain(args);
@@ -113,7 +110,7 @@ public class NewMain {
 	}
 
 	private String processResults(List<CommitStatus> statuses) {
-		String result = "SHA, FILE, TIME_A, TIME_B, TIME_SOLVED, LOC_A_TO_B, LOC_A_TO_SOLVED, LOC_B_TO_SOLVED, AST_A_TO_B, AST_A_TO_SOLVED, AST_B_TO_SOLVED\n";
+		String result = basicDataProcessor + ", " + locFileProcessor.getHeader() + ", " + astFileProcessor.getHeader() +"\n";
 		result += statuses.stream().parallel().map((status) ->{
 			String statusResult = status.getListOfConflictingFiles().stream()
 				.filter((file) -> file.endsWith("java"))
@@ -129,13 +126,10 @@ public class NewMain {
 	}
 	
 	private String processFile(CommitStatus status, String fileName) {
-		String solvedVersion = status.getSolvedVersion(fileName);
-		CombinedFile combinedFile = status.getCombinedFile(fileName);
-		String aVersion = combinedFile.getVersion(ChunkOwner.A);
-		String bVersion = combinedFile.getVersion(ChunkOwner.B);
 		String locDiff = locFileProcessor.getDataForMerge(status, fileName);
 		String astDiff = astFileProcessor.getDataForMerge(status, fileName);
-		return status.getSHA1() + "," + fileName + "," + combinedFile.getATime() + "," + combinedFile.getBTime() + "," + status.getSolvedTime() + "," + locDiff + "," + astDiff;
+		String basicData = basicDataProcessor.getDataForMerge(status, fileName);
+		return basicData + "," + locDiff + "," + astDiff;
 	}
 	
 	private String getDiff(String solvedVersion, String aVersion, String bVersion, BiFunction<String, String, Integer> diffFunction) {
