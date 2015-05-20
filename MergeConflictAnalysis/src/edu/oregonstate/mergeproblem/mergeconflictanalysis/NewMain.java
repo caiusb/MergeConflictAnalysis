@@ -45,7 +45,7 @@ public class NewMain {
 	
 	private static Logger logger = Logger.getLogger("edu.oregonstate.mergeproblem");
 
-	private DiffFileProcessor locFileProcessor = new LOCFileProcessor();
+	private LOCFileProcessor locFileProcessor = new LOCFileProcessor();
 	private ASTFileProcessor astFileProcessor = new ASTFileProcessor();
 	private BasicDataProcessor basicDataProcessor = new BasicDataProcessor();
 	
