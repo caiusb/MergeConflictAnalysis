@@ -22,7 +22,7 @@ public class ASTFileProcessorTest extends MergeGitTest {
 	@Test
 	public void testHeader() {
 		String header = astFileProcessor.getHeader();
-		assertEquals("AST_A_TO_B, AST_A_TO_SOLVED, AST_B_TO_SOLVED", header);
+		assertEquals("AST_A_TO_B,AST_A_TO_SOLVED,AST_B_TO_SOLVED", header);
 	}
 	
 	@Test

@@ -22,7 +22,7 @@ public class LOCFileProcessorTest extends MergeGitTest {
 	@Test
 	public void testHeader() {
 		processor.getHeader();
-		assertEquals("LOC_A_TO_B, LOC_A_TO_SOLVED, LOC_B_TO_SOLVED", processor.getHeader());
+		assertEquals("LOC_A_TO_B,LOC_A_TO_SOLVED,LOC_B_TO_SOLVED", processor.getHeader());
 	}
 	
 	@Test
