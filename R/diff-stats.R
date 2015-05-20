@@ -14,7 +14,13 @@ data <- data.frame(SHA = character(0),
                    LOC_B_TO_SOLVED = integer(0),
                    AST_A_TO_B = integer(0),
                    AST_A_TO_SOLVED = integer(0),
-                   AST_B_TO_SOLVED = integer(0))
+                   AST_B_TO_SOLVED = integer(0),
+                   LOC_SIZE_A = integer(0),
+                   LOC_SIZE_B = integer(0),
+                   LOC_SIZE_SOLVED = integer(0),
+                   AST_SIZE_A = integer(0),
+                   AST_SIZE_B = integer(0),
+                   AST_SIZE_SOLVED = integer(0))
 
 lapply(files, function(file) {
   fileLength = length(readLines(file))
