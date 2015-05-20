@@ -19,6 +19,7 @@ public class CommitStatus implements JSONAware {
 	private int time;
 	
 	public CommitStatus(Repository repository, String sha1, Map<String, CombinedFile> conflictingFiles, int time) {
+		this.repository = repository;
 		this.sha1 = sha1;
 		this.conflictingFiles = conflictingFiles;
 		this.solvedVersions = new HashMap<String, String>(conflictingFiles.size());
@@ -50,6 +51,10 @@ public class CommitStatus implements JSONAware {
 	
 	public int getSolvedTime() {
 		return time;
+	}
+	
+	public Repository getRepository() {
+		return repository;
 	}
 
 	public String toJSONString() {
