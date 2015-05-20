@@ -22,6 +22,7 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.ASTFileProcessor;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.ASTSizeProcessor;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.BasicDataProcessor;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.CompositeProcessor;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.LOCFileProcessor;
@@ -98,6 +99,7 @@ public class NewMain {
 		processor.addProcessor(new LOCFileProcessor());
 		processor.addProcessor(new ASTFileProcessor());
 		processor.addProcessor(new LOCSizeProcessor());
+		processor.addProcessor(new ASTSizeProcessor());
 	}
 
 	private void generateDiffs(String projectName, List<CommitStatus> statuses) {
