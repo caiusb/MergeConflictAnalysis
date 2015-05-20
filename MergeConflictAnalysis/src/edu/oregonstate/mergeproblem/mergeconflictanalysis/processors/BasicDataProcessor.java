@@ -7,7 +7,7 @@ public class BasicDataProcessor implements FileProcessor {
 
 	@Override
 	public String getHeader() {
-		return "SHA, FILE, TIME_A, TIME_B, TIME_SOLVED";
+		return "SHA,FILE,TIME_A,TIME_B,TIME_SOLVED";
 	}
 
 	@Override

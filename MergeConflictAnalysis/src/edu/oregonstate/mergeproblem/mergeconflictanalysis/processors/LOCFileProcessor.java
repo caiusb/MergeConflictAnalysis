@@ -11,7 +11,7 @@ public class LOCFileProcessor extends DiffFileProcessor {
 
 	@Override
 	public String getHeader() {
-		return "LOC_A_TO_B, LOC_A_TO_SOLVED, LOC_B_TO_SOLVED";
+		return "LOC_A_TO_B,LOC_A_TO_SOLVED,LOC_B_TO_SOLVED";
 	}
 	
 	@Override
