@@ -23,7 +23,7 @@ import org.kohsuke.args4j.Option;
 
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.ASTFileProcessor;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.BasicDataProcessor;
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.DiffFileProcessor;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.CompositeProcessor;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.LOCFileProcessor;
 
 public class NewMain {
@@ -45,9 +45,7 @@ public class NewMain {
 	
 	private static Logger logger = Logger.getLogger("edu.oregonstate.mergeproblem");
 
-	private LOCFileProcessor locFileProcessor = new LOCFileProcessor();
-	private ASTFileProcessor astFileProcessor = new ASTFileProcessor();
-	private BasicDataProcessor basicDataProcessor = new BasicDataProcessor();
+	private CompositeProcessor processor;
 	
 	public static void main(String[] args) throws Exception {
 		new NewMain().doMain(args);
@@ -79,6 +77,7 @@ public class NewMain {
 			outputStream = new BufferedOutputStream(new FileOutputStream(file));
 		}
 		
+		initializeProcessor();
 		for (String repositoryPath : repositories) {
 			String projectName = Paths.get(repositoryPath).getFileName().toString();
 			
@@ -90,6 +89,13 @@ public class NewMain {
 			if (vizFolder != null)
 				generateDiffs(projectName, statuses);
 		}
+	}
+
+	private void initializeProcessor() {
+		processor = new CompositeProcessor();
+		processor.addProcessor(new BasicDataProcessor());
+		processor.addProcessor(new LOCFileProcessor());
+		processor.addProcessor(new ASTFileProcessor());
 	}
 
 	private void generateDiffs(String projectName, List<CommitStatus> statuses) {
@@ -110,11 +116,11 @@ public class NewMain {
 	}
 
 	private String processResults(List<CommitStatus> statuses) {
-		String result = basicDataProcessor + ", " + locFileProcessor.getHeader() + ", " + astFileProcessor.getHeader() +"\n";
+		String result = processor.getHeader() + "\n";
 		result += statuses.stream().parallel().map((status) ->{
 			String statusResult = status.getListOfConflictingFiles().stream()
 				.filter((file) -> file.endsWith("java"))
-				.map((file) -> processFile(status, file))
+				.map((file) -> processor.getDataForMerge(status, file))
 				.collect(Collectors.joining("\n"));
 			if (statusResult.equals(""))
 				return statusResult;
@@ -123,12 +129,5 @@ public class NewMain {
 		}).collect(Collectors.joining());
 					
 		return result;
-	}
-	
-	private String processFile(CommitStatus status, String fileName) {
-		String locDiff = locFileProcessor.getDataForMerge(status, fileName);
-		String astDiff = astFileProcessor.getDataForMerge(status, fileName);
-		String basicData = basicDataProcessor.getDataForMerge(status, fileName);
-		return basicData + "," + locDiff + "," + astDiff;
 	}
 }	
