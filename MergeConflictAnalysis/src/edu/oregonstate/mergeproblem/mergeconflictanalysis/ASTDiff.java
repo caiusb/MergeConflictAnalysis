@@ -43,5 +43,9 @@ public class ASTDiff {
 		file.delete();
 		return tree;
 	}
-
+	
+	public Tree getTree(String content) throws IOException {
+		JdtTreeGenerator jdtTreeGenerator = new JdtTreeGenerator();
+		return getTree(content, jdtTreeGenerator);
+	}
 }
