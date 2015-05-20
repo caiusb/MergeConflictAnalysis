@@ -4,7 +4,6 @@ import org.eclipse.jgit.api.MergeResult;
 import org.junit.Test;
 
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.MergeGitTest;
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.old.MergeDiffInfo;
 
 public class MergeDiffInfoTest extends MergeGitTest{
 

@@ -1,10 +1,6 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.old;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,12 +10,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.gitective.core.BlobUtils;
 
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.ASTDiff;
-import fr.labri.gumtree.actions.ActionGenerator;
 import fr.labri.gumtree.actions.model.Action;
-import fr.labri.gumtree.gen.jdt.JdtTreeGenerator;
-import fr.labri.gumtree.matchers.Matcher;
-import fr.labri.gumtree.matchers.MatcherFactories;
-import fr.labri.gumtree.tree.Tree;
 
 public class MergeDiffInfo {
 	

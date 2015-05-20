@@ -10,9 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.MergeGitTest;
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.old.ConflictCollector;
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.old.MergeDiffInfo;
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.old.Status;
 
 public class ResultCollectorTest extends MergeGitTest {
 	

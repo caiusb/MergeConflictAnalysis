@@ -8,8 +8,6 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.old.Status;
-
 public class StatusTest {
 
 	@Test

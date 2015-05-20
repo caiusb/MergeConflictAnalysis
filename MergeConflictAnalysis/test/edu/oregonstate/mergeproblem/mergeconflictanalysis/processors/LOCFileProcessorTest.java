@@ -7,7 +7,6 @@ import org.junit.Test;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.CommitStatus;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.InMemoryMerger;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.MergeGitTest;
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.LOCFileProcessor;
 
 public class LOCFileProcessorTest extends MergeGitTest {
 	
