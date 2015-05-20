@@ -21,5 +21,4 @@ public class LOCSizeProcessor implements FileProcessor {
 		String[] solvedLines = status.getSolvedVersion(fileName).split(NEW_LINE_REGEX);
 		return aLines.length + "," + bLines.length + "," + solvedLines.length;
 	}
-
 }
