@@ -39,5 +39,6 @@ data <- data[data$LOC_A_TO_SOLVED >= 0, ]
 data <- data[data$LOC_B_TO_SOLVED >= 0, ]
 data <- data[data$LOC_A_TO_B >= 0, ]
 
-plotDistanceMetrics(data)
-data = plotTimeMetrics(data)
+#plotDistanceMetrics(data)
+#data = plotTimeMetrics(data)
+plotWithLinearRegression(data, "AST_A_TO_B", "LOC_A_TO_B");
