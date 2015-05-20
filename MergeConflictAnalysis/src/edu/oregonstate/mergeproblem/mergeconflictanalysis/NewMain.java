@@ -25,6 +25,7 @@ import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.ASTFileProc
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.BasicDataProcessor;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.CompositeProcessor;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.LOCFileProcessor;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.LOCSizeProcessor;
 
 public class NewMain {
 	
@@ -96,6 +97,7 @@ public class NewMain {
 		processor.addProcessor(new BasicDataProcessor());
 		processor.addProcessor(new LOCFileProcessor());
 		processor.addProcessor(new ASTFileProcessor());
+		processor.addProcessor(new LOCSizeProcessor());
 	}
 
 	private void generateDiffs(String projectName, List<CommitStatus> statuses) {
