@@ -64,7 +64,7 @@ public class NewMain {
 		
 		if (logToConsole) {
 			StreamHandler consoleHandler = new StreamHandler(System.out, new SimpleFormatter());
-			consoleHandler.setLevel(Level.INFO);
+			consoleHandler.setLevel(Level.FINE);
 			logger.addHandler(consoleHandler);
 		} else {
 			logger.setLevel(Level.SEVERE);
