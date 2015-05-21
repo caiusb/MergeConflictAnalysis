@@ -30,6 +30,8 @@ import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.LOCSizeProc
 
 public class NewMain {
 	
+	public static final String LOG_NAME = "edu.oregonstate.mergeproblem";
+
 	@Option(name="-viz-folder", usage="Where the files for the visualization will be generated")
 	private String vizFolder = null;
 	
@@ -45,7 +47,7 @@ public class NewMain {
 	@Argument
 	private List<String> repositories = new ArrayList<String>();
 	
-	private static Logger logger = Logger.getLogger("edu.oregonstate.mergeproblem");
+	private static Logger logger = Logger.getLogger(LOG_NAME);
 
 	private CompositeProcessor processor;
 	
@@ -83,7 +85,9 @@ public class NewMain {
 		for (String repositoryPath : repositories) {
 			String projectName = Paths.get(repositoryPath).getFileName().toString();
 			
+			logger.info("Recreating the commits for " + repositoryPath);
 			List<CommitStatus> statuses = recreateMergesInRepository(repositoryPath);
+			logger.info("Processing results for " + repositoryPath);
 			String results = processResults(statuses);
 			outputStream.write(results.getBytes());
 			outputStream.flush();

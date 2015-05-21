@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.Sequence;
@@ -20,6 +21,7 @@ public class InMemoryMerger {
 	
 	private final Repository repository;
 	private final List<String> names;
+	private static Logger logger = Logger.getLogger(NewMain.LOG_NAME);
 	
 	public InMemoryMerger(Repository repository) {
 		this.repository = repository;
@@ -27,6 +29,7 @@ public class InMemoryMerger {
 	}
 	
 	public CommitStatus recreateMerge(RevCommit mergeCommit) {
+		logger.info("Recreating commit " + mergeCommit.getName());
 		RevCommit[] parents = mergeCommit.getParents();
 		if (parents.length < 2)
 			throw new IllegalArgumentException();
