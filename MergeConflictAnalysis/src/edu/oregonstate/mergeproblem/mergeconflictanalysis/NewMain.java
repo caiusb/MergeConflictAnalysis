@@ -96,7 +96,7 @@ public class NewMain {
 				generateDiffs(projectName, statuses);
 		}
 	}
-
+	
 	private void initializeProcessor() {
 		processor = new CompositeProcessor();
 		processor.addProcessor(new BasicDataProcessor());
