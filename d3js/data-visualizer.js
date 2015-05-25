@@ -70,7 +70,7 @@ function drawPlot() {
 			d.LOC_B_TO_SOLVED = +d.LOC_B_TO_SOLVED;
 
 			d.AST_A_TO_B = +d.AST_A_TO_B;
-			d.AST_A_TO_SOLVED = +d.AST_A_TO_SOVLED;
+			d.AST_A_TO_SOLVED = +d.AST_A_TO_SOLVED;
 			d.AST_B_TO_SOLVED = +d.AST_B_TO_SOLVED;
 		});
 
