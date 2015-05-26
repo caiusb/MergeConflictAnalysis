@@ -1,7 +1,7 @@
-var xAxisFunction = function(d) { return d.LOC_A_TO_SOLVED; }
-var yAxisFunction = function(d) { return d.LOC_B_TO_SOLVED; }
+var xAxisFunction = function(d) { return d.AST_A_TO_SOLVED; }
+var yAxisFunction = function(d) { return d.AST_B_TO_SOLVED; }
 
-var columnsToTabulate = ["PROJECT", "SHA", "FILE", "LOC_A_TO_SOLVED", "LOC_B_TO_SOLVED", "AST", "LOC"];
+var columnsToTabulate = ["PROJECT", "SHA", "FILE", "AST_A_TO_SOLVED", "AST_B_TO_SOLVED", "AST", "LOC"];
 
 function dataKey (d) { 
 	return d.SHA + d.PROJECT + d.FILE; 
