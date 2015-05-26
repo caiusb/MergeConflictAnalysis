@@ -51,7 +51,7 @@ public abstract class MergeGitTest extends GitTestCase {
 		return "public class A" + (base + 3)+ "{}";
 	}
 	
-	protected String getResolvedVersion(int base) {
+	protected String getConflictingVersion(int base) {
 		return "public class conflictingA" + (base + 3) + "{}";
 	}
 
@@ -87,7 +87,7 @@ public abstract class MergeGitTest extends GitTestCase {
 		checkoutBranch();
 		add("A.java", getBranchVersion(base));
 		checkout("master");
-		add("A.java", getResolvedVersion(base));
+		add("A.java", getConflictingVersion(base));
 		
 		MergeResult merge = merge("branch");
 		return merge;
