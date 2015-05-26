@@ -27,6 +27,7 @@ import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.BasicDataPr
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.CompositeProcessor;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.LOCFileProcessor;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.LOCSizeProcessor;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.MergeBaseProcessor;
 
 public class NewMain {
 	
@@ -100,6 +101,7 @@ public class NewMain {
 	private void initializeProcessor() {
 		processor = new CompositeProcessor();
 		processor.addProcessor(new BasicDataProcessor());
+		processor.addProcessor(new MergeBaseProcessor());
 		processor.addProcessor(new LOCFileProcessor());
 		processor.addProcessor(new ASTFileProcessor());
 		processor.addProcessor(new LOCSizeProcessor());
