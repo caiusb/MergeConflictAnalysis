@@ -9,11 +9,11 @@ then
 fi
 
 name=`uname`
-if [ $uname = Linux ]
+if [ $name = Linux ]
 then
     tmpfolder="/tmp/"
-elif[ $uname = Darwin ]
-    then
+elif [ $name = Darwin ]
+then
     tmpfolder="/var/folders/"
 else
     echo "Unsupported operating system."
