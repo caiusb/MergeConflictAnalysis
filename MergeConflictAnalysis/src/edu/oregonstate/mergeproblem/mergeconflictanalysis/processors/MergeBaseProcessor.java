@@ -10,7 +10,7 @@ public class MergeBaseProcessor implements FileProcessor {
 
 	@Override
 	public String getHeader() {
-		return "BASE_SHA1,BASE_TIME";
+		return "BASE_SHA,BASE_TIME";
 	}
 
 	@Override

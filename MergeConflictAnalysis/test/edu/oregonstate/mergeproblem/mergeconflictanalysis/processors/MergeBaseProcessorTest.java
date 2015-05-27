@@ -22,7 +22,7 @@ public class MergeBaseProcessorTest extends MergeGitTest {
 	@Test
 	public void testHeader() {
 		String header = processor.getHeader();
-		assertEquals("BASE_SHA1,BASE_TIME", header);
+		assertEquals("BASE_SHA,BASE_TIME", header);
 	}
 	
 	@Test
