@@ -38,7 +38,6 @@ loadData <<- function(folder) {
     if (fileLength <= 1)
       return 
     else {
-      print(file)
       fileInfo <- file.info(file)
       currentDataFile <- read.csv(file, header=T, sep=',', blank.lines.skip=T, as.is=T)
       data <<- rbind(data, currentDataFile)
