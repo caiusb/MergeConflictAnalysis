@@ -35,3 +35,4 @@ public class MergeBaseProcessorTest extends MergeGitTest {
 		assertEquals(expected, data);
 	}
 }
+	
