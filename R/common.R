@@ -40,6 +40,8 @@ loadData <<- function(folder) {
     else {
       fileInfo <- file.info(file)
       currentDataFile <- read.csv(file, header=T, sep=',', blank.lines.skip=T, as.is=T)
+      project <- basename(file_path_sans_ext(file))
+      currentDataFile$PROJECT <- project
       data <<- rbind(data, currentDataFile)
     }
   })
