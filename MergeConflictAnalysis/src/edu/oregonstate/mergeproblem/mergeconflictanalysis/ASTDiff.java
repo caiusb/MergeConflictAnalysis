@@ -1,10 +1,6 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.util.List;
 
 import fr.labri.gumtree.actions.ActionGenerator;
