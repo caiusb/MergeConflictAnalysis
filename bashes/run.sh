@@ -8,18 +8,6 @@ then
 	exit
 fi
 
-name=`uname`
-if [ $name = Linux ]
-then
-    tmpfolder="/tmp/"
-elif [ $name = Darwin ]
-then
-    tmpfolder="/var/folders/"
-else
-    echo "Unsupported operating system."
-    exit -1
-fi
-
 
 repoloc=$(resolve-path $1)
 resultsloc=$(resolve-path $2 )
@@ -46,7 +34,6 @@ do
     git push > /dev/null
     popd > /dev/null
 
-    find $tmpfolder -name '*java' -exec rm {} +
 done < $orderfile
 
 popd > /dev/null
