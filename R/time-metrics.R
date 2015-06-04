@@ -2,11 +2,24 @@ source('common.R')
 
 data <- loadData(resultsFolder)
 
-plotTimeMetrics <<- function(data) {
-  data$RESOLUTION_TIME <- data$TIME_SOLVED - data$TIME_B
-  data$EFFORT <- calculateEffort(data)
-  print(data$EFFORT)
-  plotWithLinearRegression(data, 'EFFORT','RESOLUTION_TIME')
+if(exists("SECONDS_PER_DAY") != TRUE) {
+  SECONDS_PER_DAY <- 88400
+  lockBinding("SECONDS_PER_DAY", globalenv())
+}
+
+calculateTimeDifferences <<- function(data) {
+  data <- calculateResolutionTime(data)  
+  data <- calculateTimeBetweenTips(data)
+  return(data)
+}
+
+calculateTimeBetweenTips <- function(data) {
+  data$TIME_TIPS <- data$TIME_A - data$TIME_B
+  return(data)
+}
+
+calculateResolutionTime <- function(data) {
+  data$RESOLUTION_TIME <- data$TIME_SOLVED - data$TIME_A
   return(data)
 }
 
@@ -15,20 +28,16 @@ calculateEffort <- function(data) {
   deviationFromDiagonal <- (data$LOC_A_TO_SOLVED+data$LOC_B_TO_SOLVED)/sqrt((data$LOC_A_TO_SOLVED^2) + (data$LOC_B_TO_SOLVED)^2)
   effort <- deviationFromDiagonal+averageConflictSize
   return(effort)
+
 }
 
-timeBetweenTips <- function(data) {
-  return(data$TIME_A - data$TIME_B)
+trimSolveTimeGreaterThanDays <-function(data, days){
+  return(data[data$RESOLUTION_TIME <= days*SECONDS_PER_DAY, ]);
 }
 
-data$TIME_TIPS <- timeBetweenTips(data)
-trimmed <- data[data$TIME_TIPS <= 5*86400, ]
-print(summary(trimmed$TIME_TIPS))
-cat("Standard deviation: ", sd(trimmed$TIME_TIPS))
-timeForCommit <- aggregate(trimmed$TIME_TIPS, list(time=trimmed$SHA), mean, simplify=TRUE)
-hist(timeForCommit$x, main="Resolution time", xlab="Time (s)", breaks=50)
-
-perCommitDf <- createCommitData(trimmed)
-
-plotTimeMetrics(perCommitDf)
-#plotWithLinearRegression(trimmed, "TIME_TIPS", "LOC_A_TO_B")
+timedData <- calculateTimeDifferences(data)
+timedCommitData <- calculateTimeDifferences(createCommitData(timedData))
+trimmedCommitData <- trimSolveTimeGreaterThanDays(timedCommitData, 2)
+print(summary(trimmedCommitData$RESOLUTION_TIME))
+cat("Standard deviation: ", sd(trimmedCommitData$RESOLUTION_TIME))
+hist(trimmedCommitData$RESOLUTION_TIME, main="Resolution time", xlab="Time (s)", breaks=50)
