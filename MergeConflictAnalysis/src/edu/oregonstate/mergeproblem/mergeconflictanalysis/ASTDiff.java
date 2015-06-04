@@ -36,12 +36,7 @@ public class ASTDiff {
 	}
 
 	private Tree getTree(String AContent, JdtTreeGenerator jdtTreeGenerator) throws IOException {
-		Path filePath = Files.createTempFile("", "java");
-		Files.write(filePath, AContent.getBytes(), StandardOpenOption.WRITE);
-		File file = filePath.toFile();
-		Tree tree = jdtTreeGenerator.fromFile(file.getCanonicalPath());
-		file.delete();
-		return tree;
+		return jdtTreeGenerator.fromString(AContent);
 	}
 	
 	public Tree getTree(String content) throws IOException {
