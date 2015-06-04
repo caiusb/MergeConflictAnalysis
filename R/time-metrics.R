@@ -24,9 +24,9 @@ calculateResolutionTime <- function(data) {
 }
 
 calculateEffort <- function(data) {
-  averageConflictSize <- (data$LOC_SIZE_A + data$LOC_SIZE_B)/2
-  deviationFromDiagonal <- (data$LOC_A_TO_SOLVED+data$LOC_B_TO_SOLVED)/sqrt((data$LOC_A_TO_SOLVED^2) + (data$LOC_B_TO_SOLVED)^2)
-  effort <- deviationFromDiagonal+averageConflictSize
+  averageConflictSize <- (data$LOC_A_TO_SOLVED/data$LOC_SIZE_A + data$LOC_B_TO_SOLVED/data$LOC_SIZE_B)/2
+  #deviationFromDiagonal <- (data$LOC_A_TO_SOLVED+data$LOC_B_TO_SOLVED)/sqrt((data$LOC_A_TO_SOLVED^2) + (data$LOC_B_TO_SOLVED)^2)
+  effort <- averageConflictSize
   return(effort)
 
 }
@@ -37,7 +37,9 @@ trimSolveTimeGreaterThanDays <-function(data, days){
 
 timedData <- calculateTimeDifferences(data)
 timedCommitData <- calculateTimeDifferences(createCommitData(timedData))
-trimmedCommitData <- trimSolveTimeGreaterThanDays(timedCommitData, 2)
+trimmedCommitData <- trimSolveTimeGreaterThanDays(timedCommitData, 1)
+trimmedCommitData$EFFORT <- calculateEffort(trimmedCommitData)
 print(summary(trimmedCommitData$RESOLUTION_TIME))
 cat("Standard deviation: ", sd(trimmedCommitData$RESOLUTION_TIME))
 hist(trimmedCommitData$RESOLUTION_TIME, main="Resolution time", xlab="Time (s)", breaks=50)
+plotWithLinearRegression(trimmedCommitData, "RESOLUTION_TIME", "EFFORT")
