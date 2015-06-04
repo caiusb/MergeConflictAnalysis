@@ -1,13 +1,17 @@
 resultsFolder <<- "../../results"
 
 plotWithLinearRegression <<- function(data, x, y) {
-  trim <- data[data[x] > 1, ]
-  trim <- trim[trim[y] > 1, ]
+  trim <- trimNegativeValues(data, x)
+  trim <- trimNegativeValues(data, y)
   plot(trim[[x]], trim[[y]], xlab=x, ylab=y)
   fit = lm(data[[y]] ~ data[[x]], data=trim)
   abline(fit, col="red")
   print(summary(fit))
   print(cor.test(trim[[x]], trim[[y]]))
+}
+
+trimNegativeValues <<- function(data, x) {
+  return(data[data[x] >= 0, ])
 }
 
 loadData <<- function(folder) {
