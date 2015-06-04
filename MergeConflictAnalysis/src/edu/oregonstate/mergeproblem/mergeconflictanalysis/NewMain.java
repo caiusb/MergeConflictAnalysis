@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -111,7 +112,12 @@ public class NewMain {
 	private void generateDiffs(String projectName, List<CommitStatus> statuses) {
 		VisualizationDataGenerator dataGenerator = new VisualizationDataGenerator();
 		dataGenerator.setURLFolder(urlFolder);
-		statuses.forEach((status) -> dataGenerator.generateData(projectName, statuses, vizFolder));
+		statuses.stream().filter(this::containsJavaFiles)
+			.forEach((status) -> dataGenerator.generateData(projectName, statuses, vizFolder));
+	}
+	
+	private boolean containsJavaFiles(CommitStatus status) {
+		return status.getListOfConflictingFiles().stream().anyMatch((file) -> {return file.endsWith("java");});
 	}
 	
 	private List<CommitStatus> recreateMergesInRepository(String repositoryPath) throws IOException,

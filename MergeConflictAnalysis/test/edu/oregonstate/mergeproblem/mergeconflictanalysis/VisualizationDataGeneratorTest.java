@@ -216,4 +216,15 @@ public class VisualizationDataGeneratorTest extends MergeGitTest {
 		assertFileContains(btos, "<!DOCTYPE html><html lang=\"en\"><head><meta charset=\"utf8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"/><title>GumTree</title><link type=\"text/css\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css\" rel=\"stylesheet\"/><link type=\"text/css\" href=\"//res/web/gumtree.css\" rel=\"stylesheet\"/></head><body><div class=\"container-fluid\"><div class=\"row\"><div class=\"col-lg-12\"><div class=\"btn-toolbar pull-right\"><div class=\"btn-group\"><a class=\"btn btn-default btn-xs\" id=\"legend\" href=\"#\" data-toggle=\"popover\" data-html=\"true\" data-placement=\"bottom\" data-content=\"<span class=&quot;del&quot;>&nbsp;&nbsp;</span> deleted<br><span class=&quot;add&quot;>&nbsp;&nbsp;</span> added<br><span class=&quot;mv&quot;>&nbsp;&nbsp;</span> moved<br><span class=&quot;upd&quot;>&nbsp;&nbsp;</span> updated<br>\" data-original-title=\"Legend\" title=\"Legend\" role=\"button\">Legend</a><a class=\"btn btn-default btn-xs\" id=\"shortcuts\" href=\"#\" data-toggle=\"popover\" data-html=\"true\" data-placement=\"bottom\" data-content=\"<b>n</b> next<br><b>t</b> top<br><b>b</b> bottom\" data-original-title=\"Shortcuts\" title=\"Shortcuts\" role=\"button\">Shortcuts</a></div></div></div></div><div class=\"row\"><div class=\"col-lg-6 max-height\"><h5>B</h5><pre class=\"pre max-height\"><span class=\"marker\" id=\"mapping-1\"></span><span class=\"token del\" data-title=\"CompilationUnit/TypeDeclaration\">public class A2{}</span>\n" + 
 				"</pre></div><div class=\"col-lg-6 max-height\"><h5>Solved</h5><pre class=\"pre max-height\">version two+three</pre></div></div></div><script type=\"text/javascript\" src=\"https://code.jquery.com/jquery-1.11.2.min.js\"></script><script type=\"text/javascript\" src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js\"></script><script type=\"text/javascript\" src=\"//res/web/diff.js\"></script><link type=\"text/css\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css\" rel=\"stylesheet\"/><link type=\"text/css\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css\" rel=\"stylesheet\"/></body></html>");
 	}
+	
+	@Test
+	public void testCommitWithNoJavaFiles() throws Exception {
+		HashMap<String, CombinedFile> conflictingFiles = new HashMap<String, CombinedFile>();
+		conflictingFiles.put("a.txt", new CombinedFile());
+		CommitStatus status = new CommitStatus(repository, "abcde", conflictingFiles, -1);
+		
+		new VisualizationDataGenerator().generateData(projectName, asList(status), tempFolderAbsolutePath);
+		Path commitDir = tempDirectory.resolve(tempDirectory).resolve("abcde");
+		assertFalse(commitDir.toFile().exists());		
+	}
 }
