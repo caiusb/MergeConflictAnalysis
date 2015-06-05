@@ -7,11 +7,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.jgit.lib.Repository;
-import org.json.simple.JSONAware;
-import org.json.simple.JSONObject;
 
-public class CommitStatus implements JSONAware {
-	
+public class CommitStatus {
 	private Repository repository;
 	private String sha1;
 	private Map<String, CombinedFile> conflictingFiles;
@@ -55,14 +52,5 @@ public class CommitStatus implements JSONAware {
 	
 	public Repository getRepository() {
 		return repository;
-	}
-
-	public String toJSONString() {
-		String json = "{";
-		json += "\"sha1\": \"" + sha1 + "\", ";
-		json += "\"conflictingFiles:\": " + JSONObject.toJSONString(conflictingFiles) + ",";
-		json += "\"developersSolution:\": "+ JSONObject.toJSONString(solvedVersions);
-		json += "}";
-		return json;
 	}
 }

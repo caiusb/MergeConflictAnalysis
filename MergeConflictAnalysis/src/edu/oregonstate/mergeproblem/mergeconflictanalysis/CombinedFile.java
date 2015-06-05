@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.json.simple.JSONAware;
-import org.json.simple.JSONObject;
-
-public class CombinedFile implements JSONAware {
+public class CombinedFile {
 
 	private class Chunk {
 		private ChunkOwner owner;
@@ -60,11 +57,4 @@ public class CombinedFile implements JSONAware {
 	public int getBTime() {
 		return bTime;
 	}
-	
-	@Override
-	public String toJSONString() {
-		return "{\"A-only\": " + JSONObject.escape(getVersion(ChunkOwner.A)) +
-				", \"B-only\": " + JSONObject.escape(getVersion(ChunkOwner.B)) + "}";
-	}
-
 }
