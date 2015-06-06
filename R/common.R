@@ -1,3 +1,5 @@
+library(tools)
+
 resultsFolder <<- "../../results"
 
 plotWithLinearRegression <<- function(data, x, y) {
