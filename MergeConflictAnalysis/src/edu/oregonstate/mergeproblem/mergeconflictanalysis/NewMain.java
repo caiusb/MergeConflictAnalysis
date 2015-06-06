@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -89,8 +90,7 @@ public class NewMain {
 			logger.info("Recreating the commits for " + repositoryPath);
 			List<CommitStatus> statuses = recreateMergesInRepository(repositoryPath);
 			logger.info("Processing results for " + repositoryPath);
-			String results = processResults(statuses);
-			outputStream.write(results.getBytes());
+			processResultsAndWriteToStream(statuses, outputStream);
 			outputStream.flush();
 			outputStream.close();
 			if (vizFolder != null)
@@ -130,9 +130,9 @@ public class NewMain {
 		return statuses;
 	}
 
-	private String processResults(List<CommitStatus> statuses) {
-		String result = processor.getHeader() + "\n";
-		result += statuses.stream().parallel().map((status) ->{
+	private void processResultsAndWriteToStream(List<CommitStatus> statuses, OutputStream outputStream) throws IOException {
+		outputStream.write((processor.getHeader() + "\n").getBytes());
+		statuses.stream().parallel().map((status) ->{
 			String statusResult = status.getListOfConflictingFiles().stream()
 				.filter((file) -> file.endsWith("java"))
 				.map((file) -> processor.getDataForMerge(status, file))
@@ -141,8 +141,11 @@ public class NewMain {
 				return statusResult;
 			else
 				return statusResult += "\n";
-		}).collect(Collectors.joining());
-					
-		return result;
+		}).forEach((r) -> {
+			try {
+				outputStream.write(r.getBytes());
+			} catch (IOException e) {
+			}
+		});
 	}
 }	
