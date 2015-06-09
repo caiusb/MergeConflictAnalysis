@@ -11,27 +11,27 @@ import org.eclipse.jgit.lib.Repository;
 public class CommitStatus {
 	private Repository repository;
 	private String sha1;
-	private Map<String, CombinedFile> conflictingFiles;
+	private Map<String, CombinedFile> combinedFiles;
 	private Map<String, String> solvedVersions;
 	private int time;
+	private List<String> conflictingFiles;
 	
 	public CommitStatus(Repository repository, String sha1, Map<String, CombinedFile> conflictingFiles, int time) {
 		this.repository = repository;
 		this.sha1 = sha1;
-		this.conflictingFiles = conflictingFiles;
+		this.combinedFiles = conflictingFiles;
 		this.solvedVersions = new HashMap<String, String>(conflictingFiles.size());
+		this.conflictingFiles = new ArrayList<>();
+		this.conflictingFiles.addAll(conflictingFiles.keySet());
 		this.time = time;
-		Set<String> conflictingFilesSet = conflictingFiles.keySet();
-		for (String file : conflictingFilesSet) {
+		for (String file : this.conflictingFiles) {
 			String fileContents = FileRetriver.retrieveFile(repository, sha1, file);
 			solvedVersions.put(file, fileContents);
 		}
 	}
 	
 	public List<String> getListOfConflictingFiles() {
-		List<String> files = new ArrayList<>();
-		files.addAll(conflictingFiles.keySet());
-		return files;
+		return conflictingFiles;
 	}
 	
 	public String getSolvedVersion(String fileName) {
@@ -39,7 +39,7 @@ public class CommitStatus {
 	}
 	
 	public CombinedFile getCombinedFile(String fileName) {
-		return conflictingFiles.get(fileName);
+		return combinedFiles.get(fileName);
 	}
 	
 	public String getSHA1() {
