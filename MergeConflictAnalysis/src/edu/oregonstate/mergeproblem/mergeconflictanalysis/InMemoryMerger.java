@@ -1,7 +1,6 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,12 +19,10 @@ import org.eclipse.jgit.revwalk.RevCommit;
 public class InMemoryMerger {
 	
 	private final Repository repository;
-	private final List<String> names;
 	private static Logger logger = Logger.getLogger(NewMain.LOG_NAME);
 	
 	public InMemoryMerger(Repository repository) {
 		this.repository = repository;
-		names = Arrays.asList(new String[]{"base", "A", "B"});
 	}
 	
 	public CommitStatus recreateMerge(RevCommit mergeCommit) {

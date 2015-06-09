@@ -42,9 +42,11 @@ public class RepositoryWalker {
 		try {
 			revWalk.markStart(start);
 		} catch (IOException e) {
+			revWalk.close();
 			throw new WalkException(e);
 		}
 		Iterator<RevCommit> mergeCommitsIterator = revWalk.iterator();
+		revWalk.close();
 		return mergeCommitsIterator;
 	}
 
