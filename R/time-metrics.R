@@ -24,9 +24,11 @@ calculateResolutionTime <- function(data) {
 }
 
 calculateEffort <- function(data) {
-  averageConflictSize <- (data$LOC_A_TO_SOLVED/data$LOC_SIZE_A + data$LOC_B_TO_SOLVED/data$LOC_SIZE_B)/2
-  #deviationFromDiagonal <- (data$LOC_A_TO_SOLVED+data$LOC_B_TO_SOLVED)/sqrt((data$LOC_A_TO_SOLVED^2) + (data$LOC_B_TO_SOLVED)^2)
-  effort <- averageConflictSize
+  weightedConflictSize <- data$LOC_A_TO_SOLVED/data$LOC_SIZE_A + data$LOC_B_TO_SOLVED/data$LOC_SIZE_B
+  weightedAverageConflictSize <- (weightedConflictSize)/2
+  averageConflictSize <- (data$LOC_A_TO_SOLVED + data$LOC_B_TO_SOLVED)/2
+  deviationFromDiagonal <- (data$LOC_B_TO_SOLVED-data$LOC_A_TO_SOLVED)/sqrt(2)
+  effort <- deviationFromDiagonal*weightedAverageConflictSize
   return(effort)
 
 }
