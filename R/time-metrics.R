@@ -39,7 +39,7 @@ trimSolveTimeGreaterThanDays <-function(data, days){
 
 timedData <- calculateTimeDifferences(data)
 timedCommitData <- calculateTimeDifferences(createCommitData(timedData))
-trimmedCommitData <- trimSolveTimeGreaterThanDays(timedCommitData, 1)
+trimmedCommitData <- trimSolveTimeGreaterThanDays(timedCommitData, 2)
 trimmedCommitData$EFFORT <- calculateEffort(trimmedCommitData)
 print(summary(trimmedCommitData$RESOLUTION_TIME))
 cat("Standard deviation: ", sd(trimmedCommitData$RESOLUTION_TIME))
