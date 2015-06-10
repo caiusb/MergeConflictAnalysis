@@ -52,6 +52,11 @@ loadData <<- function(folder) {
     }
   })
   
+  #removing file add and delete. They are not interesting to me
+  data <- data[data$LOC_SIZE_A > 1, ]
+  data <- data[data$LOC_SIZE_B > 1, ]
+  data <- data[data$LOC_SIZE_SOLVED > 1, ]
+  
   return(data)
 }
 
