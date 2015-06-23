@@ -8,10 +8,11 @@ then
 	exit
 fi
 
-
 repoloc=$(resolve-path $1)
 resultsloc=$(resolve-path $2 )
 results_suffix='.csv'
+javaopts='-Xmx12G'
+vizdataopts='-url-folder "mergeviz" -viz-folder "../viz/data" "$line"'
 
 dir=$PWD
 orderfile=$repoloc/'order.txt'
@@ -26,7 +27,7 @@ while read line
 do
     echo "Processing: $line"
     date=`date`
-    java -Xmx12G -jar $dir/../MergingConflictAnalysis.jar -output $resultsloc/$line$results_suffix -url-folder "mergeviz" -viz-folder "../viz/data" "$line" 2>$resultsloc/log/$line.txt
+    java $javaopts -jar $dir/../MergingConflictAnalysis.jar -output $resultsloc/$line$results_suffix $vizdataopts 2>$resultsloc/log/$line.txt
 
     pushd $resultsloc > /dev/null
     git add $line$results_suffix log/$line.txt > /dev/null
