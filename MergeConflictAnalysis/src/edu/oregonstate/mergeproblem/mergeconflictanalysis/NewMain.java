@@ -116,7 +116,11 @@ public class NewMain {
 	}
 	
 	private boolean containsJavaFiles(CommitStatus status) {
-		return status.getListOfConflictingFiles().stream().anyMatch((file) -> {return file.endsWith("java");});
+		return getFilesOfInterest(status).stream().anyMatch((file) -> {return file.endsWith("java");});
+	}
+
+	private List<String> getFilesOfInterest(CommitStatus status) {
+		return status.getModifiedFiles();
 	}
 	
 	private List<CommitStatus> recreateMergesInRepository(String repositoryPath) throws IOException,
@@ -133,7 +137,7 @@ public class NewMain {
 	private void processResultsAndWriteToStream(List<CommitStatus> statuses, OutputStream outputStream) throws IOException {
 		outputStream.write((processor.getHeader() + "\n").getBytes());
 		statuses.stream().parallel().map((status) ->{
-			String statusResult = status.getListOfConflictingFiles().stream()
+			String statusResult = getFilesOfInterest(status).stream()
 				.filter((file) -> file.endsWith("java"))
 				.map((file) -> processor.getDataForMerge(status, file))
 				.collect(Collectors.joining("\n"));
