@@ -50,10 +50,11 @@ public class VisualizationDataGeneratorTest extends MergeGitTest {
 	}
 	
 	@Test
-	public void testCreateCommitFolder() {
-		CommitStatus commitStatus = new CommitStatus(null, "abcde", new HashMap<String, CombinedFile>(), -1);
+	public void testCreateCommitFolder() throws Exception {
+		RevCommit commit = add("bla.txt", "bla");
+		CommitStatus commitStatus = new CommitStatus(repository, commit.getName(), new HashMap<String, CombinedFile>(), -1);
 		generator.generateData(projectName, asList(commitStatus), tempFolderAbsolutePath);
-		Path commitPath = tempDirectory.resolve(projectName).resolve("abcde");
+		Path commitPath = tempDirectory.resolve(projectName).resolve(commit.getName());
 		assertIsFolder(commitPath);
 	}
 	
@@ -221,7 +222,8 @@ public class VisualizationDataGeneratorTest extends MergeGitTest {
 	public void testCommitWithNoJavaFiles() throws Exception {
 		HashMap<String, CombinedFile> conflictingFiles = new HashMap<String, CombinedFile>();
 		conflictingFiles.put("a.txt", new CombinedFile());
-		CommitStatus status = new CommitStatus(repository, "abcde", conflictingFiles, -1);
+		RevCommit commit = add("a.txt", "bla");
+		CommitStatus status = new CommitStatus(repository, commit.getName(), conflictingFiles, -1);
 		
 		new VisualizationDataGenerator().generateData(projectName, asList(status), tempFolderAbsolutePath);
 		Path commitDir = tempDirectory.resolve(tempDirectory).resolve("abcde");
