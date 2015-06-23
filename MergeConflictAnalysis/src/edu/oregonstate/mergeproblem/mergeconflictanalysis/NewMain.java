@@ -122,7 +122,7 @@ public class NewMain {
 	}
 
 	private List<String> getFilesOfInterest(CommitStatus status) {
-		return status.getListOfConflictingFiles();
+		return status.getModifiedFiles();
 	}
 	
 	private List<CommitStatus> recreateMergesInRepository(String repositoryPath) throws IOException,
