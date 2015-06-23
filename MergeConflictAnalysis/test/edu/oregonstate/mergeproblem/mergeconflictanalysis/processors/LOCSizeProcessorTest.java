@@ -1,14 +1,11 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors;
 
-import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
 
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.CommitStatus;
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.InMemoryMerger;
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.MergeGitTest;
 
-public class LOCSizeProcessorTest extends MergeGitTest {
+public class LOCSizeProcessorTest extends ProcessorTest {
 	
 	private LOCSizeProcessor processor;
 	
@@ -26,8 +23,7 @@ public class LOCSizeProcessorTest extends MergeGitTest {
 	
 	@Test
 	public void testData() throws Exception {
-		RevCommit conflictingCommit = createConflictingCommit();
-		CommitStatus commitStatus = new InMemoryMerger(repository).recreateMerge(conflictingCommit);
+		CommitStatus commitStatus = generateCommitStatus();
 		String data = processor.getDataForMerge(commitStatus, commitStatus.getListOfConflictingFiles().get(0));
 		assertEquals("1,1,1", data);
 	}
