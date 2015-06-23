@@ -14,7 +14,9 @@ public class CommitStatus {
 	private Map<String, String> solvedVersions;
 	private int time;
 	private List<String> conflictingFiles;
+	private List<String> modifiedFiles;
 	
+	@SuppressWarnings("resource")
 	public CommitStatus(Repository repository, String sha1, Map<String, CombinedFile> conflictingFiles, int time) {
 		this.repository = repository;
 		this.sha1 = sha1;
@@ -27,6 +29,7 @@ public class CommitStatus {
 			String fileContents = Util.retrieveFile(repository, sha1, file);
 			solvedVersions.put(file, fileContents);
 		}
+		modifiedFiles = Util.getFilesChangedByCommit(repository, sha1);
 	}
 	
 	public List<String> getListOfConflictingFiles() {
@@ -51,5 +54,9 @@ public class CommitStatus {
 	
 	public Repository getRepository() {
 		return repository;
+	}
+	
+	public List<String> getModifiedFiles() {
+		return modifiedFiles;
 	}
 }
