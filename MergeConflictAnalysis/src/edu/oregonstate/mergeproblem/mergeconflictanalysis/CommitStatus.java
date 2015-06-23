@@ -24,7 +24,7 @@ public class CommitStatus {
 		this.conflictingFiles.addAll(conflictingFiles.keySet());
 		this.time = time;
 		for (String file : this.conflictingFiles) {
-			String fileContents = FileRetriver.retrieveFile(repository, sha1, file);
+			String fileContents = Util.retrieveFile(repository, sha1, file);
 			solvedVersions.put(file, fileContents);
 		}
 	}
