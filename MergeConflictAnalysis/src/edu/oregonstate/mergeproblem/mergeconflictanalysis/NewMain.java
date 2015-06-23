@@ -118,7 +118,7 @@ public class NewMain {
 	}
 	
 	private boolean containsJavaFiles(CommitStatus status) {
-		return getFilesOfInterest(status).stream().anyMatch((file) -> {return file.endsWith("java");});
+		return getFilesOfInterest(status).stream().anyMatch((file) -> file.endsWith("java"));
 	}
 
 	private List<String> getFilesOfInterest(CommitStatus status) {
