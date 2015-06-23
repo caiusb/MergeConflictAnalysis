@@ -14,7 +14,7 @@ public class MergeBaseProcessor implements FileProcessor {
 	}
 
 	@Override
-	public String getDataForMerge(CommitStatus status, String fileName) {
+	public String getData(CommitStatus status, String fileName) {
 		String mergeSHA = status.getSHA1();
 		Repository repository = status.getRepository();
 		RevCommit mergeCommit = CommitUtils.getCommit(repository, mergeSHA);

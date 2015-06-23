@@ -24,6 +24,6 @@ public class PreMergeFileProcessorTest extends ProcessorTest {
 	@Test
 	public void testCollectMerge() throws Exception {
 		CommitStatus commitStatus = generateCommitStatus();
-		assertEquals("public class A2{},public class conflictingA3{}", processor.getDataForMerge(commitStatus, commitStatus.getListOfConflictingFiles().get(0)));
+		assertEquals("public class A2{},public class conflictingA3{}", processor.getData(commitStatus, commitStatus.getListOfConflictingFiles().get(0)));
 	}
 }

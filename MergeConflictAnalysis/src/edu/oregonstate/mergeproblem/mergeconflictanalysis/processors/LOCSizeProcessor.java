@@ -14,7 +14,7 @@ public class LOCSizeProcessor implements FileProcessor {
 	}
 
 	@Override
-	public String getDataForMerge(CommitStatus status, String fileName) {
+	public String getData(CommitStatus status, String fileName) {
 		CombinedFile combinedFile = status.getCombinedFile(fileName);
 		String[] aLines = combinedFile.getVersion(ChunkOwner.A).split(NEW_LINE_REGEX);
 		String[] bLines = combinedFile.getVersion(ChunkOwner.B).split(NEW_LINE_REGEX);

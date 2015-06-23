@@ -16,7 +16,7 @@ public class PreMergeFileProcessor implements FileProcessor {
 	}
 
 	@Override
-	public String getDataForMerge(CommitStatus status, String fileName) {
+	public String getData(CommitStatus status, String fileName) {
 		String conflictingCommitSHA = status.getSHA1();
 		Repository repository = status.getRepository();
 		RevCommit mergeCommit = CommitUtils.getCommit(repository, conflictingCommitSHA);

@@ -23,7 +23,7 @@ public class IsConflictProcessorTest extends ProcessorTest {
 	@Test
 	public void testData() throws Exception {
 		CommitStatus status = generateCommitStatus();
-		String actual = processor.getDataForMerge(status, status.getListOfConflictingFiles().get(0));
+		String actual = processor.getData(status, status.getListOfConflictingFiles().get(0));
 		assertEquals("true", actual);
 	}
 

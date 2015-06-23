@@ -11,7 +11,7 @@ public class BasicDataProcessor implements FileProcessor {
 	}
 
 	@Override
-	public String getDataForMerge(CommitStatus status, String fileName) {
+	public String getData(CommitStatus status, String fileName) {
 		CombinedFile combinedFile = status.getCombinedFile(fileName);
 		return status.getSHA1() + "," + fileName + "," + combinedFile.getATime() + "," + combinedFile.getBTime() + "," + status.getSolvedTime();
 	}

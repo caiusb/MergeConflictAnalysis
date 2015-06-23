@@ -10,7 +10,7 @@ public class IsConflictProcessor implements FileProcessor {
 	}
 
 	@Override
-	public String getDataForMerge(CommitStatus status, String fileName) {
+	public String getData(CommitStatus status, String fileName) {
 		boolean isConflict = status.getListOfConflictingFiles().contains(fileName);
 		if (isConflict) {
 			return "true";

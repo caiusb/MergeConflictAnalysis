@@ -24,7 +24,7 @@ public class LOCSizeProcessorTest extends ProcessorTest {
 	@Test
 	public void testData() throws Exception {
 		CommitStatus commitStatus = generateCommitStatus();
-		String data = processor.getDataForMerge(commitStatus, commitStatus.getListOfConflictingFiles().get(0));
+		String data = processor.getData(commitStatus, commitStatus.getListOfConflictingFiles().get(0));
 		assertEquals("1,1,1", data);
 	}
 }

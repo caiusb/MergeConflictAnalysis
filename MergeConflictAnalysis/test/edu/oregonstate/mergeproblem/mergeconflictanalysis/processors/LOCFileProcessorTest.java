@@ -24,7 +24,7 @@ public class LOCFileProcessorTest extends ProcessorTest {
 	@Test
 	public void testOnFile() throws Exception {
 		CommitStatus status = generateCommitStatus();
-		String data = processor.getDataForMerge(status, status.getListOfConflictingFiles().get(0));
+		String data = processor.getData(status, status.getListOfConflictingFiles().get(0));
 		assertEquals("1,1,1", data);		
 	}
 

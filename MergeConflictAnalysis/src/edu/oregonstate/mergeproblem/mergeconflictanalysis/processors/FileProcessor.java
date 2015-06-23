@@ -6,5 +6,5 @@ public interface FileProcessor {
 	
 	public String getHeader();
 	
-	public String getDataForMerge(CommitStatus status, String fileName);
+	public String getData(CommitStatus status, String fileName);
 }

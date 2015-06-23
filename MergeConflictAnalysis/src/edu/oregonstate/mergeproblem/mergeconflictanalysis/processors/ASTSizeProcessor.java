@@ -15,7 +15,7 @@ public class ASTSizeProcessor implements FileProcessor {
 	}
 
 	@Override
-	public String getDataForMerge(CommitStatus status, String fileName) {
+	public String getData(CommitStatus status, String fileName) {
 		CombinedFile combinedFile = status.getCombinedFile(fileName);
 		int aSize = -1;
 		int bSize = -1;

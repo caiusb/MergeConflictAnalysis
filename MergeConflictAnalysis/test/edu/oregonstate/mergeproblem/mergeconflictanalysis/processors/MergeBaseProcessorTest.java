@@ -30,7 +30,7 @@ public class MergeBaseProcessorTest extends MergeGitTest {
 		RevCommit mergeCommit = createConflictingCommit();
 		RevCommit base = CommitUtils.getCommit(repository, "HEAD~2");
 		CommitStatus commitStatus = new InMemoryMerger(repository).recreateMerge(mergeCommit);
-		String data = processor.getDataForMerge(commitStatus, commitStatus.getListOfConflictingFiles().get(0));
+		String data = processor.getData(commitStatus, commitStatus.getListOfConflictingFiles().get(0));
 		String expected = base.getName() + "," + base.getCommitTime();
 		assertEquals(expected, data);
 	}

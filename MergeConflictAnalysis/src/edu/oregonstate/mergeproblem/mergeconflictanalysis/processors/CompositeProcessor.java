@@ -22,9 +22,9 @@ public class CompositeProcessor implements FileProcessor {
 	}
 
 	@Override
-	public String getDataForMerge(CommitStatus status, String fileName) {
+	public String getData(CommitStatus status, String fileName) {
 		return processors.stream()
-				.map((processor) -> processor.getDataForMerge(status, fileName))
+				.map((processor) -> processor.getData(status, fileName))
 				.collect(Collectors.joining(","));
 	}
 

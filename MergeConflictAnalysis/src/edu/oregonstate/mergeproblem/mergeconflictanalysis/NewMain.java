@@ -141,7 +141,7 @@ public class NewMain {
 		statuses.stream().parallel().map((status) ->{
 			String statusResult = getFilesOfInterest(status).stream()
 				.filter((file) -> file.endsWith("java"))
-				.map((file) -> processor.getDataForMerge(status, file))
+				.map((file) -> processor.getData(status, file))
 				.collect(Collectors.joining("\n"));
 			if (statusResult.equals(""))
 				return statusResult;

@@ -24,7 +24,7 @@ public class ASTFileProcessorTest extends ProcessorTest {
 	@Test
 	public void testGetData() throws Exception {
 		CommitStatus commitStatus = generateCommitStatus();
-		String data = astFileProcessor.getDataForMerge(commitStatus, commitStatus.getListOfConflictingFiles().get(0));
+		String data = astFileProcessor.getData(commitStatus, commitStatus.getListOfConflictingFiles().get(0));
 		assertEquals("1,3,3", data);
 	}
 }
