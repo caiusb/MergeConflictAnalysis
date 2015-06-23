@@ -29,6 +29,7 @@ public class CommitStatus {
 			String fileContents = Util.retrieveFile(repository, sha1, file);
 			solvedVersions.put(file, fileContents);
 		}
+		initModifiedFiles();
 	}
 	
 	public List<String> getListOfConflictingFiles() {
@@ -40,7 +41,8 @@ public class CommitStatus {
 	}
 	
 	public CombinedFile getCombinedFile(String fileName) {
-		return combinedFiles.get(fileName);
+		CombinedFile combinedFile = combinedFiles.get(fileName);
+		return combinedFile;
 	}
 	
 	public String getSHA1() {
@@ -56,8 +58,18 @@ public class CommitStatus {
 	}
 	
 	public List<String> getModifiedFiles() {
-		if (modifiedFiles == null)
-			modifiedFiles = Util.getFilesChangedByCommit(repository, sha1);
 		return modifiedFiles;
+	}
+
+	private void initModifiedFiles() {
+		modifiedFiles = Util.getFilesChangedByCommit(repository, sha1);
+		for (String file : modifiedFiles) {
+			if (conflictingFiles.contains(file))
+				continue;
+			String contents = Util.retrieveFile(repository, file, sha1);
+			CombinedFile combinedFile = new CombinedFile();
+			combinedFile.addChunk(ChunkOwner.BOTH, contents);
+			combinedFiles.put(file, combinedFile);
+		}
 	}
 }
