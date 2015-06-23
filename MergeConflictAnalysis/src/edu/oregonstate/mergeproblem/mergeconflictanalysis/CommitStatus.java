@@ -25,6 +25,14 @@ public class CommitStatus {
 			FileStatus filestatus = new FileStatus(this, file, conflictingFiles.get(file));
 			fileStatuses.put(file, filestatus);
 		}
+		
+		List<String> modifiedFiles = Util.getFilesChangedByCommit(repository, sha1);
+		for (String file : modifiedFiles) {
+			if (fileStatuses.containsKey(file))
+				continue;
+			FileStatus fileStatus = new FileStatus(this, file, null, false);
+			fileStatuses.put(file, fileStatus);
+		}
 	}
 	
 	public List<String> getListOfConflictingFiles() {
