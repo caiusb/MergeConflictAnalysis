@@ -122,7 +122,7 @@ public class NewMain {
 	}
 
 	private List<String> getFilesOfInterest(CommitStatus status) {
-		return status.getModifiedFiles();
+		return status.getListOfConflictingFiles();
 	}
 	
 	private List<CommitStatus> recreateMergesInRepository(String repositoryPath) throws IOException,
@@ -131,7 +131,7 @@ public class NewMain {
 		List<RevCommit> mergeCommits = new RepositoryWalker(repository).getMergeCommits();
 		InMemoryMerger merger = new InMemoryMerger(repository);
 
-		List<CommitStatus> statuses = mergeCommits.stream().parallel().map((commit) -> merger.recreateMerge(commit))
+		List<CommitStatus> statuses = mergeCommits.stream().map((commit) -> merger.recreateMerge(commit))
 				.collect(Collectors.toList());
 		return statuses;
 	}

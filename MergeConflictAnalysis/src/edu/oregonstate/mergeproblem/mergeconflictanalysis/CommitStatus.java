@@ -29,7 +29,6 @@ public class CommitStatus {
 			String fileContents = Util.retrieveFile(repository, sha1, file);
 			solvedVersions.put(file, fileContents);
 		}
-		initModifiedFiles();
 	}
 	
 	public List<String> getListOfConflictingFiles() {
@@ -63,10 +62,15 @@ public class CommitStatus {
 
 	private void initModifiedFiles() {
 		modifiedFiles = Util.getFilesChangedByCommit(repository, sha1);
+		System.out.println("Files modified for " + sha1 + ":");
+		for (String file : modifiedFiles) {
+			System.out.println(file);
+		}
+		System.out.println("====");
 		for (String file : modifiedFiles) {
 			if (conflictingFiles.contains(file))
 				continue;
-			String contents = Util.retrieveFile(repository, file, sha1);
+			String contents = Util.retrieveFile(repository, sha1, file);
 			CombinedFile combinedFile = new CombinedFile();
 			combinedFile.addChunk(ChunkOwner.BOTH, contents);
 			combinedFiles.put(file, combinedFile);

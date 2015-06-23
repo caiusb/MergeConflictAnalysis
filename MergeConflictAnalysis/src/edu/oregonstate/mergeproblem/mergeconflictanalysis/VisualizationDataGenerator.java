@@ -28,7 +28,7 @@ public class VisualizationDataGenerator {
 			String sha1 = status.getSHA1();
 			Path commitPath = projectPath.resolve(sha1);
 			commitPath.toFile().mkdir();
-			status.getModifiedFiles().stream().filter((file) -> file.endsWith(".java"))
+			status.getListOfConflictingFiles().stream().filter((file) -> file.endsWith(".java"))
 				.forEach((file) -> {
 					Path filePath = commitPath.resolve(file);
 					filePath.toFile().mkdirs();
