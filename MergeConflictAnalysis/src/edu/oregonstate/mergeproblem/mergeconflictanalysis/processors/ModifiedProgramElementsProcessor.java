@@ -24,6 +24,7 @@ public class ModifiedProgramElementsProcessor implements FileProcessor {
 	public String getData(CommitStatus status, String fileName) {
 		List<ASTNode> knownMethods = new ArrayList<ASTNode>();
 		List<ASTNode> knownClasses = new ArrayList<ASTNode>();
+		List<ASTNode> seenNodes = new ArrayList<ASTNode>();
 		
 		CombinedFile combinedFile = status.getCombinedFile(fileName);
 		String aVersion = combinedFile.getVersion(ChunkOwner.A);
@@ -35,22 +36,25 @@ public class ModifiedProgramElementsProcessor implements FileProcessor {
 			if (!(node instanceof JdtTree))
 				continue;
 			JdtTree jdtNode = (JdtTree) node;
-			processNode(knownMethods, knownClasses, jdtNode);
+			processNode(knownMethods, knownClasses, seenNodes, jdtNode);
 		}
 		
 		return knownMethods.size() + "," + knownClasses.size();
 	}
 
 	private void processNode(List<ASTNode> knownMethods,
-			List<ASTNode> knownClasses, JdtTree jdtNode) {
+			List<ASTNode> knownClasses, List<ASTNode> seenNodes, JdtTree jdtNode) {
+		ASTNode containedNode = jdtNode.getContainedNode();
+		if (seenNodes.contains(containedNode))
+			return;
+		seenNodes.add(containedNode);
+		
 		if (jdtNode.getType() == ASTNode.METHOD_DECLARATION) {
-			ASTNode containedNode = jdtNode.getContainedNode();
 			if (!knownMethods.contains(containedNode)) {
 				knownMethods.add(containedNode);
 			}
 		}
 		if (jdtNode.getType() == ASTNode.TYPE_DECLARATION) {
-			ASTNode containedNode = jdtNode.getContainedNode();
 			if (!knownClasses.contains(containedNode))
 				knownClasses.add(containedNode);
 			return;
@@ -59,7 +63,7 @@ public class ModifiedProgramElementsProcessor implements FileProcessor {
 		List<Tree> parents = jdtNode.getParents();
 		for (Tree parent : parents) {
 			if (parent instanceof JdtTree)
-				processNode(knownMethods, knownClasses, (JdtTree) parent);
+				processNode(knownMethods, knownClasses, seenNodes, (JdtTree) parent);
 		}
 	}
 	
