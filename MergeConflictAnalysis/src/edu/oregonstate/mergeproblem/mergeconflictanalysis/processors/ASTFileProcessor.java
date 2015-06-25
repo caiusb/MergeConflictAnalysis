@@ -1,7 +1,5 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors;
 
-import java.io.IOException;
-
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.ASTDiff;
 
 public class ASTFileProcessor extends DiffFileProcessor {
@@ -13,11 +11,7 @@ public class ASTFileProcessor extends DiffFileProcessor {
 
 	@Override
 	public int getDiffSize(String aContent, String bContent) {
-		try {
-			return new ASTDiff().getActions(aContent, bContent).size();
-		} catch (IOException e) {
-			return -1;
-		}
+		return new ASTDiff().getActions(aContent, bContent).size();
 	}
 
 }
