@@ -17,7 +17,7 @@ public class FileStatus {
 		this.name = name;
 		this.file = file;
 		this.isConflicting = isConflicting;
-		this.solvedVersion = Util.retrieveFile(parentCommitStatus.getRepository(), parentCommitStatus.getSHA1(), name);
+		this.solvedVersion = null;
 	}
 	
 	public String getFileName() {
@@ -25,6 +25,8 @@ public class FileStatus {
 	}
 	
 	public String getSolvedVersion() {
+		if (solvedVersion == null)
+			 solvedVersion = Util.retrieveFile(parentCommitStatus.getRepository(), parentCommitStatus.getSHA1(), name);
 		return solvedVersion;
 	}
 
