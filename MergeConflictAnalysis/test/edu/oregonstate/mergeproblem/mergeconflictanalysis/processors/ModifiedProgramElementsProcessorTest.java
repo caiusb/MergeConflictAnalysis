@@ -1,17 +1,12 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors;
 
-import java.util.HashMap;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.ChunkOwner;
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.CombinedFile;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.CommitStatus;
 
 public class ModifiedProgramElementsProcessorTest extends ProcessorTest {
 	
-	private static final String FILE_NAME = "A.java";
 	private ModifiedProgramElementsProcessor processor;
 
 	@Override
@@ -19,17 +14,6 @@ public class ModifiedProgramElementsProcessorTest extends ProcessorTest {
 	public void before() throws Exception {
 		super.before();
 		processor = new ModifiedProgramElementsProcessor();
-	}
-	
-	private CommitStatus crateCommitStatus(String a, String b) {
-		CombinedFile combinedFile = new CombinedFile();
-		combinedFile.addChunk(ChunkOwner.A, a);
-		combinedFile.addChunk(ChunkOwner.B, b);
-		
-		HashMap<String, CombinedFile> conflictingFiles = new HashMap<String, CombinedFile>();
-		conflictingFiles.put(FILE_NAME, combinedFile);
-		CommitStatus commitStatus = new CommitStatus(null, null, conflictingFiles, -1);
-		return commitStatus;
 	}
 	
 	private void assertResult(String a, String b, String expected) {
