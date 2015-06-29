@@ -1,10 +1,10 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors;
 
 import org.eclipse.jgit.diff.DiffAlgorithm;
+import org.eclipse.jgit.diff.DiffAlgorithm.SupportedAlgorithm;
 import org.eclipse.jgit.diff.EditList;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextComparator;
-import org.eclipse.jgit.diff.DiffAlgorithm.SupportedAlgorithm;
 
 public class PreMergeLOCDiffProcessor extends AbstractPreMergeProcessor {
 
