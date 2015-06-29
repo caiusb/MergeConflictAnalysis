@@ -37,7 +37,13 @@ loadData <<- function(folder) {
                      LOC_SIZE_SOLVED = integer(0),
                      AST_SIZE_A = integer(0),
                      AST_SIZE_B = integer(0),
-                     AST_SIZE_SOLVED = integer(0))
+                     AST_SIZE_SOLVED = integer(0),
+                     IS_CONFLICT = character(0),
+                     NO_METHODS = integer(0),
+                     NO_CLASSES = integer(0),
+                     NO_ADD = integer(0),
+                     NO_UPDATE = integer(0),
+                     NO_DELETE = integer(0))
   
   lapply(files, function(file) {
     fileLength = length(readLines(file))
@@ -76,6 +82,11 @@ createCommitData <<- function(data) {
   astSizeA <- aggregate(AST_SIZE_A ~ SHA, data=data, FUN=sum)
   astSizeB <- aggregate(AST_SIZE_B ~ SHA, data=data, FUN=sum)
   astSizeS <- aggregate(AST_SIZE_SOLVED ~ SHA, data=data, FUN=sum)
+  noMethods <- aggregate(NO_METHODS ~ SHA, data=data, FUN=sum)
+  noClasses <- aggregate(NO_CLASSES ~ SHA, data=data, FUN=sum)
+  noAdd <- aggregate(NO_ADD ~ SHA, data=data, FUN=sum)
+  noUpdate <- aggregate(NO_UPDATE ~ SHA, data=data, FUN=sum)
+  noDelete <- aggregate(NO_DELETE ~ SHA, data=data, FUN=sum)
   
   final <- merge(timeA, timeB, by="SHA")
   final <- merge(final, timeS, by="SHA")
@@ -91,5 +102,11 @@ createCommitData <<- function(data) {
   final <- merge(final, astSizeA, by="SHA")
   final <- merge(final, astSizeB, by="SHA")
   final <- merge(final, astSizeS, by="SHA")
+  final <- merge(final, noMethods, by="SHA")
+  final <- merge(final, noClasses, by="SHA")
+  final <- merge(final, noAdd, by="SHA")
+  final <- merge(final, noUpdate, by="SHA")
+  final <- merge(final, noDelete, by="SHA")
+  
   return(final)
 }

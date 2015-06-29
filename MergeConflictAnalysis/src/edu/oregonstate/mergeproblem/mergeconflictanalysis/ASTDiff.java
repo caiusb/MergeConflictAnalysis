@@ -12,8 +12,7 @@ import fr.labri.gumtree.tree.Tree;
 
 public class ASTDiff {
 	
-	public List<Action> getActions(String AContent, String BContent)
-			throws IOException {
+	public List<Action> getActions(String AContent, String BContent) {
 		JdtTreeGenerator jdtTreeGenerator = new JdtTreeGenerator();
 		Tree leftTree = getTree(AContent, jdtTreeGenerator);
 		Tree rightTree = getTree(BContent, jdtTreeGenerator);
@@ -31,7 +30,7 @@ public class ASTDiff {
 		return actions;
 	}
 
-	private Tree getTree(String AContent, JdtTreeGenerator jdtTreeGenerator) throws IOException {
+	private Tree getTree(String AContent, JdtTreeGenerator jdtTreeGenerator) {
 		return jdtTreeGenerator.fromString(AContent);
 	}
 	

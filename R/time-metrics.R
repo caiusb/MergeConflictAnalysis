@@ -38,7 +38,8 @@ calculateEffort <- function(data) {
   weightedAverageConflictSize <- (weightedConflictSize)/2
   averageConflictSize <- (data$LOC_A_TO_SOLVED + data$LOC_B_TO_SOLVED)/2
   deviationFromDiagonal <- (data$LOC_B_TO_SOLVED-data$LOC_A_TO_SOLVED)/sqrt(2)
-  effort <- averageConflictSize
+  conflictSize <- data$LOC_A_TO_SOLVED + data$LOC_B_TO_SOLVED
+  effort <- data$NO_METHODS
   return(effort)
 }
 
