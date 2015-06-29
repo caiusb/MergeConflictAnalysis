@@ -15,7 +15,6 @@ public class CommitStatus {
 	
 	private Map<String, FileStatus> fileStatuses = new HashMap<String, FileStatus>();
 	
-	@SuppressWarnings("resource")
 	public CommitStatus(Repository repository, String sha1, Map<String, CombinedFile> conflictingFiles, int time) {
 		this.repository = repository;
 		this.sha1 = sha1;
