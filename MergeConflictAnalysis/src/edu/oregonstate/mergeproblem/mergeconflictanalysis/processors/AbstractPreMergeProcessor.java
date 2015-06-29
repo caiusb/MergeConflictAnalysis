@@ -1,6 +1,5 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors;
 
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.gitective.core.BlobUtils;
@@ -8,11 +7,10 @@ import org.gitective.core.CommitUtils;
 
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.CommitStatus;
 
-public class PreMergeFileProcessor implements FileProcessor {
+public abstract class AbstractPreMergeProcessor implements FileProcessor {
 
-	@Override
-	public String getHeader() {
-		return "A_BEFORE,B_BEFORE";
+	public AbstractPreMergeProcessor() {
+		super();
 	}
 
 	@Override
@@ -34,8 +32,9 @@ public class PreMergeFileProcessor implements FileProcessor {
 		}
 		String a = BlobUtils.getContent(repository, first, fileName);
 		String b = BlobUtils.getContent(repository, second, fileName);
-		String escapedA = StringEscapeUtils.escapeCsv(a);
-		String escapedB = StringEscapeUtils.escapeCsv(b);
-		return escapedA + "," + escapedB;
+		
+		return getResults(a, b);
 	}
+
+	protected abstract String getResults(String a, String b);
 }
