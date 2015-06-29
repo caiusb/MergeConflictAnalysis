@@ -52,6 +52,10 @@ public class CommitStatus {
 		return repository;
 	}
 	
+	public void addModifiedFiles(List<String> modifiedFiles) {
+		
+	}
+	
 	public List<String> getModifiedFiles() {
 		List<String> list = Collections.emptyList();
 		list.addAll(fileStatuses.keySet());
