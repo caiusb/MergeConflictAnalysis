@@ -33,6 +33,11 @@ public abstract class AbstractPreMergeProcessor implements FileProcessor {
 		String a = BlobUtils.getContent(repository, first, fileName);
 		String b = BlobUtils.getContent(repository, second, fileName);
 		
+		if (a == null)
+			a = "";
+		if (b == null)
+			b = "";
+		
 		return getResults(a, b);
 	}
 
