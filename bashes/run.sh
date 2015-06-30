@@ -13,7 +13,8 @@ repoloc=$(resolve-path $1)
 resultsloc=$(resolve-path $2 )
 results_suffix='.csv'
 javaopts='-Xmx12G'
-vizdataopts='-url-folder "mergeviz" -viz-folder "../viz/data" "$repo"'
+vizdataopts=''
+#vizdataopts='-url-folder "mergeviz" -viz-folder "../viz/data"'
 
 dir=$PWD
 orderfile=$repoloc/'order.txt'
@@ -29,7 +30,7 @@ function run-for-repo() {
 
     echo "Processing: $repo"
     date=`date`
-    java $javaopts -jar $dir/../MergingConflictAnalysis.jar -output $resultsloc/$repo$results_suffix $vizdataopts 2>$resultsloc/log/$repo.txt
+    java $javaopts -jar $dir/../MergingConflictAnalysis.jar -output $resultsloc/$repo$results_suffix $vizdataopts $repo 2>$resultsloc/log/$repo.txt
 
     pushd $resultsloc > /dev/null
     git add $repo$results_suffix log/$repo.txt > /dev/null
