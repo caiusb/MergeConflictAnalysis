@@ -73,6 +73,7 @@ loadData <<- function(folder) {
 }
 
 createCommitData <<- function(data) {
+  noFiles <- aggregate(FILE ~ SHA, data=data, FUN=length)
   timeA <- aggregate(TIME_A ~ SHA, data=data, FUN=mean)
   timeB <- aggregate(TIME_B ~ SHA, data=data, FUN=mean)
   timeS <- aggregate(TIME_SOLVED ~ SHA, data=data, FUN=mean)
@@ -95,7 +96,8 @@ createCommitData <<- function(data) {
   noDelete <- aggregate(NO_DELETE ~ SHA, data=data, FUN=sum)
   locDiffBefore <- aggregate(LOC_DIFF_BEFORE ~ SHA, data=data, FUN=sum)
   
-  final <- merge(timeA, timeB, by="SHA")
+  final <- merge(noFiles, timeA, by="SHA")
+  final <- merge(final, timeB, by="SHA")
   final <- merge(final, timeS, by="SHA")
   final <- merge(final, locAB, by="SHA")
   final <- merge(final, locAS, by="SHA")
@@ -114,6 +116,7 @@ createCommitData <<- function(data) {
   final <- merge(final, noAdd, by="SHA")
   final <- merge(final, noUpdate, by="SHA")
   final <- merge(final, noDelete, by="SHA")
+  final <- merge(final, locDiffBefore, by="SHA")
   
   return(final)
 }
