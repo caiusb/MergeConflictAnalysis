@@ -39,7 +39,9 @@ calculateEffort <- function(data) {
   averageConflictSize <- (data$LOC_A_TO_SOLVED + data$LOC_B_TO_SOLVED)/2
   deviationFromDiagonal <- (data$LOC_B_TO_SOLVED-data$LOC_A_TO_SOLVED)/sqrt(2)
   conflictSize <- data$LOC_A_TO_SOLVED + data$LOC_B_TO_SOLVED
-  effort <- data$NO_METHODS
+  percentUnmerged <- data$LOC_A_TO_B/data$LOC_DIFF_BEFORE
+  
+  effort <- data$FILE*percentUnmerged
   return(effort)
 }
 
@@ -57,7 +59,7 @@ trimSolveTimeGreaterThanMinutes <- function(data, minutes) {
 
 timedData <- calculateTimeDifferences(data)
 timedCommitData <- calculateTimeDifferences(createCommitData(timedData))
-trimmedCommitData <- trimSolveTimeGreaterThanMinutes(timedCommitData, 10)
+trimmedCommitData <- trimSolveTimeGreaterThanHours(timedCommitData, 2)
 trimmedCommitData$EFFORT <- calculateEffort(trimmedCommitData)
 print(summary(trimmedCommitData$RESOLUTION_TIME))
 cat("Standard deviation: ", sd(trimmedCommitData$RESOLUTION_TIME))
