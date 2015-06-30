@@ -43,7 +43,13 @@ loadData <<- function(folder) {
                      NO_CLASSES = integer(0),
                      NO_ADD = integer(0),
                      NO_UPDATE = integer(0),
-                     NO_DELETE = integer(0))
+                     NO_DELETE = integer(0),
+                     LOC_A_BEFORE_SIZE = integer(0),
+                     LOC_B_BEFORE_SIZE = integer(0),
+                     LOC_DIFF_BEFORE = integer(0),
+                     AST_A_BEFORE_SIZE = integer(0),
+                     AST_B_BEFORE_SIZE = integer(0),
+                     AST_DIFF_BEFORE= integer(0))
   
   lapply(files, function(file) {
     fileLength = length(readLines(file))
@@ -87,6 +93,7 @@ createCommitData <<- function(data) {
   noAdd <- aggregate(NO_ADD ~ SHA, data=data, FUN=sum)
   noUpdate <- aggregate(NO_UPDATE ~ SHA, data=data, FUN=sum)
   noDelete <- aggregate(NO_DELETE ~ SHA, data=data, FUN=sum)
+  locDiffBefore <- aggregate(LOC_DIFF_BEFORE ~ SHA, data=data, FUN=sum)
   
   final <- merge(timeA, timeB, by="SHA")
   final <- merge(final, timeS, by="SHA")
