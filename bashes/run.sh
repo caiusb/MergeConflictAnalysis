@@ -34,7 +34,7 @@ function run-for-repo() {
     java $javaopts -jar $dir/../MergingConflictAnalysis.jar -output $resultsloc/$reponame$results_suffix $vizdataopts $path 2>$resultsloc/log/$reponame.txt
 
     pushd $resultsloc > /dev/null
-    git add $reponame$results_suffix log/$repo.txt > /dev/null
+    git add $reponame$results_suffix log/$reponame.txt > /dev/null
     git commit -m "Results as of $date" > /dev/null
     git push > /dev/null
     popd > /dev/null    
