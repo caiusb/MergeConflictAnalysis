@@ -26,14 +26,15 @@ popd > /dev/null
 pushd $repoloc > /dev/null
 
 function run-for-repo() {
-    repo=$1
+    path=$1
 
-    echo "Processing: $repo"
+    reponame=$(basename $path)
+    echo "Processing: $reponame"
     date=`date`
-    java $javaopts -jar $dir/../MergingConflictAnalysis.jar -output $resultsloc/$repo$results_suffix $vizdataopts $repo 2>$resultsloc/log/$repo.txt
+    java $javaopts -jar $dir/../MergingConflictAnalysis.jar -output $resultsloc/$reponame$results_suffix $vizdataopts $path 2>$resultsloc/log/$reponame.txt
 
     pushd $resultsloc > /dev/null
-    git add $repo$results_suffix log/$repo.txt > /dev/null
+    git add $reponame$results_suffix log/$repo.txt > /dev/null
     git commit -m "Results as of $date" > /dev/null
     git push > /dev/null
     popd > /dev/null    

@@ -6,8 +6,7 @@ function discover() {
 
 	if [[ -d "$path/.git" ]]
 	then
-		reponame=$(basename $path)
-		$command $reponame
+		$command $path
 	else
 		for i in $path/*
 		do
