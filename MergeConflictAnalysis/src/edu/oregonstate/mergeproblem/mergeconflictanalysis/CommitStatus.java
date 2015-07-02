@@ -1,5 +1,6 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -51,12 +52,18 @@ public class CommitStatus {
 		return repository;
 	}
 	
-	public void addModifiedFiles(List<String> modifiedFiles) {
-		
+	public void addModifiedFiles(Map<String, String> modifiedFiles) {
+		for (String file : modifiedFiles.keySet()) {
+			if (fileStatuses.containsKey(file))
+				continue;
+			CombinedFile combinedFile = new CombinedFile().addChunk(ChunkOwner.BOTH, modifiedFiles.get(file));
+			FileStatus fileStatus = new FileStatus(this, file, combinedFile, false);
+			fileStatuses.put(file, fileStatus);
+		}
 	}
 	
 	public List<String> getModifiedFiles() {
-		List<String> list = Collections.emptyList();
+		List<String> list = new ArrayList<String>();
 		list.addAll(fileStatuses.keySet());
 		return list;
 	}

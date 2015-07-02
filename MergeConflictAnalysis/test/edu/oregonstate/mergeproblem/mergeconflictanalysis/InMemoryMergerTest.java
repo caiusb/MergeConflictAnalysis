@@ -1,7 +1,10 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,6 +48,15 @@ public class InMemoryMergerTest extends MergeGitTest {
 		
 		Map<String, CombinedFile> result = merger.merge(parents[0], parents[1]);
 		assertEquals(0, result.keySet().size());
+	}
+	
+	@Test
+	public void testModifiedFiles() throws Exception {
+		MergeResult result = createConflictingMergeResult();
+		RevCommit mergeCommit = add(Arrays.asList(new String[]{"A.java", "second.java"}), Arrays.asList(new String[]{"Solved version", "Something else"}));
+		CommitStatus status = merger.recreateMerge(mergeCommit);
+		List<String> modifiedFiles = status.getModifiedFiles();
+		assertEquals(2, modifiedFiles.size());
 	}
 
 }
