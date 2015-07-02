@@ -20,6 +20,9 @@ public class MergeBaseProcessor implements FileProcessor {
 		RevCommit mergeCommit = CommitUtils.getCommit(repository, mergeSHA);
 		RevCommit[] parents = mergeCommit.getParents();
 		RevCommit base = CommitUtils.getBase(repository, parents[0], parents[1]);
+		if (base == null) {
+			return "NO NAME,-1";
+		}
 		return base.getName() + "," + base.getCommitTime();
 	}
 
