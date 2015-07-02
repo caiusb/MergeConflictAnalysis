@@ -41,7 +41,8 @@ public class InMemoryMerger {
 		}
 		
 		try {
-			CommitStatus commitStatus = new CommitStatus(repository, mergeCommit.getName(), merge(parents[0], parents[1]), mergeCommit.getCommitTime());
+			CommitStatus commitStatus = new CommitStatus(repository, mergeCommit.getName(), merge(first, second), mergeCommit.getCommitTime());
+			commitStatus.setTimes(first.getCommitTime(), second.getCommitTime());
 			commitStatus.addModifiedFiles(Util.getFilesChangedByCommit(repository, mergeCommit.getName()));
 			return commitStatus;
 		} catch (IOException e) {
