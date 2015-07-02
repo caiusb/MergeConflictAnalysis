@@ -31,8 +31,9 @@ public class CombinedFile {
 	private int aTime;
 	private int bTime;
 
-	public void addChunk(ChunkOwner owner, String content) {
+	public CombinedFile addChunk(ChunkOwner owner, String content) {
 		chunks.add(new Chunk(owner, content));
+		return this;
 	}
 
 	public String getVersion(ChunkOwner owner) {
