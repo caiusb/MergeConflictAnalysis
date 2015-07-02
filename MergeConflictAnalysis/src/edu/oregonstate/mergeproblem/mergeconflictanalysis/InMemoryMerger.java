@@ -28,8 +28,17 @@ public class InMemoryMerger {
 	public CommitStatus recreateMerge(RevCommit mergeCommit) {
 		logger.info("Recreating commit " + mergeCommit.getName());
 		RevCommit[] parents = mergeCommit.getParents();
+		
 		if (parents.length < 2)
 			throw new IllegalArgumentException();
+		
+		RevCommit first = parents[0];
+		RevCommit second = parents[1];
+		if (first.getCommitTime() < second.getCommitTime()) {
+			RevCommit tmp = second; 
+			second = first;
+			first = tmp;
+		}
 		
 		try {
 			CommitStatus commitStatus = new CommitStatus(repository, mergeCommit.getName(), merge(parents[0], parents[1]), mergeCommit.getCommitTime());
@@ -44,12 +53,7 @@ public class InMemoryMerger {
 		Map<String, CombinedFile> results = new HashMap<String, CombinedFile>();
 		
 		RecursiveMerger recursiveMerger = (RecursiveMerger) new StrategyRecursive().newMerger(repository, true);
-		
-		if (first.getCommitTime() < second.getCommitTime()) {
-			RevCommit tmp = second; 
-			second = first;
-			first = tmp;
-		}		
+			
 		recursiveMerger.merge(first,second);
 		
 		Map<String, MergeResult<? extends Sequence>> mergeResults = recursiveMerger.getMergeResults();
