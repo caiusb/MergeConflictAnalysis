@@ -150,20 +150,22 @@ public class NewMain {
 
 	private void processResultsAndWriteToStream(List<CommitStatus> statuses, OutputStream outputStream) throws IOException {
 		outputStream.write((processor.getHeader() + "\n").getBytes());
-		statuses.stream().parallel().map((status) ->{
-			String statusResult = getFilesOfInterest(status).stream()
-				.filter((file) -> file.endsWith("java"))
-				.map((file) -> processor.getData(status, file))
-				.collect(Collectors.joining("\n"));
-			if (statusResult.equals(""))
-				return statusResult;
-			else
-				return statusResult += "\n";
-		}).forEach((r) -> {
+		statuses.stream().parallel().map(this::processCommitStatus).forEach((r) -> {
 			try {
 				outputStream.write(r.getBytes());
 			} catch (IOException e) {
 			}
 		});
+	}
+
+	public String processCommitStatus(CommitStatus status) {
+		String statusResult = getFilesOfInterest(status).stream()
+			.filter((file) -> file.endsWith("java"))
+			.map((file) -> processor.getData(status, file))
+			.collect(Collectors.joining("\n"));
+		if (statusResult.equals(""))
+			return statusResult;
+		else
+			return statusResult += "\n";
 	}
 }	
