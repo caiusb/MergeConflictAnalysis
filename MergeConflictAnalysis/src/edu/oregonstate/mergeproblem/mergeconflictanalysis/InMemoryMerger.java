@@ -32,7 +32,9 @@ public class InMemoryMerger {
 			throw new IllegalArgumentException();
 		
 		try {
-			return new CommitStatus(repository, mergeCommit.getName(), merge(parents[0], parents[1]), mergeCommit.getCommitTime());
+			CommitStatus commitStatus = new CommitStatus(repository, mergeCommit.getName(), merge(parents[0], parents[1]), mergeCommit.getCommitTime());
+			commitStatus.addModifiedFiles(Util.getFilesChangedByCommit(repository, mergeCommit.getName()));
+			return commitStatus;
 		} catch (IOException e) {
 			return null;
 		}
