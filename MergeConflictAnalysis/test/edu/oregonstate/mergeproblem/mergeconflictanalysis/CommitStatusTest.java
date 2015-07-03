@@ -3,7 +3,6 @@ package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 import java.util.Arrays;
 
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class CommitStatusTest extends MergeGitTest {
