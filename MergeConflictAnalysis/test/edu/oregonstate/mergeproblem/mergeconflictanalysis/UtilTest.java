@@ -17,7 +17,7 @@ public class UtilTest extends MergeGitTest {
 	}
 	
 	@Test
-	public void testFileChanged() throws Exception {
+	public void sanityTestFileChanged() throws Exception {
 		add("A.java", "something");
 		branch("branch");
 		add("A.java", "something else");
