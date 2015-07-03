@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
@@ -52,7 +51,7 @@ public class InMemoryMergerTest extends MergeGitTest {
 	
 	@Test
 	public void testModifiedFiles() throws Exception {
-		MergeResult result = createConflictingMergeResult();
+		createConflictingMergeResult();
 		RevCommit mergeCommit = add(Arrays.asList(new String[]{"A.java", "second.java"}), Arrays.asList(new String[]{"Solved version", "Something else"}));
 		CommitStatus status = merger.recreateMerge(mergeCommit);
 		List<String> modifiedFiles = status.getModifiedFiles();
