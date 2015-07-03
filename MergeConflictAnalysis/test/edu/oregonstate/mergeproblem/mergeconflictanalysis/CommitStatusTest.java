@@ -9,7 +9,6 @@ import org.junit.Test;
 public class CommitStatusTest extends MergeGitTest {
 	
 	@Test
-	@Ignore
 	public void testGetCombinedFileOfNonConflictingFile() throws Exception {
 		createConflictingMergeResult();
 		RevCommit merge = add(Arrays.asList(new String[]{"A.java", "B.java"}), Arrays.asList(new String[]{"resolved", "something"}));
