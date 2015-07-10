@@ -69,10 +69,25 @@ loadData <<- function(folder) {
   data <- data[data$LOC_SIZE_B > 1, ]
   data <- data[data$LOC_SIZE_SOLVED > 1, ]
   
+  #calculate commit data
+  data$Date <- unix2POSIXct(data$TIME_SOLVED)
+  
   return(data)
 }
 
 createCommitData <<- function(data) {
+  
+  and <- function(vector) {
+    
+    oneElementAnd <- function(element, accumulated) {
+      element  <- as.logical(element)
+      accumulated <- as.logical(accumulated)
+      return(element & accumulated)
+    }
+    
+    return(Reduce(oneElementAnd, vector, TRUE))
+  }
+  
   noFiles <- aggregate(FILE ~ SHA, data=data, FUN=length)
   timeA <- aggregate(TIME_A ~ SHA, data=data, FUN=mean)
   timeB <- aggregate(TIME_B ~ SHA, data=data, FUN=mean)
@@ -95,6 +110,8 @@ createCommitData <<- function(data) {
   noUpdate <- aggregate(NO_UPDATE ~ SHA, data=data, FUN=sum)
   noDelete <- aggregate(NO_DELETE ~ SHA, data=data, FUN=sum)
   locDiffBefore <- aggregate(LOC_DIFF_BEFORE ~ SHA, data=data, FUN=sum)
+  isConflict <- aggregate(IS_CONFLICT ~ SHA, data=data, FUN=and)
+  date <- aggregate(Date ~ SHA, data=data, FUN=mean)
   
   final <- merge(noFiles, timeA, by="SHA")
   final <- merge(final, timeB, by="SHA")
@@ -117,6 +134,13 @@ createCommitData <<- function(data) {
   final <- merge(final, noUpdate, by="SHA")
   final <- merge(final, noDelete, by="SHA")
   final <- merge(final, locDiffBefore, by="SHA")
+  final <- merge(final, isConflict, by="SHA")
+  final <- merge(final, date, by="SHA")
   
   return(final)
 }
+
+unix2POSIXct <- function(time) as.POSIXct(time, origin="1970-01-01", tz="GMT")
+
+conflictData <- data[data$IS_CONFLICT == 'true', ]
+successfulData <- data[data$IS_CONFLICT == 'false', ]
