@@ -18,8 +18,8 @@ do
 	if [ -e '.git' ]
 	then
 		resultfile=$results/$(basename $i)
-		echo "SHA,COMMIT_TIME,AUTHOR" > $resultfile
-		git log --max-parents=1 --format="%H,%at,%ae" > $resultfile
+		echo "SHA,COMMIT_TIME,AUTHOR" > $resultfile.csv
+		git log --max-parents=1 --format="%H,%at,%ae" >> $resultfile.csv
 	fi
 	popd > /dev/null
 done
