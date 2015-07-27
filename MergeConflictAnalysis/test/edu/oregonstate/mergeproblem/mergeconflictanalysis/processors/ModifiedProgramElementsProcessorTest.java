@@ -26,7 +26,7 @@ public class ModifiedProgramElementsProcessorTest extends ProcessorTest {
 	public void testOneMethodChange() {
 		String a = "public class A{public void m(){}}";
 		String b = "public class A{public void n(){}}";
-		String expected = "1,1";
+		String expected = "1,1,0";
 		assertResult(a, b, expected);
 	}
 
@@ -34,7 +34,7 @@ public class ModifiedProgramElementsProcessorTest extends ProcessorTest {
 	public void testAMoreComplicatedOneMethodChange() {
 		String a = "public class A{public void m(){int x = 1; int y = 2;}}";
 		String b = "public class A{public void m(){int x = 10; int yx = 2;}}";
-		String expected = "1,1";
+		String expected = "1,1,3";
 		assertResult(a, b, expected);
 	}
 	
@@ -42,7 +42,7 @@ public class ModifiedProgramElementsProcessorTest extends ProcessorTest {
 	public void testATwoMethodChange() {
 		String a = "public class A{public void m(){int x = 1;} public void int n(){ int y = 2;}}";
 		String b = "public class A{public void m(){int x = 10;} public void int n(){ int yx = 2;}}";
-		String expected = "2,1";
+		String expected = "2,1,4";
 		assertResult(a, b, expected);
 	}
 }
