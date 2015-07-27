@@ -1,6 +1,5 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
-import java.io.IOException;
 import java.util.List;
 
 import fr.labri.gumtree.actions.ActionGenerator;
@@ -20,7 +19,7 @@ public class ASTDiff {
 		return actions;
 	}
 
-	private List<Action> getActions(Tree leftTree, Tree rightTree) {
+	public List<Action> getActions(Tree leftTree, Tree rightTree) {
 		List<Action> actions;
 		Matcher matcher = MatcherFactories.newMatcher(leftTree, rightTree);
 		matcher.match();
@@ -34,7 +33,7 @@ public class ASTDiff {
 		return jdtTreeGenerator.fromString(AContent);
 	}
 	
-	public Tree getTree(String content) throws IOException {
+	public Tree getTree(String content) {
 		JdtTreeGenerator jdtTreeGenerator = new JdtTreeGenerator();
 		return getTree(content, jdtTreeGenerator);
 	}

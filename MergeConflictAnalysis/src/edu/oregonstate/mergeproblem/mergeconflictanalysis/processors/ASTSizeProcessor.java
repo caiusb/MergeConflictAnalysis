@@ -1,7 +1,5 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors;
 
-import java.io.IOException;
-
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.ASTDiff;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.ChunkOwner;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.CombinedFile;
@@ -21,12 +19,11 @@ public class ASTSizeProcessor implements FileProcessor {
 		int bSize = -1;
 		int solvedSize = -1;
 		ASTDiff astDiff = new ASTDiff();
-		try {
-			aSize = astDiff.getTree(combinedFile.getVersion(ChunkOwner.A)).getSize();
-			bSize = astDiff.getTree(combinedFile.getVersion(ChunkOwner.B)).getSize();
-			solvedSize = astDiff.getTree(status.getSolvedVersion(fileName)).getSize();
-		} catch (IOException e) {
-		}
+
+		aSize = astDiff.getTree(combinedFile.getVersion(ChunkOwner.A)).getSize();
+		bSize = astDiff.getTree(combinedFile.getVersion(ChunkOwner.B)).getSize();
+		solvedSize = astDiff.getTree(status.getSolvedVersion(fileName)).getSize();
+		
 		return aSize + "," + bSize + "," + solvedSize;
 	}
 
