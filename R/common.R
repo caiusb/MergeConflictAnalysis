@@ -16,9 +16,29 @@ trimNegativeValues <<- function(data, x) {
   return(data[data[x] >= 0, ])
 }
 
+listCSVFiles <- function(folder) {
+  return(list.files(path=folder, pattern="*.csv", full.names=T, recursive=FALSE))
+}
+
+readCSVFiles <- function(files, dataFrame) {
+  lapply(files, function(file) {
+    fileLength = length(readLines(file))
+    if (fileLength <= 1)
+      return 
+    else {
+      fileInfo <- file.info(file)
+      currentDataFile <- read.csv(file, header=T, sep=',', blank.lines.skip=T, as.is=T)
+      project <- basename(file_path_sans_ext(file))
+      currentDataFile$PROJECT <- project
+      dataFrame <<- rbind(dataFrame, currentDataFile)
+    }
+  })
+  return(dataFrame)
+}
+
 loadData <<- function(folder) {
+  files <- listCSVFiles(folder)
   
-  files <- list.files(path=resultsFolder, pattern="*.csv", full.names=T, recursive=FALSE)
   data <- data.frame(SHA = character(0),
                      FILE = character(0),
                      BASE_SHA = character(0),
@@ -51,23 +71,14 @@ loadData <<- function(folder) {
                      AST_B_BEFORE_SIZE = integer(0),
                      AST_DIFF_BEFORE= integer(0))
   
-  lapply(files, function(file) {
-    fileLength = length(readLines(file))
-    if (fileLength <= 1)
-      return 
-    else {
-      fileInfo <- file.info(file)
-      currentDataFile <- read.csv(file, header=T, sep=',', blank.lines.skip=T, as.is=T)
-      project <- basename(file_path_sans_ext(file))
-      currentDataFile$PROJECT <- project
-      data <<- rbind(data, currentDataFile)
-    }
-  })
+  data <- readCSVFiles(files, data)
   
   #removing file add and delete. They are not interesting to me
   data <- data[data$LOC_SIZE_A > 1, ]
   data <- data[data$LOC_SIZE_B > 1, ]
   data <- data[data$LOC_SIZE_SOLVED > 1, ]
+  
+  data$PROJECT <- factor(data$PROJECT)
   
   #calculate commit data
   data$Date <- unix2POSIXct(data$TIME_SOLVED)
@@ -142,5 +153,18 @@ createCommitData <<- function(data) {
 
 unix2POSIXct <- function(time) as.POSIXct(time, origin="1970-01-01", tz="GMT")
 
-conflictData <- data[data$IS_CONFLICT == 'true', ]
-successfulData <- data[data$IS_CONFLICT == 'false', ]
+getConflictingMerges <- function(data) return(data[data$IS_CONFLICT == "true", ])
+getSuccessfulMerges <- function(data) return(data[data$IS_CONFLICT == "false", ])
+
+loadNonMerge <- function(folder) {
+  files <- listCSVFiles(folder)
+  
+  data <- data.frame(SHA = character(0),
+                     TIME = integer(0),
+                     AUTHOR = character(0))
+
+  data <- readCSVFiles(files, data)
+  return(data)
+}
+
+concat <- function(a, b) paste(a, b, colapse=NULL, sep='')
