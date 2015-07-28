@@ -6,6 +6,7 @@ username = 'caiusb'
 passwordFile = 'token'
 reposFile = 'repos.txt'
 root = 'https://api.github.com/repos/'
+results = 'results'
 
 def getAuthToken(file):
 	f = open(file, 'r')
@@ -31,9 +32,15 @@ def getRepos(file):
 password = getAuthToken(passwordFile)
 repos = getRepos(reposFile)
 
-for repo in repos:
-	apiCall = root + repo['username'] + '/' + repo['repo'] + '/pulls'
-	r = req.get(apiCall, auth=(username, password))
-	print(r.status_code)
-	print(r.text)
+def writeToFile(folder, fileName, content):
+	f = open(folder + '/' + fileName, 'w')
+	f.write(content)
+	f.close()
 
+for repo in repos:
+	print('Getting pull requests for ' + repo['repo'])
+	apiCall = root + repo['username'] + '/' + repo['repo'] + '/pulls'
+	resp = req.get(apiCall, auth=(username, password))
+	if (resp.status_code != 200):
+		print('Error getting data for ' + repo['repo'])
+	writeToFile(results, repo['repo'] + ".json", resp.text)
