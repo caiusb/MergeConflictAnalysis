@@ -1,6 +1,8 @@
 #!/opt/local/bin/python
 
 import requests as req
+import json
+import os
 
 username = 'caiusb'
 passwordFile = 'token'
@@ -37,10 +39,25 @@ def writeToFile(folder, fileName, content):
 	f.write(content)
 	f.close()
 
+def getCommitsForPullReq(jsonPull, auth):
+	number = pull['number']
+	url = pull['_links']['commits']['href']
+	resp = req.get(url, auth=auth)
+	return resp.text
+
 for repo in repos:
-	print('Getting pull requests for ' + repo['repo'])
-	apiCall = root + repo['username'] + '/' + repo['repo'] + '/pulls'
-	resp = req.get(apiCall, auth=(username, password))
+	repoName = repo['repo']
+	print('Getting pull requests for ' + repoName)
+	repoRoot = root + repo['username'] + '/' + repoName
+	apiCall = repoRoot + '/pulls'
+	auth = (username, password)
+	resp = req.get(apiCall, auth=auth)
 	if (resp.status_code != 200):
-		print('Error getting data for ' + repo['repo'])
-	writeToFile(results, repo['repo'] + ".json", resp.text)
+		print('Error getting data for ' + repoName)
+	text = resp.text
+	listOfPulls = json.loads(text)
+	os.mkdir(results + "/" + repoName)
+	for pull in listOfPulls:
+		commits = getCommitsForPullReq(pull, auth)
+		writeToFile(results + "/" + repoName, str(pull['number']) + ".json", commits)
+	writeToFile(results + "/" + repoName, "pulls.json", text)
