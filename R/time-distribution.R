@@ -33,8 +33,8 @@ calculateTimes <- function(data) {
 
 commitData <- createCommitData(data)
 
-successfulCommitData <- commitData[commitData$IS_CONFLICT == FALSE, ]
-conflictingCommitData <- commitData[commitData$IS_CONFLICT == TRUE, ]
+successfulCommitData <- getSuccessfulMerges(commitData)
+conflictingCommitData <- getConflictingMerges(commitData)
 
 weekdayData <- calculateWeekdays(successfulCommitData)
 barplot(table(weekdayData$Weekday))
