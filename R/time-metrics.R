@@ -29,7 +29,7 @@ calculateTimeBetweenTips <- function(data) {
 }
 
 calculateResolutionTime <- function(data) {
-  data$RESOLUTION_TIME <- data$TIME_SOLVED - data$TIME_A
+  data$RESOLUTION_TIME <- abs(data$TIME_SOLVED - data$TIME_A)
   return(data)
 }
 
@@ -41,7 +41,7 @@ calculateEffort <- function(data) {
   conflictSize <- data$LOC_A_TO_SOLVED + data$LOC_B_TO_SOLVED
   percentUnmerged <- data$LOC_A_TO_B/data$LOC_DIFF_BEFORE
   
-  effort <- data$FILE*percentUnmerged
+  effort <- data$NO_METHODS #data$FILE*percentUnmerged
   return(effort)
 }
 
@@ -57,9 +57,14 @@ trimSolveTimeGreaterThanMinutes <- function(data, minutes) {
   return(data[data$RESOLUTION_TIME <= minutes*SECONDS_PER_MINUTE, ])
 }
 
-timedData <- calculateTimeDifferences(data)
+hist(conflictData$AST_DIFF_BEFORE, breaks=500, xlim=c(0,2000))
+hist(successfulData$AST_DIFF_BEFORE, breaks=500, xlim=c(0,2000))
+boxplot(successfulData$AST_DIFF_BEFORE, conflictData$LOC_DIFF_BEFORE)
+print(wilcox.test(conflictData$AST_DIFF_BEFORE, successfulData$AST_DIFF_BEFORE))
+
+timedData <- calculateTimeDifferences(conflictData)
 timedCommitData <- calculateTimeDifferences(createCommitData(timedData))
-trimmedCommitData <- trimSolveTimeGreaterThanHours(timedCommitData, 2)
+trimmedCommitData <- trimSolveTimeGreaterThanMinutes(timedCommitData, 10)
 trimmedCommitData$EFFORT <- calculateEffort(trimmedCommitData)
 print(summary(trimmedCommitData$RESOLUTION_TIME))
 cat("Standard deviation: ", sd(trimmedCommitData$RESOLUTION_TIME))
