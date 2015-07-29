@@ -8,7 +8,7 @@ username = 'caiusb'
 passwordFile = 'token'
 reposFile = 'repos.txt'
 root = 'https://api.github.com/repos/'
-results = 'results'
+results = '../../results/pull-requests'
 
 def getAuthToken(file):
 	f = open(file, 'r')
@@ -31,9 +31,6 @@ def getRepos(file):
 
 	return repos
 
-password = getAuthToken(passwordFile)
-repos = getRepos(reposFile)
-
 def writeToFile(folder, fileName, content):
 	f = open(folder + '/' + fileName, 'w')
 	f.write(content)
@@ -45,19 +42,33 @@ def getCommitsForPullReq(jsonPull, auth):
 	resp = req.get(url, auth=auth)
 	return resp.text
 
+def getEventsForPullReq(jsonPull, auth):
+	number = pull['number']
+	issueURL = pull['_links']['issue']['href']
+	eventsURL = issueURL + '/events'
+	resp = req.get(eventsURL, auth=auth)
+	return resp.text
+
+password = getAuthToken(passwordFile)
+repos = getRepos(reposFile)
+
 for repo in repos:
 	repoName = repo['repo']
 	print('Getting pull requests for ' + repoName)
 	repoRoot = root + repo['username'] + '/' + repoName
 	apiCall = repoRoot + '/pulls'
+	params = {'state': 'all'}
 	auth = (username, password)
-	resp = req.get(apiCall, auth=auth)
+	resp = req.get(apiCall, auth=auth, params=params)
 	if (resp.status_code != 200):
 		print('Error getting data for ' + repoName)
 	text = resp.text
 	listOfPulls = json.loads(text)
 	os.mkdir(results + "/" + repoName)
 	for pull in listOfPulls:
+		pathRoot = results + "/" + repoName
 		commits = getCommitsForPullReq(pull, auth)
-		writeToFile(results + "/" + repoName, str(pull['number']) + ".json", commits)
+		writeToFile(pathRoot, str(pull['number']) + '.commits.json', commits)
+		events = getEventsForPullReq(pull, auth)
+		writeToFile(pathRoot, str(pull['number']) + '.events.json', events) 
 	writeToFile(results + "/" + repoName, "pulls.json", text)
