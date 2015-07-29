@@ -11,3 +11,4 @@ __pycache__/
 d3js/all.csv
 .recommenders
 github/token
+*.swo
