@@ -16,6 +16,8 @@ public class CommitStatus {
 	private int bTime;
 	
 	private Map<String, FileStatus> fileStatuses = new HashMap<String, FileStatus>();
+	private String aSHA;
+	private String bSHA;
 	
 	public CommitStatus(Repository repository, String sha1, Map<String, CombinedFile> conflictingFiles, int time) {
 		this.repository = repository;
@@ -74,5 +76,18 @@ public class CommitStatus {
 	public void setTimes(int aTime, int bTime) {
 		this.aTime = aTime;
 		this.bTime = bTime;
+	}
+
+	public void setSHAs(String aSHA, String bSHA) {
+		this.aSHA = aSHA;
+		this.bSHA = bSHA;
+	}
+	
+	public String getASHA() {
+		return aSHA;
+	}
+	
+	public String getBSHA() {
+		return bSHA;
 	}
 }
