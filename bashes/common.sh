@@ -8,7 +8,6 @@ function resolve-path() {
 }
 
 function process-repos() {
-	echo $2
 	processFunction=$1
 	folder=$(resolve-path $2)
 	results=$(resolve-path $3)
