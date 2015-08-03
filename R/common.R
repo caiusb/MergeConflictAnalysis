@@ -1,6 +1,7 @@
 library(tools)
 
-resultsFolder <<- "../../results"
+resultsFolder <<- "../../results/merge-data"
+prFolder <<- "../../results/pr-summary"
 
 plotWithLinearRegression <<- function(data, x, y) {
   trim <- trimNegativeValues(data, x)
@@ -69,7 +70,7 @@ loadData <<- function(folder) {
                      LOC_DIFF_BEFORE = integer(0),
                      AST_A_BEFORE_SIZE = integer(0),
                      AST_B_BEFORE_SIZE = integer(0),
-                     AST_DIFF_BEFORE= integer(0))
+                     AST_DIFF_BEFORE = integer(0))
   
   data <- readCSVFiles(files, data)
   
@@ -168,3 +169,20 @@ loadNonMerge <- function(folder) {
 }
 
 concat <- function(a, b) paste(a, b, colapse=NULL, sep='')
+
+loadPullReqData <- function(folder) {
+  files <- listCSVFiles(folder)
+  
+  data <- data.frame(PR = integer(0),
+                     MERGED = logical(0),
+                     CLOSED = logical(0),
+                     CREATED_TIME = integer(0),
+                     MERGED_TIME = integer(0),
+                     SHA = character(0))
+
+  data <- readCSVFiles(files, data)
+  
+  data$PROJECT <- factor(data$PROJECT)
+  
+  return(data)
+}
