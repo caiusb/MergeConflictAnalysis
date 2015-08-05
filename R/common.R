@@ -100,6 +100,10 @@ createCommitData <<- function(data) {
     return(Reduce(oneElementAnd, vector, TRUE))
   }
   
+  justOne <- function(vector) {
+    return(vector[1])
+  }
+  
   noFiles <- aggregate(FILE ~ SHA, data=data, FUN=length)
   timeA <- aggregate(TIME_A ~ SHA, data=data, FUN=mean)
   timeB <- aggregate(TIME_B ~ SHA, data=data, FUN=mean)
@@ -124,6 +128,7 @@ createCommitData <<- function(data) {
   locDiffBefore <- aggregate(LOC_DIFF_BEFORE ~ SHA, data=data, FUN=sum)
   isConflict <- aggregate(IS_CONFLICT ~ SHA, data=data, FUN=and)
   date <- aggregate(Date ~ SHA, data=data, FUN=mean)
+  project <- aggregate(PROJECT ~ SHA, data=data, FUN=justOne)
   
   final <- merge(noFiles, timeA, by="SHA")
   final <- merge(final, timeB, by="SHA")
@@ -148,6 +153,9 @@ createCommitData <<- function(data) {
   final <- merge(final, locDiffBefore, by="SHA")
   final <- merge(final, isConflict, by="SHA")
   final <- merge(final, date, by="SHA")
+  final <- merge(final, project, by="SHA")
+  
+  final$PROJECT <- as.factor(final$PROJECT)
   
   return(final)
 }
