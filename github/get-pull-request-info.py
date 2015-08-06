@@ -21,7 +21,7 @@ def getEventsForPullReq(jsonPull, auth):
 username = c.getUsername()
 password = c.getAuthToken()
 repos = c.getRepos()
-results = c.getResultsFolder()
+results = c.getResultsFolder() + '/pull-requests'
 
 for repo in repos:
 	repoName = repo['repo']

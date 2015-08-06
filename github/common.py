@@ -6,7 +6,7 @@ username = 'caiusb'
 passwordFile = 'token'
 reposFile = 'repos.txt'
 root = 'https://api.github.com/repos/'
-results = '../../results/pull-requests'
+results = '../../results'
 
 def getUsername():
 	return username
