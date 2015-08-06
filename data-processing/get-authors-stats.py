@@ -25,6 +25,7 @@ totalNoAuthors = 0
 totalNoMergers = 0
 
 files = os.listdir(authorsFolder)
+print('PROJECT,NO_MERGERS,NO_AUTHORS')
 for f in files:
 	mergeAuthors = set()
 	allAuthors = set()
