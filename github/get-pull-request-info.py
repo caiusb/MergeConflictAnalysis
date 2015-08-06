@@ -1,40 +1,9 @@
 #!/opt/local/bin/python
 
+import common as c
 import requests as req
 import json
 import os
-
-username = 'caiusb'
-passwordFile = 'token'
-reposFile = 'repos.txt'
-root = 'https://api.github.com/repos/'
-results = '../../results/pull-requests'
-
-def getAuthToken(file):
-	f = open(file, 'r')
-	password = f.read()[:-1]
-	f.close()
-	return password
-
-def getRepos(file):
-	f = open(file, 'r')
-	string = f.read()
-	f.close()
-
-	listOfRepos = string.split('\n')
-	repos = []
-	for repo in listOfRepos:
-		if (repo == ''):
-			continue
-		rs = repo.split(',')
-		repos.append({'username': rs[0], 'repo': rs[1]})
-
-	return repos
-
-def writeToFile(folder, fileName, content):
-	f = open(folder + '/' + fileName, 'w')
-	f.write(content)
-	f.close()
 
 def getCommitsForPullReq(jsonPull, auth):
 	number = pull['number']
@@ -49,13 +18,15 @@ def getEventsForPullReq(jsonPull, auth):
 	resp = req.get(eventsURL, auth=auth)
 	return resp.text
 
-password = getAuthToken(passwordFile)
-repos = getRepos(reposFile)
+username = c.getUsername()
+password = c.getAuthToken()
+repos = c.getRepos()
+results = c.getResultsFolder()
 
 for repo in repos:
 	repoName = repo['repo']
 	print('Getting pull requests for ' + repoName)
-	repoRoot = root + repo['username'] + '/' + repoName
+	repoRoot = c.getApiRoot() + repo['username'] + '/' + repoName
 	apiCall = repoRoot + '/pulls'
 	params = {'state': 'all'}
 	auth = (username, password)
@@ -68,7 +39,7 @@ for repo in repos:
 	for pull in listOfPulls:
 		pathRoot = results + "/" + repoName
 		commits = getCommitsForPullReq(pull, auth)
-		writeToFile(pathRoot, str(pull['number']) + '.commits.json', commits)
+		c.writeToFile(pathRoot, str(pull['number']) + '.commits.json', commits)
 		events = getEventsForPullReq(pull, auth)
-		writeToFile(pathRoot, str(pull['number']) + '.events.json', events) 
+		c.writeToFile(pathRoot, str(pull['number']) + '.events.json', events) 
 	writeToFile(results + "/" + repoName, "pulls.json", text)
