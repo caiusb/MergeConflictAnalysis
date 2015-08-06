@@ -26,7 +26,7 @@ results = c.getResultsFolder() + '/pull-requests'
 for repo in repos:
 	repoName = repo['repo']
 	print('Getting pull requests for ' + repoName)
-	repoRoot = c.getApiRoot() + repo['username'] + '/' + repoName
+	repoRoot = c.getRepoRoot(repo)
 	apiCall = repoRoot + '/pulls'
 	params = {'state': 'all'}
 	auth = (username, password)

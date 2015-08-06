@@ -42,3 +42,6 @@ def getApiRoot():
 
 def getResultsFolder():
 	return results
+
+def getRepoRoot(repo):
+	return getApiRoot() + repo['username'] + '/' + repo['repo']
