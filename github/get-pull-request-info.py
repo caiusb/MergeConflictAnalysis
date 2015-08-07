@@ -18,6 +18,12 @@ def getEventsForPullReq(jsonPull, auth):
 	resp = c.doApiCall(eventsURL, auth=auth)
 	return resp
 
+def getFullPullRequest(jsonPull, auth):
+	number = pull['number']
+	url = pull['_links']['self']['href']
+	resp = c.doApiCall(url, auth=auth)
+	return resp
+
 username = c.getUsername()
 password = c.getAuthToken()
 repos = c.getRepos()
@@ -39,4 +45,6 @@ for repo in repos:
 		c.writeToFile(pathRoot, str(pull['number']) + '.commits.json', commits)
 		events = getEventsForPullReq(pull, auth)
 		c.writeToFile(pathRoot, str(pull['number']) + '.events.json', events) 
+		fullPull = getFullPullRequest(pull, auth)
+		c.writeToFile(pathRoot, str(pull['number']) + '.full.json', fullPull)
 	writeToFile(results + "/" + repoName, "pulls.json", text)
