@@ -1,7 +1,6 @@
 #!/opt/local/bin/python
 
 import common as c
-import requests as req
 import json
 import os
 
