@@ -44,9 +44,8 @@ def getRepos():
 	return repos
 
 def writeToFile(folder, fileName, content):
-	f = open(folder + '/' + fileName, 'w')
-	f.write(content)
-	f.close()
+	with open(folder + '/' + fileName, 'w') as f:
+		f.write(content)
 
 def getApiRoot():
 	return root
