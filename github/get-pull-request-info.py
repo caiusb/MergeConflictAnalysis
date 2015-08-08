@@ -46,4 +46,4 @@ for repo in repos:
 		c.writeToFile(pathRoot, str(pull['number']) + '.events.json', events) 
 		fullPull = getFullPullRequest(pull, auth)
 		c.writeToFile(pathRoot, str(pull['number']) + '.full.json', fullPull)
-	writeToFile(results + "/" + repoName, "pulls.json", text)
+	c.writeToFile(results + "/" + repoName, "pulls.json", text)
