@@ -24,6 +24,7 @@ import org.kohsuke.args4j.Option;
 
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.ASTFileProcessor;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.ASTSizeProcessor;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.AuthorProcessor;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.BasicDataProcessor;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.CompositeProcessor;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.CouplingChangeProcessor;
@@ -122,6 +123,7 @@ public class NewMain {
 		processor.addProcessor(new PreMergeASTSizeProcessor());
 		processor.addProcessor(new PreMergeASTDiffProcessor());
 		processor.addProcessor(new CouplingChangeProcessor());
+		processor.addProcessor(new AuthorProcessor());
 	}
 
 	private void generateDiffs(String projectName, List<CommitStatus> statuses) {
