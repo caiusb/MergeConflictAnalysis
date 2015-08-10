@@ -81,5 +81,23 @@ public class NumberOfAuthorsProcessorTest extends ProcessorTest {
 		String header = processor.getHeader();
 		assertEquals("NO_AUTHORS", header);
 	}
+	
+	@Test
+	public void testPartOfMerge() throws Exception {
+		PersonIdent another = new PersonIdent("another", "another@test.com");
+		author = another;
+		add("C.java", "public class C{}");
+		branch("branch2");
+		checkout("master");
+		RevCommit mergeCommit = createMultiAuthorMergeCommit();
+		author = another;
+		checkout("branch2");
+		add("D.java", "public class D{}");
+		checkout("master");
+		merge("branch2");
+		CommitStatus status = new InMemoryMerger(repository).recreateMerge(mergeCommit);
+		String data = processor.getData(status, "A.java");
+		assertEquals("2", data);
+	}
 
 }
