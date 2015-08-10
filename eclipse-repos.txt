@@ -1,0 +1,10 @@
+http://git.eclipse.org/gitroot/jdt/eclipse.jdt.core.git
+http://git.eclipse.org/gitroot/jdt/eclipse.jdt.debug.git
+http://git.eclipse.org/gitroot/jdt/eclipse.jdt.git
+http://git.eclipse.org/gitroot/jdt/eclipse.jdt.ui.git
+http://git.eclipse.org/gitroot/platform/eclipse.platform.debug.git
+http://git.eclipse.org/gitroot/platform/eclipse.platform.common.git
+http://git.eclipse.org/gitroot/platform/eclipse.platform.resources.git
+http://git.eclipse.org/gitroot/platform/eclipse.platform.runtime.git
+http://git.eclipse.org/gitroot/platform/eclipse.platform.text.git
+http://git.eclipse.org/gitroot/platform/eclipse.platform.team.git
