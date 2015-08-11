@@ -47,8 +47,8 @@ public class AuthorProcessor implements FileProcessor {
 		} catch (IOException e) {
 		} finally {
 			walk.close();
-			return authors.size() + "";
 		}
+		return authors.size() + "";
 	}
 
 }
