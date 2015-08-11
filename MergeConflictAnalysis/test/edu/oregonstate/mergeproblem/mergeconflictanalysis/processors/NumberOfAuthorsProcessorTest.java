@@ -98,5 +98,4 @@ public class NumberOfAuthorsProcessorTest extends ProcessorTest {
 		String data = processor.getData(status, "A.java");
 		assertEquals("2", data);
 	}
-
 }
