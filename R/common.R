@@ -59,7 +59,7 @@ loadData <<- function(folder) {
                      AST_SIZE_A = integer(0),
                      AST_SIZE_B = integer(0),
                      AST_SIZE_SOLVED = integer(0),
-                     IS_CONFLICT = character(0),
+                     IS_CONFLICT = logical(0),
                      NO_METHODS = integer(0),
                      NO_CLASSES = integer(0),
                      NO_ADD = integer(0),
