@@ -12,7 +12,6 @@ import org.eclipse.jgit.api.errors.UnmergedPathsException;
 import org.eclipse.jgit.api.errors.WrongRepositoryStateException;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.gitective.core.CommitUtils;
 import org.junit.Before;
 import org.junit.Test;
 
