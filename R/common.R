@@ -84,6 +84,7 @@ loadData <<- function(folder) {
   
   #calculate commit data
   data$Date <- unix2POSIXct(data$TIME_SOLVED)
+  data$IS_CONFLICT <- ifelse(data$IS_CONFLICT == "True", TRUE, FALSE)
   
   return(data)
 }
@@ -192,6 +193,9 @@ loadPullReqData <- function(folder) {
                      SHA = character(0))
 
   data <- readCSVFiles(files, data)
+  
+  data$MERGED <- ifelse(data$MERGED == "True", TRUE, FALSE)
+  data$CLOSED <- ifelse(data$CLOSED == "True", TRUE, FALSE)
   
   data$PROJECT <- factor(data$PROJECT)
   
