@@ -97,4 +97,28 @@ public class CouplingChangeProcessorTest extends ProcessorTest {
 		String results = processor.getResults(a, b);
 		assertEquals("1,0", results);
 	}
+	
+	@Test
+	public void testAddIfStatement() {
+		String a = "public class A{public void m(){}}";
+		String b = "public class B{public void m(){if(true){}}";
+		String results = processor.getResults(a, b);
+		assertEquals("0,1", results);
+	}
+	
+	@Test
+	public void testAddWhileStatement() {
+		String a = "public class A{public void m(){}}";
+		String b = "public class B{public void m(){while(true){}}";
+		String result = processor.getResults(a, b);
+		assertEquals("0,1", result);
+	}
+	
+	@Test
+	public void testAddForStatement() {
+		String a = "public class B{public void m(){}";
+		String b = "public class B{public void m(){for(int i=0; i<10; i++){}}";
+		String results = processor.getResults(a, b);
+		assertEquals("0,1", results);
+	}
 }

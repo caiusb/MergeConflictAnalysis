@@ -7,10 +7,13 @@ import java.util.Set;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ClassInstanceCreation;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
+import org.eclipse.jdt.core.dom.ForStatement;
+import org.eclipse.jdt.core.dom.IfStatement;
 import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.QualifiedName;
 import org.eclipse.jdt.core.dom.SimpleType;
 import org.eclipse.jdt.core.dom.Type;
+import org.eclipse.jdt.core.dom.WhileStatement;
 
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.ASTDiff;
 import fr.labri.gumtree.actions.model.Action;
@@ -37,7 +40,21 @@ public class CouplingChangeProcessor extends AbstractPreMergeProcessor {
 	}
 
 	private String getCycloChange(ASTDiff astDiff, JdtTree aTree, JdtTree bTree) {
-		return "0";
+		int change = 0;
+		List<Action> actions = astDiff.getActions(aTree, bTree);
+		for (Action action : actions) {
+			JdtTree node = (JdtTree) action.getNode();
+			ASTNode containedNode = node.getContainedNode();
+			if (action instanceof Update)
+				continue;
+			if (containedNode instanceof IfStatement)
+				change ++;
+			if (containedNode instanceof WhileStatement)
+				change ++;
+			if (containedNode instanceof ForStatement)
+				change ++;
+		}
+		return "" + change;
 	}
 
 	private String getCouplingChange(ASTDiff astDiff, JdtTree aTree, JdtTree bTree) {
