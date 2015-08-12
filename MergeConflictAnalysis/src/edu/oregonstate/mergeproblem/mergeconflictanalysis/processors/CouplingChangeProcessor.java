@@ -23,19 +23,27 @@ public class CouplingChangeProcessor extends AbstractPreMergeProcessor {
 
 	@Override
 	public String getHeader() {
-		return "COUPLING_CHANGE";
+		return "COUPLING_CHANGE,CYCLO_CHANGE";
 	}
 
 	@Override
 	protected String getResults(String a, String b) {
-		Set<String> types = new HashSet<String>();
 		
 		ASTDiff astDiff = new ASTDiff();
 		JdtTree aTree = (JdtTree) astDiff.getTree(a);
-		Set<String> firstTypes = getTypes(aTree);
 		JdtTree bTree = (JdtTree) astDiff.getTree(b);
-		Set<String> secondTypes = getTypes(bTree);
 		
+		return getCouplingChange(astDiff, aTree, bTree) + "," + getCycloChange(astDiff, aTree, bTree);
+	}
+
+	private String getCycloChange(ASTDiff astDiff, JdtTree aTree, JdtTree bTree) {
+		return "0";
+	}
+
+	private String getCouplingChange(ASTDiff astDiff, JdtTree aTree, JdtTree bTree) {
+		Set<String> firstTypes = getTypes(aTree);
+		Set<String> secondTypes = getTypes(bTree);
+		Set<String> types = new HashSet<String>();
 		List<Action> actions = astDiff.getActions(aTree, bTree);
 		for (Action action : actions) {
 			JdtTree node = (JdtTree) action.getNode();			

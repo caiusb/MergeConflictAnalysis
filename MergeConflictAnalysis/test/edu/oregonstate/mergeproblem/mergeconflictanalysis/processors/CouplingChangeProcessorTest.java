@@ -15,7 +15,7 @@ public class CouplingChangeProcessorTest extends ProcessorTest {
 	
 	@Test
 	public void testHeader() {
-		assertEquals("COUPLING_CHANGE", processor.getHeader());
+		assertEquals("COUPLING_CHANGE,CYCLO_CHANGE", processor.getHeader());
 	}
 	
 	@Test
@@ -23,7 +23,7 @@ public class CouplingChangeProcessorTest extends ProcessorTest {
 		String a = "public class A{}";
 		String b = "public class A{public String a = \"\";}";
 		String results = processor.getResults(a, b);
-		assertEquals("1", results);
+		assertEquals("1,0", results);
 	}
 	
 	@Test
@@ -31,7 +31,7 @@ public class CouplingChangeProcessorTest extends ProcessorTest {
 		String a = "public class A{public String a = \"\";}";
 		String b = "public class A{public String a = \"\";public String b = \"\";}";
 		String results = processor.getResults(a, b);
-		assertEquals("0", results);
+		assertEquals("0,0", results);
 	}
 	
 	@Test
@@ -39,7 +39,7 @@ public class CouplingChangeProcessorTest extends ProcessorTest {
 		String a = "public class A{public Object x = null;}";
 		String b = "public class A{public Object x = new String()}";
 		String results = processor.getResults(a, b);
-		assertEquals("1", results);
+		assertEquals("1,0", results);
 	}
 	
 	@Test
@@ -47,7 +47,7 @@ public class CouplingChangeProcessorTest extends ProcessorTest {
 		String a = "public class A{public Object x = null;}";
 		String b = "public class A{public String a = \"\";}";
 		String results = processor.getResults(a, b);
-		assertEquals("0", results);
+		assertEquals("0,0", results);
 	}
 	
 	@Test
@@ -55,7 +55,7 @@ public class CouplingChangeProcessorTest extends ProcessorTest {
 		String a = "public class A{public Object x = null;}";
 		String b = "public class A{public Object x = null; public String a; public String b;}";
 		String results = processor.getResults(a, b);
-		assertEquals("1", results);
+		assertEquals("1,0", results);
 	}
 	
 	@Test
@@ -63,7 +63,7 @@ public class CouplingChangeProcessorTest extends ProcessorTest {
 		String a = "public class A{}";
 		String b = "public class B{public int x = 1;}";
 		String results = processor.getResults(a, b);
-		assertEquals("0", results);
+		assertEquals("0,0", results);
 	}
 	
 	@Test
@@ -71,7 +71,7 @@ public class CouplingChangeProcessorTest extends ProcessorTest {
 		String a = "public class A{public String a = \"\";}";
 		String b = "public class A{}";
 		String results = processor.getResults(a, b);
-		assertEquals("1", results);
+		assertEquals("1,0", results);
 	}
 	
 	@Test
@@ -79,7 +79,7 @@ public class CouplingChangeProcessorTest extends ProcessorTest {
 		String a = "public class A{public String a = \"\";}";
 		String b = "public class A{public String a = \"\";public String b = \"\";}";
 		String results = processor.getResults(b, a);
-		assertEquals("0", results);
+		assertEquals("0,0", results);
 	}
 	
 	@Test
@@ -87,7 +87,7 @@ public class CouplingChangeProcessorTest extends ProcessorTest {
 		String a = "public class A{public Object x = null;}";
 		String b = "public class A{public Object x = new String()}";
 		String results = processor.getResults(b, a);
-		assertEquals("1", results);
+		assertEquals("1,0", results);
 	}
 	
 	@Test
@@ -95,6 +95,6 @@ public class CouplingChangeProcessorTest extends ProcessorTest {
 		String a = "public class A{}";
 		String b = "public class A{public String x; public java.lang.String y;}";
 		String results = processor.getResults(a, b);
-		assertEquals("1", results);
+		assertEquals("1,0", results);
 	}
 }
