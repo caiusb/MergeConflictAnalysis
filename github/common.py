@@ -1,6 +1,7 @@
 #!/opt/local/bin/python
 
 import os
+import time
 import requests as req
 
 username = 'caiusb'
@@ -12,10 +13,11 @@ results = '../../results'
 def doApiCall(url, auth, params={}):
 	resp = req.get(url, auth=auth, params=params)
 	if (resp.status_code == 403):
-		while (resp.headers['X-RateLimit-Remaining'] == 0):
-			sleepTime = r.headers['X-RateLimit-Reset']
+		while resp.headers['X-RateLimit-Remaining'] == '0':
+			resetTime = float(resp.headers['X-RateLimit-Reset'])
+			sleepTime = resetTime - time.time()
 			print('Exhausted the API Rate Limit. Sleeping for ' + str(sleepTime))
-			sleep(sleepTime)
+			time.sleep(sleepTime)
 			resp = req.get(url, auth=auth, params=params)
 	return resp.text
 
