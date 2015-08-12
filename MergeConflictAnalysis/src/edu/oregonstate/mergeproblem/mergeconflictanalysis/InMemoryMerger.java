@@ -15,6 +15,7 @@ import org.eclipse.jgit.merge.MergeResult;
 import org.eclipse.jgit.merge.RecursiveMerger;
 import org.eclipse.jgit.merge.StrategyRecursive;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.gitective.core.CommitUtils;
 
 public class InMemoryMerger {
 	
@@ -32,9 +33,9 @@ public class InMemoryMerger {
 		if (parents.length < 2)
 			throw new IllegalArgumentException();
 		
-		RevCommit first = parents[0];
-		RevCommit second = parents[1];
-		if (first.getCommitTime() < second.getCommitTime()) {
+		RevCommit first = CommitUtils.getCommit(repository, parents[0]);
+		RevCommit second = CommitUtils.getCommit(repository, parents[1]);
+		if (first.getUTCTime() < second.getUTCTime()) {
 			RevCommit tmp = second; 
 			second = first;
 			first = tmp;
@@ -45,6 +46,7 @@ public class InMemoryMerger {
 			commitStatus.setTimes(first.getCommitTime(), second.getCommitTime());
 			commitStatus.setSHAs(first.getName(), second.getName());
 			commitStatus.addModifiedFiles(Util.getFilesChangedByCommit(repository, mergeCommit.getName()));
+			commitStatus.setTimeOffset(first.getTimeZoneOffset());
 			return commitStatus;
 		} catch (IOException e) {
 			return null;

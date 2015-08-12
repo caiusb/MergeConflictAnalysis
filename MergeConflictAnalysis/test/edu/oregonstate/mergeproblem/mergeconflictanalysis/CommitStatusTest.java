@@ -17,4 +17,11 @@ public class CommitStatusTest extends MergeGitTest {
 		assertNotNull(combinedFile);
 	}
 
+	@Test
+	public void getTimeZone() throws Exception {
+		RevCommit merge = createConflictingCommit();
+		CommitStatus commitStatus = new InMemoryMerger(repository).recreateMerge(merge);
+		int offset = commitStatus.getTimeOffset();
+		assertEquals(author.getTimeZoneOffset() * 60, offset);
+	}
 }

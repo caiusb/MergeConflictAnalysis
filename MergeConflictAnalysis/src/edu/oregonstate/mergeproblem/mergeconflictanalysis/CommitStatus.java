@@ -18,6 +18,7 @@ public class CommitStatus {
 	private Map<String, FileStatus> fileStatuses = new HashMap<String, FileStatus>();
 	private String aSHA;
 	private String bSHA;
+	private int timeOffset;
 	
 	public CommitStatus(Repository repository, String sha1, Map<String, CombinedFile> conflictingFiles, int time) {
 		this.repository = repository;
@@ -89,5 +90,13 @@ public class CommitStatus {
 	
 	public String getBSHA() {
 		return bSHA;
+	}
+	
+	public void setTimeOffset(int offset) {
+		this.timeOffset = offset;
+	}
+
+	public int getTimeOffset() {
+		return timeOffset;
 	}
 }

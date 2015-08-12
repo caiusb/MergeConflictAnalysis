@@ -1,5 +1,9 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors;
 
+import java.util.Date;
+import java.util.TimeZone;
+import java.util.spi.TimeZoneNameProvider;
+
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
@@ -29,8 +33,8 @@ public class NumberOfAuthorsProcessorTest extends ProcessorTest {
 	public void before() throws Exception {
 		super.before();
 		processor = new AuthorProcessor();
-		aAuthor = new PersonIdent("a", "a@test.com");
-		bAuthor = new PersonIdent("b", "b@test.com");
+		aAuthor = new PersonIdent("a", "a@test.com", new Date(), TimeZone.getTimeZone("GMT-8:00"));
+		bAuthor = new PersonIdent("b", "b@test.com", new Date(), TimeZone.getTimeZone("GMT-8:00"));
 	}
 
 	@Test
@@ -83,7 +87,7 @@ public class NumberOfAuthorsProcessorTest extends ProcessorTest {
 	
 	@Test
 	public void testPartOfMerge() throws Exception {
-		PersonIdent another = new PersonIdent("another", "another@test.com");
+		PersonIdent another = new PersonIdent("another", "another@test.com", new Date(), TimeZone.getTimeZone("GMT-8:00"));
 		author = another;
 		add("C.java", "public class C{}");
 		branch("branch2");
