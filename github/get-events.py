@@ -17,8 +17,5 @@ for repo in repos:
 	repoRoot = c.getRepoRoot(repo)
 	apiCall = repoRoot + "/events"
 	auth = (username, password)
-	resp = req.get(apiCall, auth=auth)
-	if (resp.status_code != 200):
-		print('Error getting events for ' + repoName)
-	text = resp.text
+	text = c.doApiCall(apiCall, auth=auth)
 	c.writeToFile(resultsFolder, repoName + '.json', text)
