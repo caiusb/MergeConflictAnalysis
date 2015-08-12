@@ -2,7 +2,6 @@ package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors;
 
 import java.util.Date;
 import java.util.TimeZone;
-import java.util.spi.TimeZoneNameProvider;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult;
