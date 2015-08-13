@@ -24,7 +24,7 @@ import fr.labri.gumtree.actions.model.Update;
 import fr.labri.gumtree.gen.jdt.JdtTree;
 import fr.labri.gumtree.tree.Tree;
 
-public class CouplingChangeProcessor extends AbstractPreMergeProcessor {
+public class MetricProcessor extends AbstractPreMergeProcessor {
 
 	@Override
 	public String getHeader() {

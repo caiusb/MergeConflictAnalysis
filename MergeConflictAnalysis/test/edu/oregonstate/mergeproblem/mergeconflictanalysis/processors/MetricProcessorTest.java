@@ -3,14 +3,14 @@ package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors;
 import org.junit.Before;
 import org.junit.Test;
 
-public class CouplingChangeProcessorTest extends ProcessorTest {
+public class MetricProcessorTest extends ProcessorTest {
 	
-	private CouplingChangeProcessor processor;
+	private MetricProcessor processor;
 
 	@Before
 	public void before() throws Exception {
 		super.before();
-		processor = new CouplingChangeProcessor();
+		processor = new MetricProcessor();
 	}
 	
 	@Test

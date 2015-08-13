@@ -27,7 +27,7 @@ import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.ASTSizeProc
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.AuthorProcessor;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.BasicDataProcessor;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.CompositeProcessor;
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.CouplingChangeProcessor;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.MetricProcessor;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.IsConflictProcessor;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.LOCFileProcessor;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.LOCSizeProcessor;
@@ -122,7 +122,7 @@ public class NewMain {
 		processor.addProcessor(new PreMergeLOCDiffProcessor());
 		processor.addProcessor(new PreMergeASTSizeProcessor());
 		processor.addProcessor(new PreMergeASTDiffProcessor());
-		processor.addProcessor(new CouplingChangeProcessor());
+		processor.addProcessor(new MetricProcessor());
 		processor.addProcessor(new AuthorProcessor());
 	}
 
