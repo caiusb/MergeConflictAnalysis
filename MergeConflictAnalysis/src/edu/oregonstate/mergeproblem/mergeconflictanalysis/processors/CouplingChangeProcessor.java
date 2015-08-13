@@ -6,12 +6,14 @@ import java.util.Set;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ClassInstanceCreation;
+import org.eclipse.jdt.core.dom.EnhancedForStatement;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.ForStatement;
 import org.eclipse.jdt.core.dom.IfStatement;
 import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.QualifiedName;
 import org.eclipse.jdt.core.dom.SimpleType;
+import org.eclipse.jdt.core.dom.SwitchCase;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.WhileStatement;
 
@@ -52,6 +54,10 @@ public class CouplingChangeProcessor extends AbstractPreMergeProcessor {
 			if (containedNode instanceof WhileStatement)
 				change ++;
 			if (containedNode instanceof ForStatement)
+				change ++;
+			if (containedNode instanceof SwitchCase)
+				change ++;
+			if (containedNode instanceof EnhancedForStatement)
 				change ++;
 		}
 		return "" + change;

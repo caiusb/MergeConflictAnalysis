@@ -121,4 +121,20 @@ public class CouplingChangeProcessorTest extends ProcessorTest {
 		String results = processor.getResults(a, b);
 		assertEquals("0,1", results);
 	}
+	
+	@Test
+	public void testCaseStatement() {
+		String a = "public class B{public void m(){}}";
+		String b = "public class B{public void m(){int x = 3; switch(x){case 1: x = 2;}}}";
+		String results = processor.getResults(a, b);
+		assertEquals("0,1", results);
+	}
+	
+	@Test
+	public void testFancyForStatement() {
+		String a = "public class B{public void m(){}}";
+		String b = "public class B{public void m(){List<String> l = new ArrayList<String>(); for(String s : l){}}}";
+		String results = processor.getResults(a, b);
+		assertEquals("0,1", results);
+	}
 }
