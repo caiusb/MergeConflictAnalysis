@@ -30,10 +30,7 @@ def processPullRequests(folder, pulls, csvWriter):
 		mergeTime = 0
 		createTime = 0
 		merged = False
-		if (pull['state'] == 'closed'):
-			closed = True
-		else:
-			closed = False
+		closed = (pull['state'] == 'closed')
 		sha = ''
 		for event in events:
 			if (event['event'] == 'merged'):
