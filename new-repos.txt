@@ -1,5 +1,0 @@
-https://github.com/ReactiveX/RxAndroid.git
-https://github.com/bumptech/glide.git
-https://github.com/JakeWharton/butterknife.git
-https://github.com/square/okhttp.git
-https://github.com/square/javapoet.git
