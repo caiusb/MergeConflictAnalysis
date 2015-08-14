@@ -50,3 +50,4 @@ https://github.com/bumptech/glide.git
 https://github.com/JakeWharton/butterknife.git
 https://github.com/square/okhttp.git
 https://github.com/square/javapoet.git
+https://github.com/senbox-org/snap-desktop.git
