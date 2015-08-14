@@ -71,7 +71,9 @@ loadData <<- function(folder) {
                      AST_A_BEFORE_SIZE = integer(0),
                      AST_B_BEFORE_SIZE = integer(0),
                      AST_DIFF_BEFORE = integer(0),
-                     NO_AUTHORS = integer(0))
+                     NO_AUTHORS = integer(0),
+                     COUPLING_CHANGE = integer(0),
+                     CYCLO_CHANGE = integer(0))
   
   data <- readCSVFiles(files, data)
   
@@ -132,6 +134,8 @@ createCommitData <<- function(data) {
   date <- aggregate(Date ~ SHA, data=data, FUN=mean)
   project <- aggregate(PROJECT ~ SHA, data=data, FUN=justOne)
   noAuthors <- aggregate(NO_AUTHORS ~ SHA, data=data, FUN=mean)
+  coupling <- aggregate(COUPLING_CHANGE ~ SHA, data=data, FUN=sum)
+  cyclo <- aggregate(CYCLO_CHANGE ~ SHA, data=data, FUN=sum)
   
   final <- merge(noFiles, timeA, by="SHA")
   final <- merge(final, timeB, by="SHA")
@@ -158,6 +162,8 @@ createCommitData <<- function(data) {
   final <- merge(final, date, by="SHA")
   final <- merge(final, project, by="SHA")
   final <- merge(final, noAuthors, by="SHA")
+  final <- merge(final, coupling, by="SHA")
+  final <- merge(final, cyclo, by="SHA")
   
   final$PROJECT <- as.factor(final$PROJECT)
   
