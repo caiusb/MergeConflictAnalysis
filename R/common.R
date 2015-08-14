@@ -86,22 +86,22 @@ loadData <<- function(folder) {
   
   #calculate commit data
   data$Date <- unix2POSIXct(data$TIME_SOLVED)
-  data$IS_CONFLICT <- ifelse(data$IS_CONFLICT == "True", TRUE, FALSE)
+  data$IS_CONFLICT <- ifelse(data$IS_CONFLICT == "true", TRUE, FALSE)
   
   return(data)
 }
 
 createCommitData <<- function(data) {
   
-  and <- function(vector) {
+  or <- function(vector) {
     
-    oneElementAnd <- function(element, accumulated) {
+    oneElementOr <- function(element, accumulated) {
       element  <- as.logical(element)
       accumulated <- as.logical(accumulated)
-      return(element & accumulated)
+      return(element | accumulated)
     }
     
-    return(Reduce(oneElementAnd, vector, TRUE))
+    return(Reduce(oneElementOr, vector, FALSE))
   }
   
   justOne <- function(vector) {
@@ -130,7 +130,7 @@ createCommitData <<- function(data) {
   noUpdate <- aggregate(NO_UPDATE ~ SHA, data=data, FUN=sum)
   noDelete <- aggregate(NO_DELETE ~ SHA, data=data, FUN=sum)
   locDiffBefore <- aggregate(LOC_DIFF_BEFORE ~ SHA, data=data, FUN=sum)
-  isConflict <- aggregate(IS_CONFLICT ~ SHA, data=data, FUN=and)
+  isConflict <- aggregate(IS_CONFLICT ~ SHA, data=data, FUN=or)
   date <- aggregate(Date ~ SHA, data=data, FUN=mean)
   project <- aggregate(PROJECT ~ SHA, data=data, FUN=justOne)
   noAuthors <- aggregate(NO_AUTHORS ~ SHA, data=data, FUN=mean)
