@@ -6,7 +6,7 @@ import requests as req
 
 username = 'caiusb'
 passwordFile = 'token'
-reposFile = 'repos.txt'
+reposFile = 'new_repos.txt'
 root = 'https://api.github.com/repos/'
 results = '../../results'
 
