@@ -12,7 +12,6 @@ https://github.com/grails/grails-core.git
 https://github.com/liquibase/liquibase.git
 https://github.com/openengsb/openengsb-framework.git
 https://github.com/MinecraftForge/MinecraftForge.git
-https://github.com/Bukkit/CraftBukkit.git
 https://github.com/infinispan/infinispan.git
 https://github.com/gradle/gradle.git
 https://github.com/cilib/cilib.git
