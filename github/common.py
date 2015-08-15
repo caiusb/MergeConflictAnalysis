@@ -87,5 +87,5 @@ def printRemainingRateLimit(auth):
 	limit = json.loads(text)
 	print('Remaining api calls: ' + str(limit['rate']['limit']))
 
-def getTextFromJson(json):
-	return json.dumps(listOfPulls, separators=(',',':'))
+def getTextFromJson(jsonDict):
+	return json.dumps(jsonDict, separators=(',',':'))
