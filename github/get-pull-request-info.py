@@ -37,7 +37,8 @@ for repo in repos:
 	auth = (username, password)
 	text = c.doApiCall(apiCall, auth=auth, params=params)
 	listOfPulls = json.loads(text)
-	os.mkdir(results + "/" + repoName)
+	if not os.path.exists(results + "/" + repoName):
+		os.mkdir(results + "/" + repoName)
 	for pull in listOfPulls:
 		pathRoot = results + "/" + repoName
 		commits = getCommitsForPullReq(pull, auth)
