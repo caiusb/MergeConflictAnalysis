@@ -33,6 +33,7 @@ def doRawApiCall(url, auth, params={}):
 			print('Exhausted the API Rate Limit. Sleeping for ' + str(sleepTime))
 			time.sleep(sleepTime)
 			resp = req.get(url, auth=auth, params=params)
+		print("Resuming...")
 	return resp
 
 def getNextURL(resp):
