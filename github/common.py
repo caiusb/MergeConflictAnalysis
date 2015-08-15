@@ -85,7 +85,7 @@ def getRepoRoot(repo):
 def printRemainingRateLimit(auth):
 	text = doApiCall('https://api.github.com/rate_limit', auth=auth)
 	limit = json.loads(text)
-	print('Remaining api calls: ' + str(limit['rate']['limit']))
+	print('Remaining api calls: ' + str(limit['rate']['remaining']))
 
 def getTextFromJson(jsonDict):
 	return json.dumps(jsonDict, separators=(',',':'))
