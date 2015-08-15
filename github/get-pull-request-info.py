@@ -1,8 +1,8 @@
 #!/opt/local/bin/python
 
 import common as c
-import json
 import os
+import json
 
 def getCommitsForPullReq(jsonPull, auth):
 	number = pull['number']
@@ -27,6 +27,7 @@ username = c.getUsername()
 password = c.getAuthToken()
 repos = c.getRepos()
 results = c.getResultsFolder() + '/pull-requests'
+auth = (username, password)
 
 for repo in repos:
 	repoName = repo['repo']
@@ -34,9 +35,7 @@ for repo in repos:
 	repoRoot = c.getRepoRoot(repo)
 	apiCall = repoRoot + '/pulls'
 	params = {'state': 'all'}
-	auth = (username, password)
-	text = c.doApiCall(apiCall, auth=auth, params=params)
-	listOfPulls = json.loads(text)
+	listOfPulls = c.doPaginatedApiCall(apiCall, auth=auth, params=params)
 	if not os.path.exists(results + "/" + repoName):
 		os.mkdir(results + "/" + repoName)
 	for pull in listOfPulls:
@@ -44,7 +43,7 @@ for repo in repos:
 		commits = getCommitsForPullReq(pull, auth)
 		c.writeToFile(pathRoot, str(pull['number']) + '.commits.json', commits)
 		events = getEventsForPullReq(pull, auth)
-		c.writeToFile(pathRoot, str(pull['number']) + '.events.json', events) 
+		c.writeToFile(pathRoot, str(pull['number']) + '.events.json', events)
 		fullPull = getFullPullRequest(pull, auth)
 		c.writeToFile(pathRoot, str(pull['number']) + '.full.json', fullPull)
-	c.writeToFile(results + "/" + repoName, "pulls.json", text)
+	c.writeToFile(results + "/" + repoName, "pulls.json", c.getTextFromJson(listOfPulls))

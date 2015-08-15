@@ -3,6 +3,8 @@
 import os
 import time
 import requests as req
+import re
+import json
 
 username = 'caiusb'
 passwordFile = 'token'
@@ -10,7 +12,19 @@ reposFile = 'new_repos.txt'
 root = 'https://api.github.com/repos/'
 results = '../../results'
 
+def doPaginatedApiCall(url, auth, params={}):
+	resp = doRawApiCall(url, auth=auth, params=params)
+	jsonList = json.loads(resp.text)
+	nextUrl = getNextURL(resp)
+	if (nextUrl is not None):
+		jsonList.extend(doPaginatedApiCall(nextUrl, auth=auth, params=params))
+	return jsonList
+
 def doApiCall(url, auth, params={}):
+	resp = doRawApiCall(url, auth, params=params)
+	return resp.text
+
+def doRawApiCall(url, auth, params={}):
 	resp = req.get(url, auth=auth, params=params)
 	if (resp.status_code == 403):
 		while resp.headers['X-RateLimit-Remaining'] == '0':
@@ -19,7 +33,16 @@ def doApiCall(url, auth, params={}):
 			print('Exhausted the API Rate Limit. Sleeping for ' + str(sleepTime))
 			time.sleep(sleepTime)
 			resp = req.get(url, auth=auth, params=params)
-	return resp.text
+	return resp
+
+def getNextURL(resp):
+	linksText = resp.headers["Link"]
+	links = linksText.split(',')
+	for link in links:
+		if 'rel=\"next\"' in link:
+			url = re.sub('<', '', re.sub('>', '', link.split(';')[0]))
+			return url
+	return None
 
 def getUsername():
 	return username
@@ -57,3 +80,6 @@ def getResultsFolder():
 
 def getRepoRoot(repo):
 	return getApiRoot() + repo['username'] + '/' + repo['repo']
+
+def getTextFromJson(json):
+	return json.dumps(listOfPulls, separators=(',',':'))
