@@ -30,7 +30,6 @@ essentials,Essentials
 sk89q,commandhelper
 hornetq,hornetq
 AndlyticsProject,andlytics
-rackspace,repose
 Catrobat,Catroid
 bigbluebutton,bigbluebutton
 unclebob,fitnesse
@@ -41,7 +40,6 @@ nathanmarz,storm
 jayway,maven-android-plugin
 square,okhttp
 Bukkit,Bukkit
-apigee,usergrid-stack
 isenseDev,iSENSE-Hardware
 geoserver,geoserver
 Sage-Bionetworks,SynapseWebClient

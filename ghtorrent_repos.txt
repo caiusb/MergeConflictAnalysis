@@ -41,7 +41,6 @@ https://github.com/nathanmarz/storm.git
 https://github.com/jayway/maven-android-plugin.git
 https://github.com/square/okhttp.git
 https://github.com/Bukkit/Bukkit.git
-https://github.com/apigee/usergrid-stack.git
 https://github.com/isenseDev/iSENSE-Hardware.git
 https://github.com/geoserver/geoserver.git
 https://github.com/Sage-Bionetworks/SynapseWebClient.git
@@ -273,7 +272,6 @@ https://github.com/Netflix/denominator.git
 https://github.com/Parquet/parquet-mr.git
 https://github.com/infinispan/infinispan-server.git
 https://github.com/Athou/commafeed.git
-https://github.com/rackerlabs/repose.git
 https://github.com/vInsertOfficial/vInsert.git
 https://github.com/coldstar96/cse403.git
 https://github.com/realtalk403/realtalk.git
