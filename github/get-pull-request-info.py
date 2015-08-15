@@ -32,6 +32,7 @@ auth = (username, password)
 for repo in repos:
 	repoName = repo['repo']
 	print('Getting pull requests for ' + repoName)
+	c.printRemainingRateLimit(auth)
 	repoRoot = c.getRepoRoot(repo)
 	apiCall = repoRoot + '/pulls'
 	params = {'state': 'all'}

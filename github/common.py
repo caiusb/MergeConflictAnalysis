@@ -81,5 +81,10 @@ def getResultsFolder():
 def getRepoRoot(repo):
 	return getApiRoot() + repo['username'] + '/' + repo['repo']
 
+def printRemainingRateLimit(auth):
+	text = doApiCall('https://api.github.com/rate_limit', auth=auth)
+	limit = json.loads(text)
+	print('Remaining api calls: ' + str(limit['rate']['limit']))
+
 def getTextFromJson(json):
 	return json.dumps(listOfPulls, separators=(',',':'))
