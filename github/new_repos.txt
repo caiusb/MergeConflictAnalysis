@@ -71,7 +71,6 @@ exoplatform,exogtn
 exoplatform,ecms
 SpringSource,spring-integration
 mifos,head
-SpoutDev,SpoutAPI
 sk89q,worldguard
 excilys,androidannotations
 torquebox,torquebox
@@ -90,7 +89,6 @@ droolsjbpm,guvnor
 vert-x,vert.x
 cbeust,testng
 weld,core
-neo4j,community
 BaseXdb,basex
 Silverpeas,Silverpeas-Core
 Silverpeas,Silverpeas-Components
@@ -195,7 +193,6 @@ wuetherich,bundlemaker
 undertow-io,undertow
 einsteinx2,WaveBox
 jboss-switchyard,release
-picketlink,federation
 filipg,amu_automata_2011
 cexbrayat,linkit
 hibernate,hibernate-search
@@ -210,7 +207,6 @@ airlift,airlift
 Craig-Macomber,WeatherOracle
 MiloTischler,Operation-Valkyrie
 yahoo,oozie
-thomasbaart,ISM2IKBS.V111
 photo,mobile-android
 ArcBees,GWTP
 SeqWare,seqware
@@ -242,7 +238,6 @@ zznate,intravert-ug
 datastax,java-driver
 endosnipe,ENdoSnipe
 Netflix,Hystrix
-rapidftr,RapidFTR---Android
 dianping,cat
 crawljax,crawljax
 Alfresco,alfresco-android-app
@@ -265,7 +260,6 @@ futures,fcrepo4
 openMF,mifosx
 arthurbenemann,droidplanner
 maplesyrup,maple-android
-onyx-intl,OnyxAndroidSDK
 alibaba,druid
 Netflix,denominator
 Parquet,parquet-mr
@@ -296,18 +290,14 @@ molgenis,systemsgenetics
 seomoz,askari
 rultor,rultor
 EmilHernvall,tregmine
-nla,banjo
 DataTorrent,Malhar
-FoundationDB,sql-layer
 jboss-developer,jboss-eap-quickstarts
 pentaho,pentaho-kettle
 AOKP,frameworks_base
 CloudifySource,cloudify
 KentBeck,junit
-MrMasochism,Pixelmon
 SirSengir,BuildCraft
 SpoutDev,Spout
-SpoutDev,Spoutcraft
 The-Dream-Team,Tardis
 aipocom,aipo
 anathema,anathema
@@ -323,8 +313,6 @@ iuval,furry-octo-avenger
 jbossas,jboss-as
 jenkinsci,gerrit-trigger-plugin
 mluukkai,ohtu2012
-molgenis,molgenis_apps
 powerbot,RSBot-API
-ps3mediaserver,ps3mediaserver
 void256,nifty-gui
 wordpress-mobile,WordPress-Android

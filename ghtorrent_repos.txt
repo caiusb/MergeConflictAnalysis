@@ -72,7 +72,6 @@ https://github.com/exoplatform/exogtn.git
 https://github.com/exoplatform/ecms.git
 https://github.com/SpringSource/spring-integration.git
 https://github.com/mifos/head.git
-https://github.com/SpoutDev/SpoutAPI.git
 https://github.com/sk89q/worldguard.git
 https://github.com/excilys/androidannotations.git
 https://github.com/torquebox/torquebox.git
@@ -91,7 +90,6 @@ https://github.com/droolsjbpm/guvnor.git
 https://github.com/vert-x/vert.x.git
 https://github.com/cbeust/testng.git
 https://github.com/weld/core.git
-https://github.com/neo4j/community.git
 https://github.com/BaseXdb/basex.git
 https://github.com/Silverpeas/Silverpeas-Core.git
 https://github.com/Silverpeas/Silverpeas-Components.git
@@ -161,7 +159,6 @@ https://github.com/dana-i2cat/opennaas.git
 https://github.com/jboss-reddeer/reddeer.git
 https://github.com/ceylon/ceylon-compiler.git
 https://github.com/Cloudname/cloudname.git
-https://github.com/rackspace/atom-hopper.git
 https://github.com/hector-client/hector.git
 https://github.com/atlasapi/atlas.git
 https://github.com/griddynamics/jagger.git
@@ -196,7 +193,6 @@ https://github.com/wuetherich/bundlemaker.git
 https://github.com/undertow-io/undertow.git
 https://github.com/einsteinx2/WaveBox.git
 https://github.com/jboss-switchyard/release.git
-https://github.com/picketlink/federation.git
 https://github.com/filipg/amu_automata_2011.git
 https://github.com/cexbrayat/linkit.git
 https://github.com/hibernate/hibernate-search.git
@@ -211,7 +207,6 @@ https://github.com/airlift/airlift.git
 https://github.com/Craig-Macomber/WeatherOracle.git
 https://github.com/MiloTischler/Operation-Valkyrie.git
 https://github.com/yahoo/oozie.git
-https://github.com/thomasbaart/ISM2IKBS.V111.git
 https://github.com/photo/mobile-android.git
 https://github.com/ArcBees/GWTP.git
 https://github.com/SeqWare/seqware.git
@@ -220,7 +215,6 @@ https://github.com/Activiti/Activiti.git
 https://github.com/OPENNETWORKINGLAB/flowvisor.git
 https://github.com/georchestra/georchestra.git
 https://github.com/square/dagger.git
-https://github.com/dianping/phoenix.git
 https://github.com/dkomanov/fizteh-java-task.git
 https://github.com/facebook/swift.git
 https://github.com/picketlink/picketlink.git
@@ -243,7 +237,6 @@ https://github.com/zznate/intravert-ug.git
 https://github.com/datastax/java-driver.git
 https://github.com/endosnipe/ENdoSnipe.git
 https://github.com/Netflix/Hystrix.git
-https://github.com/rapidftr/RapidFTR---Android.git
 https://github.com/dianping/cat.git
 https://github.com/crawljax/crawljax.git
 https://github.com/Alfresco/alfresco-android-app.git
@@ -266,7 +259,6 @@ https://github.com/futures/fcrepo4.git
 https://github.com/openMF/mifosx.git
 https://github.com/arthurbenemann/droidplanner.git
 https://github.com/maplesyrup/maple-android.git
-https://github.com/onyx-intl/OnyxAndroidSDK.git
 https://github.com/alibaba/druid.git
 https://github.com/Netflix/denominator.git
 https://github.com/Parquet/parquet-mr.git
@@ -296,18 +288,14 @@ https://github.com/molgenis/systemsgenetics.git
 https://github.com/seomoz/askari.git
 https://github.com/rultor/rultor.git
 https://github.com/EmilHernvall/tregmine.git
-https://github.com/nla/banjo.git
 https://github.com/DataTorrent/Malhar.git
-https://github.com/FoundationDB/sql-layer.git
 https://github.com/jboss-developer/jboss-eap-quickstarts.git
 https://github.com/pentaho/pentaho-kettle.git
 https://github.com/AOKP/frameworks_base.git
 https://github.com/CloudifySource/cloudify.git
 https://github.com/KentBeck/junit.git
-https://github.com/MrMasochism/Pixelmon.git
 https://github.com/SirSengir/BuildCraft.git
 https://github.com/SpoutDev/Spout.git
-https://github.com/SpoutDev/Spoutcraft.git
 https://github.com/The-Dream-Team/Tardis.git
 https://github.com/aipocom/aipo.git
 https://github.com/anathema/anathema.git
@@ -323,8 +311,6 @@ https://github.com/iuval/furry-octo-avenger.git
 https://github.com/jbossas/jboss-as.git
 https://github.com/jenkinsci/gerrit-trigger-plugin.git
 https://github.com/mluukkai/ohtu2012.git
-https://github.com/molgenis/molgenis_apps.git
 https://github.com/powerbot/RSBot-API.git
-https://github.com/ps3mediaserver/ps3mediaserver.git
 https://github.com/void256/nifty-gui.git
 https://github.com/wordpress-mobile/WordPress-Android.git
