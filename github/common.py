@@ -37,6 +37,8 @@ def doRawApiCall(url, auth, params={}):
 	return resp
 
 def getNextURL(resp):
+	if (not 'Link' in resp.headers):
+		return None
 	linksText = resp.headers["Link"]
 	links = linksText.split(',')
 	for link in links:
