@@ -30,8 +30,9 @@ def doRawApiCall(url, auth, params={}):
 		while resp.headers['X-RateLimit-Remaining'] == '0':
 			resetTime = float(resp.headers['X-RateLimit-Reset'])
 			sleepTime = resetTime - time.time()
-			print('Exhausted the API Rate Limit. Sleeping for ' + str(sleepTime))
-			time.sleep(sleepTime)
+			if sleepTime > 0:
+				print('Exhausted the API Rate Limit. Sleeping for ' + str(sleepTime))
+				time.sleep(sleepTime)
 			resp = req.get(url, auth=auth, params=params)
 		print("Resuming...")
 	return resp
