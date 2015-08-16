@@ -41,10 +41,16 @@ for repo in repos:
 		os.mkdir(results + "/" + repoName)
 	for pull in listOfPulls:
 		pathRoot = results + "/" + repoName
-		commits = getCommitsForPullReq(pull, auth)
-		c.writeToFile(pathRoot, str(pull['number']) + '.commits.json', commits)
-		events = getEventsForPullReq(pull, auth)
-		c.writeToFile(pathRoot, str(pull['number']) + '.events.json', events)
-		fullPull = getFullPullRequest(pull, auth)
-		c.writeToFile(pathRoot, str(pull['number']) + '.full.json', fullPull)
+		commitsFile = str(pull['number']) + '.commits.json'
+		if not os.path.exists(pathRoot + '/' + commitsFile):
+			commits = getCommitsForPullReq(pull, auth)
+			c.writeToFile(pathRoot, commitsFile, commits)
+		eventsFile = str(pull['number']) + '.events.json'
+		if not os.path.exists(pathRoot + '/' + eventsFile):
+			events = getEventsForPullReq(pull, auth)
+			c.writeToFile(pathRoot, eventsFile, events)
+		fullFile = str(pull['number']) + '.full.json'
+		if not os.path.exists(pathRoot + '/' +  fullFile):
+			fullPull = getFullPullRequest(pull, auth)
+			c.writeToFile(pathRoot, fullFile, fullPull)
 	c.writeToFile(results + "/" + repoName, "pulls.json", c.getTextFromJson(listOfPulls))
