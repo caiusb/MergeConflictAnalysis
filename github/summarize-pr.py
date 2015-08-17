@@ -54,5 +54,7 @@ projects = os.listdir(resultsFolder)
 for project in projects:
 	if (re.search('^\.', project) != None):
 		continue
+	if not os.path.exists(resultsFolder + '/' + project + '/pulls.json'):
+		continue
 	getProjectData(resultsFolder + "/" + project)
 
