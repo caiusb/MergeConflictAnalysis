@@ -72,9 +72,9 @@ loadData <<- function(folder) {
                      AST_A_BEFORE_SIZE = integer(0),
                      AST_B_BEFORE_SIZE = integer(0),
                      AST_DIFF_BEFORE = integer(0),
-                     NO_AUTHORS = integer(0),
                      COUPLING_CHANGE = integer(0),
-                     CYCLO_CHANGE = integer(0))
+                     CYCLO_CHANGE = integer(0),
+                     NO_AUTHORS = integer(0))
   
   data <- readCSVFiles(files, data)
   
