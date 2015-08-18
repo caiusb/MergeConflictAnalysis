@@ -32,6 +32,7 @@ import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.IsConflictP
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.LOCFileProcessor;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.LOCSizeProcessor;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.MergeBaseProcessor;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.MergedInMasterProcessor;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.ModifiedProgramElementsProcessor;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.OperationCounterProcessor;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.PreMergeASTDiffProcessor;
@@ -124,6 +125,7 @@ public class NewMain {
 		processor.addProcessor(new PreMergeASTDiffProcessor());
 		processor.addProcessor(new MetricProcessor());
 		processor.addProcessor(new AuthorProcessor());
+		processor.addProcessor(new MergedInMasterProcessor());
 	}
 
 	private void generateDiffs(String projectName, List<CommitStatus> statuses) {
