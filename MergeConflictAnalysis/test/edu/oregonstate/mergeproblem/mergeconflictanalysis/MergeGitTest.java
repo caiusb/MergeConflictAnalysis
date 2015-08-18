@@ -68,12 +68,16 @@ public abstract class MergeGitTest extends GitTestCase {
 	}
 
 	protected RevCommit resolveMergeConflict(MergeResult merge, String fileName) throws Exception {
+		return resolveMergeConflict(merge, fileName, "message");
+	}
+
+	protected RevCommit resolveMergeConflict(MergeResult merge, String fileName, String message) throws Exception {
 		MergeStatus mergeStatus = merge.getMergeStatus();
 		assertEquals(MergeStatus.CONFLICTING, mergeStatus);
 		assertEquals(1,merge.getConflicts().keySet().size());
 		assertTrue(merge.getConflicts().keySet().contains(fileName));
 		
-		RevCommit mergeCommit = add(fileName,"version two+three");
+		RevCommit mergeCommit = add(fileName,"version two+three", message);
 		assertEquals(2, mergeCommit.getParentCount());
 		return mergeCommit;
 	}
