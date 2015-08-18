@@ -1,6 +1,7 @@
 library(tools)
 
 resultsFolder <<- "../../results/merge-data"
+ghtorrentFolder <<- "../../results/ghtorrent"
 prFolder <<- "../../results/pr-summary"
 
 plotWithLinearRegression <<- function(data, x, y) {
@@ -192,6 +193,7 @@ loadPullReqData <- function(folder) {
   files <- listCSVFiles(folder)
   
   data <- data.frame(PR = integer(0),
+                     MERGEABLED = logical(0),
                      MERGED = logical(0),
                      CLOSED = logical(0),
                      CREATED_TIME = integer(0),
@@ -200,6 +202,7 @@ loadPullReqData <- function(folder) {
 
   data <- readCSVFiles(files, data)
   
+  data$MERGEABLE <- ifelse(data$MERGEABLE == "True", TRUE, FALSE)
   data$MERGED <- ifelse(data$MERGED == "True", TRUE, FALSE)
   data$CLOSED <- ifelse(data$CLOSED == "True", TRUE, FALSE)
   
