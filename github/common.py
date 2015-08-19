@@ -5,12 +5,17 @@ import time
 import requests as req
 import re
 import json
+import datetime
 
 username = 'caiusb'
 passwordFile = 'token'
 reposFile = 'new_repos.txt'
 root = 'https://api.github.com/repos/'
 results = '../../results'
+
+def printWithTimeStamp(text):
+	today = datetime.datetime.today()
+	print('[' + str(today) + ']: ' + text)
 
 def doPaginatedApiCall(url, auth, params={}):
 	resp = doRawApiCall(url, auth=auth, params=params)
@@ -31,10 +36,10 @@ def doRawApiCall(url, auth, params={}):
 			resetTime = float(resp.headers['X-RateLimit-Reset'])
 			sleepTime = resetTime - time.time()
 			if sleepTime > 0:
-				print('Exhausted the API Rate Limit. Sleeping for ' + str(sleepTime))
+				printWithTimeStamp('Exhausted the API Rate Limit. Sleeping for ' + str(sleepTime))
 				time.sleep(sleepTime)
 			resp = req.get(url, auth=auth, params=params)
-		print("Resuming...")
+		printWithTimeStamp("Resuming...")
 	return resp
 
 def getNextURL(resp):
