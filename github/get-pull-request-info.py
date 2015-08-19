@@ -34,6 +34,9 @@ for repo in repos:
 	c.printWithTimeStamp('Getting pull requests for ' + repoName)
 	c.printRemainingRateLimit(auth)
 	repoRoot = c.getRepoRoot(repo)
+	if not c.repoExists(repoRoot, auth):
+		c.printWithTimeStamp("Repo " + repoName + " does not exist.")
+		continue
 	apiCall = repoRoot + '/pulls'
 	params = {'state': 'all'}
 	listOfPulls = c.doPaginatedApiCall(apiCall, auth=auth, params=params)
