@@ -158,7 +158,7 @@ dana-i2cat,opennaas
 jboss-reddeer,reddeer
 ceylon,ceylon-compiler
 Cloudname,cloudname
-rackspace,atom-hopper
+rackerlabs,atom-hopper
 hector-client,hector
 atlasapi,atlas
 griddynamics,jagger
