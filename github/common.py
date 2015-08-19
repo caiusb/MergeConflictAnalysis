@@ -97,3 +97,10 @@ def printRemainingRateLimit(auth):
 
 def getTextFromJson(jsonDict):
 	return json.dumps(jsonDict, separators=(',',':'))
+
+def repoExists(repoApiCall, auth):
+	resp = doRawApiCall(repoApiCall, auth=auth)
+	if (resp.status_code == 404):
+		return False
+	else:
+		return True
