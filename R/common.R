@@ -1,7 +1,6 @@
 library(tools)
 
 resultsFolder <<- "../../results/merge-data"
-ghtorrentFolder <<- "../../results/ghtorrent"
 prFolder <<- "../../results/pr-summary"
 
 plotWithLinearRegression <<- function(data, x, y) {
@@ -32,6 +31,8 @@ readCSVFiles <- function(files, dataFrame) {
       currentDataFile <- read.csv(file, header=T, sep=',', blank.lines.skip=T, as.is=T)
       project <- basename(file_path_sans_ext(file))
       currentDataFile$PROJECT <- project
+      if (!("MERGED_IN_MASTER" %in% currentDataFile))
+        currentDataFile$MERGED_IN_MASTER <- NA
       dataFrame <<- rbind(dataFrame, currentDataFile)
     }
   })
@@ -74,7 +75,8 @@ loadData <<- function(folder) {
                      AST_DIFF_BEFORE = integer(0),
                      COUPLING_CHANGE = integer(0),
                      CYCLO_CHANGE = integer(0),
-                     NO_AUTHORS = integer(0))
+                     NO_AUTHORS = integer(0),
+                     MERGED_IN_MASTER = logical(0))
   
   data <- readCSVFiles(files, data)
   
@@ -88,6 +90,7 @@ loadData <<- function(folder) {
   #calculate commit data
   data$Date <- unix2POSIXct(data$TIME_SOLVED)
   data$IS_CONFLICT <- ifelse(data$IS_CONFLICT == "true", TRUE, FALSE)
+  data$MERGED_IN_MASTER <- ifelse(data$MERGED_IN_MASTER == "True", TRUE, FALSE)
   
   return(data)
 }
