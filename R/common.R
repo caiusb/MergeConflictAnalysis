@@ -140,6 +140,7 @@ createCommitData <<- function(data) {
   noAuthors <- aggregate(NO_AUTHORS ~ SHA, data=data, FUN=mean)
   coupling <- aggregate(COUPLING_CHANGE ~ SHA, data=data, FUN=sum)
   cyclo <- aggregate(CYCLO_CHANGE ~ SHA, data=data, FUN=sum)
+  mergedInMaster <- aggregate(MERGED_IN_MASTER ~ SHA, data=data, FUN=or)
   
   final <- merge(noFiles, timeA, by="SHA")
   final <- merge(final, timeB, by="SHA")
@@ -168,6 +169,7 @@ createCommitData <<- function(data) {
   final <- merge(final, noAuthors, by="SHA")
   final <- merge(final, coupling, by="SHA")
   final <- merge(final, cyclo, by="SHA")
+  final <- merge(final, mergedInMaster, by="SHA")
   
   final$PROJECT <- as.factor(final$PROJECT)
   
