@@ -1,4 +1,5 @@
 library(tools)
+require(data.table)
 
 resultsFolder <<- "../../results/merge-data"
 prFolder <<- "../../results/pr-summary"
@@ -27,13 +28,14 @@ readCSVFiles <- function(files, dataFrame) {
     if (fileLength <= 1)
       return 
     else {
+      print(cat('Processing: ', file))
       fileInfo <- file.info(file)
-      currentDataFile <- read.csv(file, header=T, sep=',', blank.lines.skip=T, as.is=T)
+      currentDataFile <- fread(file, header=T, sep=',')
       project <- basename(file_path_sans_ext(file))
       currentDataFile$PROJECT <- project
       if (!("MERGED_IN_MASTER" %in% currentDataFile))
         currentDataFile$MERGED_IN_MASTER <- NA
-      dataFrame <<- rbind(dataFrame, currentDataFile)
+      dataFrame <<- rbindlist(list(dataFrame, currentDataFile), fill=TRUE)
     }
   })
   return(dataFrame)
@@ -78,9 +80,11 @@ loadData <<- function(folder) {
                      NO_AUTHORS = integer(0),
                      MERGED_IN_MASTER = logical(0))
   
+  print("Loading data")
   data <- readCSVFiles(files, data)
   
   #removing file add and delete. They are not interesting to me
+  print("Removing bad data points")
   data <- data[data$LOC_SIZE_A > 1, ]
   data <- data[data$LOC_SIZE_B > 1, ]
   data <- data[data$LOC_SIZE_SOLVED > 1, ]
@@ -88,6 +92,7 @@ loadData <<- function(folder) {
   data$PROJECT <- factor(data$PROJECT)
   
   #calculate commit data
+  print("Calculating the dates")
   data$Date <- unix2POSIXct(data$TIME_SOLVED)
   data$IS_CONFLICT <- ifelse(data$IS_CONFLICT == "true", TRUE, FALSE)
   data$MERGED_IN_MASTER <- ifelse(data$MERGED_IN_MASTER == "True", TRUE, FALSE)
@@ -97,6 +102,7 @@ loadData <<- function(folder) {
 
 createCommitData <<- function(data) {
   
+  print("Grouping data by commits")
   or <- function(vector) {
     
     oneElementOr <- function(element, accumulated) {
