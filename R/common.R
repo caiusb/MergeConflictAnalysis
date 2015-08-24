@@ -33,8 +33,6 @@ readCSVFiles <- function(files, dataFrame) {
       currentDataFile <- fread(file, header=T, sep=',')
       project <- basename(file_path_sans_ext(file))
       currentDataFile$PROJECT <- project
-      if (!("MERGED_IN_MASTER" %in% currentDataFile))
-        currentDataFile$MERGED_IN_MASTER <- NA
       dataFrame <<- rbindlist(list(dataFrame, currentDataFile), fill=TRUE)
     }
   })
