@@ -80,15 +80,7 @@ getEmptyDataFrame <<- function() {
   return (data)
 }
 
-loadData <<- function(folder) {
-  files <- listCSVFiles(folder)
-  
-  data <- getEmptyDataFrame()
-  
-  print("Loading data")
-  data <- readCSVFiles(files, data)
-  
-  #removing file add and delete. They are not interesting to me
+processData <<- function(folder) {
   print("Removing bad data points")
   data <- data[data$LOC_SIZE_A > 1, ]
   data <- data[data$LOC_SIZE_B > 1, ]
@@ -103,6 +95,20 @@ loadData <<- function(folder) {
   print("Converting boolean data to boolean")
   data$IS_CONFLICT <- ifelse(data$IS_CONFLICT == "true", TRUE, FALSE)
   data$MERGED_IN_MASTER <- ifelse(data$MERGED_IN_MASTER == "True", TRUE, FALSE)
+  
+  return(data)
+}
+
+loadData <<- function(folder) {
+  files <- listCSVFiles(folder)
+  
+  data <- getEmptyDataFrame()
+  
+  print("Loading data")
+  data <- readCSVFiles(files, data)
+  
+  #removing file add and delete. They are not interesting to me
+  data <- processData(data)
   
   return(data)
 }
