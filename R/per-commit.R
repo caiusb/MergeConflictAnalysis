@@ -6,8 +6,6 @@ commitData <- createCommitData(data)
 factors <- levels(factor(commitData$PROJECT))
 frames <- split(commitData, commitData$PROJECT)
 
-commitFolder <- "../../results/per-commit/"
-
 lapply(factors, function(factor) {
   file <- concat(concat(commitFolder, as.character(factor)), ".csv")
   print(file)
