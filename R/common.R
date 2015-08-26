@@ -3,6 +3,7 @@ require(data.table)
 
 resultsFolder <<- "../../results/merge-data"
 prFolder <<- "../../results/pr-summary"
+commitFolder <<- "../../results/per-commit"
 
 plotWithLinearRegression <<- function(data, x, y) {
   trim <- trimNegativeValues(data, x)
@@ -39,9 +40,7 @@ readCSVFiles <- function(files, dataFrame) {
   return(dataFrame)
 }
 
-loadData <<- function(folder) {
-  files <- listCSVFiles(folder)
-  
+getEmptyDataFrame <<- function() {
   data <- data.frame(SHA = character(0),
                      FILE = character(0),
                      BASE_SHA = character(0),
@@ -77,6 +76,14 @@ loadData <<- function(folder) {
                      CYCLO_CHANGE = integer(0),
                      NO_AUTHORS = integer(0),
                      MERGED_IN_MASTER = logical(0))
+
+  return (data)
+}
+
+loadData <<- function(folder) {
+  files <- listCSVFiles(folder)
+  
+  data <- getEmptyDataFrame()
   
   print("Loading data")
   data <- readCSVFiles(files, data)
@@ -92,6 +99,8 @@ loadData <<- function(folder) {
   #calculate commit data
   print("Calculating the dates")
   data$Date <- unix2POSIXct(data$TIME_SOLVED)
+  
+  print("Converting boolean data to boolean")
   data$IS_CONFLICT <- ifelse(data$IS_CONFLICT == "true", TRUE, FALSE)
   data$MERGED_IN_MASTER <- ifelse(data$MERGED_IN_MASTER == "True", TRUE, FALSE)
   
@@ -180,6 +189,17 @@ createCommitData <<- function(data) {
   return(final)
 }
 
+loadCommitData <<- function(folder) {
+  data <- getEmptyDataFrame()
+  data$FILES <- as.integer(data$FILES)
+  
+  files <- listCSVFiles('../../results/per-commit')
+  data <- readCSVFiles(files, data)
+  data$PROJECT = as.factor(data$PROJECT) # projects are factors
+  
+  return(data)
+}
+
 unix2POSIXct <- function(time) as.POSIXct(time, origin="1970-01-01", tz="GMT")
 
 getConflictingMerges <- function(data) return(data[data$IS_CONFLICT == "true", ])
@@ -202,9 +222,9 @@ loadPullReqData <- function(folder) {
   files <- listCSVFiles(folder)
   
   data <- data.frame(PR = integer(0),
-                     MERGEABLED = logical(0),
-                     MERGED = logical(0),
-                     CLOSED = logical(0),
+                     MERGEABLE = logical(0),
+                     MERGED = character(0),
+                     CLOSED = character(0),
                      CREATED_TIME = integer(0),
                      MERGED_TIME = integer(0),
                      SHA = character(0))
@@ -212,8 +232,8 @@ loadPullReqData <- function(folder) {
   data <- readCSVFiles(files, data)
   
   data$MERGEABLE <- ifelse(data$MERGEABLE == "True", TRUE, FALSE)
-  data$MERGED <- ifelse(data$MERGED == "True", TRUE, FALSE)
-  data$CLOSED <- ifelse(data$CLOSED == "True", TRUE, FALSE)
+  #data$MERGED <- ifelse(data$MERGED == "True", TRUE, FALSE)
+  #data$CLOSED <- ifelse(data$CLOSED == "True", TRUE, FALSE)
   
   data$PROJECT <- factor(data$PROJECT)
   
