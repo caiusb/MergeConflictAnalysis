@@ -80,7 +80,7 @@ getEmptyDataFrame <<- function() {
   return (data)
 }
 
-processData <<- function(folder) {
+processData <<- function(data) {
   print("Removing bad data points")
   data <- data[data$LOC_SIZE_A > 1, ]
   data <- data[data$LOC_SIZE_B > 1, ]
