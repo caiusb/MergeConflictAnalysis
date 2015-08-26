@@ -3,7 +3,7 @@ require(data.table)
 
 resultsFolder <<- "../../results/merge-data"
 prFolder <<- "../../results/pr-summary"
-commitFolder <<- "../../results/per-commit"
+commitFolder <<- "../../results/per-commit/"
 
 plotWithLinearRegression <<- function(data, x, y) {
   trim <- trimNegativeValues(data, x)
