@@ -34,7 +34,7 @@ readCSVFiles <- function(files, dataFrame) {
       currentDataFile <- fread(file, header=T, sep=',')
       project <- basename(file_path_sans_ext(file))
       currentDataFile$PROJECT <- project
-      dataFrame <<- rbindlist(list(dataFrame, currentDataFile), fill=TRUE)
+      dataFrame <<- rbind(dataFrame, currentDataFile, fill=TRUE)
     }
   })
   return(dataFrame)
@@ -75,7 +75,7 @@ getEmptyDataFrame <<- function() {
                      COUPLING_CHANGE = integer(0),
                      CYCLO_CHANGE = integer(0),
                      NO_AUTHORS = integer(0),
-                     MERGED_IN_MASTER = logical(0))
+                     MERGED_IN_MASTER = character(0))
 
   return (data)
 }
@@ -94,7 +94,7 @@ processData <<- function(data) {
   
   print("Converting boolean data to boolean")
   data$IS_CONFLICT <- ifelse(data$IS_CONFLICT == "true", TRUE, FALSE)
-  data$MERGED_IN_MASTER <- ifelse(data$MERGED_IN_MASTER == "True", TRUE, FALSE)
+  #data$MERGED_IN_MASTER <- ifelse(data$MERGED_IN_MASTER == "True", TRUE, FALSE)
   
   return(data)
 }
