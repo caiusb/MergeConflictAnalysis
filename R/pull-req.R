@@ -12,3 +12,4 @@ mergePullRequestAndCommitData <- function(commitData, pullReqData) {
 }
 
 merged <<- mergePullRequestAndCommitData(commitData, mergedPullReq)
+write.csv(merged, "../../results/mergedPR.csv")
