@@ -40,7 +40,7 @@ public class MergedInMasterProcessorTest extends ProcessorTest {
 	}
 	
 	@Test
-	public void testTruePulLRequest() throws Exception {
+	public void testTruePullRequest() throws Exception {
 		CommitStatus commitStatus = createCommitStatusWithMessage("Merge pull request #74 from bob");
 		String data = processor.getData(commitStatus, "a");
 		assertEquals("True", data);
