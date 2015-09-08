@@ -13,8 +13,8 @@ repoloc=$(resolve-path $1)
 resultsloc=$(resolve-path $2 )
 results_suffix='.csv'
 javaopts='-Xmx12G'
-vizdataopts=''
-#vizdataopts='-url-folder "mergeviz" -viz-folder "../viz/data"'
+#vizdataopts=''
+vizdataopts="-url-folder mergeviz -viz-folder $resultsloc/../../viz/data"
 
 dir=$PWD
 orderfile=$repoloc/'order.txt'
