@@ -40,8 +40,15 @@ public class MergedInMasterProcessorTest extends ProcessorTest {
 	}
 	
 	@Test
-	public void testTruePulLRequest() throws Exception {
+	public void testTruePullRequest() throws Exception {
 		CommitStatus commitStatus = createCommitStatusWithMessage("Merge pull request #74 from bob");
+		String data = processor.getData(commitStatus, "a");
+		assertEquals("True", data);
+	}
+	
+	@Test
+	public void testTruePullRequest2() throws Exception {
+		CommitStatus commitStatus = createCommitStatusWithMessage("Merge pull request #309 from tylanbin/master\n\nfix the bug of the method convertJsonToListeners\n");
 		String data = processor.getData(commitStatus, "a");
 		assertEquals("True", data);
 	}
