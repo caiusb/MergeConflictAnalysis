@@ -75,7 +75,7 @@ public class VisualizationDataGenerator {
 			writeToFile(atos, astFileGenerator.generateDiff(a, s, "A", "Solved"));
 			writeToFile(btos, astFileGenerator.generateDiff(b, s, "B", "Solved"));
 		} catch (IOException e) {
-			logger.log(Level.SEVERE, "Error creating file; " + e.getMessage()); 
+			logger.log(Level.SEVERE, "Error creating file: " + e.getMessage()); 
 		}
 	}
 
