@@ -35,7 +35,7 @@ public class InMemoryMerger {
 		
 		RevCommit first = CommitUtils.getCommit(repository, parents[0]);
 		RevCommit second = CommitUtils.getCommit(repository, parents[1]);
-		if (first.getUTCTime() < second.getUTCTime()) {
+		if (getUTCTime(first) < getUTCTime(second)) {
 			RevCommit tmp = second; 
 			second = first;
 			first = tmp;
@@ -46,7 +46,7 @@ public class InMemoryMerger {
 			commitStatus.setTimes(first.getCommitTime(), second.getCommitTime());
 			commitStatus.setSHAs(first.getName(), second.getName());
 			commitStatus.addModifiedFiles(Util.getFilesChangedByCommit(repository, mergeCommit.getName()));
-			commitStatus.setTimeOffset(first.getTimeZoneOffset());
+			commitStatus.setTimeOffset(getTimeZoneOffset(first));
 			return commitStatus;
 		} catch (IOException e) {
 			return null;
@@ -106,6 +106,14 @@ public class InMemoryMerger {
 			actualSequenceText += textSequence.getString(i) + "\n";
 		}
 		return actualSequenceText;
+	}
+
+	private int getTimeZoneOffset(RevCommit commit) {
+		return commit.getAuthorIdent().getTimeZoneOffset() * 60;
+	}
+
+	private int getUTCTime(RevCommit commit) {
+		return commit.getCommitTime() + getTimeZoneOffset(commit);
 	}
 
 }

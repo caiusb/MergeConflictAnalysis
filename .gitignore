@@ -12,3 +12,8 @@ d3js/all.csv
 .recommenders
 github/token
 *.swo
+.classpath
+.project
+.settings
+.idea
+target/
