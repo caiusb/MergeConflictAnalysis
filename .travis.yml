@@ -2,4 +2,4 @@ language: scala
 jdk:
   - oraclejdk8
 
-script: "cd MergeConflictAnalysis; sbt clean test"
+script: "./build.sh"
