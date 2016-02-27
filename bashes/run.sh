@@ -9,6 +9,14 @@ then
 	exit
 fi
 
+export M2_HOME=`mvn --version | grep "Maven home" | rev | cut -d':' -f1 | rev | sed "s/^ *//"`
+
+pushd MergeConflictAnalysis > /dev/null
+sbt assembly
+mv target/scala-2.11/MergeConflictAnalysis-assembly* ../
+popd > /dev/null
+
+
 repoloc=$(resolve-path $1)
 resultsloc=$(resolve-path $2 )
 results_suffix='.csv'
