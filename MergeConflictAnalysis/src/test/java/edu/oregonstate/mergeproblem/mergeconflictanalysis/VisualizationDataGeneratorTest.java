@@ -9,6 +9,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.ASTFileGenerator;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CombinedFile;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CommitStatus;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.InMemoryMerger;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.After;

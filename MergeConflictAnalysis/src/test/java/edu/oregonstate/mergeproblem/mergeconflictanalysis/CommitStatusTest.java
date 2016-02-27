@@ -2,6 +2,9 @@ package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
 import java.util.Arrays;
 
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CombinedFile;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CommitStatus;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.InMemoryMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 

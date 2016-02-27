@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.util.List;
 
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.ASTDiff;
 import org.junit.Before;
 import org.junit.Test;
 

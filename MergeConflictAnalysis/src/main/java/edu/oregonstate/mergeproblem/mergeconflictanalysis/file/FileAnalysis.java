@@ -1,5 +1,9 @@
-package edu.oregonstate.mergeproblem.mergeconflictanalysis;
+package edu.oregonstate.mergeproblem.mergeconflictanalysis.file;
 
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.Main;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.RepositoryWalker;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.VisualizationDataGenerator;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.WalkException;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.*;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Repository;
@@ -14,12 +18,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class FileAnalysis {
+
     CompositeProcessor processor;
 
-    public FileAnalysis() {
-    }
 
-    void doAnalysis(Main.Config config, BufferedOutputStream outputStream) throws Exception {
+    public void doAnalysis(Main.Config config, BufferedOutputStream outputStream) throws Exception {
         initializeProcessor();
         for (String repositoryPath : config.repositories) {
             String projectName = Paths.get(repositoryPath).getFileName().toString();

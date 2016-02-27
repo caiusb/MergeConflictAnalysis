@@ -2,6 +2,8 @@ package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
 import static org.junit.Assert.assertEquals;
 
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.ChunkOwner;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CombinedFile;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.ASTDiff;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ClassInstanceCreation;
 import org.eclipse.jdt.core.dom.EnhancedForStatement;
@@ -17,7 +18,6 @@ import org.eclipse.jdt.core.dom.SwitchCase;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.WhileStatement;
 
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.ASTDiff;
 import fr.labri.gumtree.actions.model.Action;
 import fr.labri.gumtree.actions.model.Addition;
 import fr.labri.gumtree.actions.model.Update;

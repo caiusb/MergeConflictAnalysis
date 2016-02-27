@@ -1,9 +1,9 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors;
 
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.ASTDiff;
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.ChunkOwner;
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.CombinedFile;
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.CommitStatus;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.ASTDiff;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.ChunkOwner;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CombinedFile;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CommitStatus;
 
 public class ASTSizeProcessor implements FileProcessor {
 

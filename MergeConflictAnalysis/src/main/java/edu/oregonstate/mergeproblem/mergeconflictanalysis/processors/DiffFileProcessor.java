@@ -1,10 +1,10 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors;
 
-import java.util.function.BiFunction;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.ChunkOwner;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CombinedFile;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CommitStatus;
 
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.ChunkOwner;
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.CombinedFile;
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.CommitStatus;
+import java.util.function.BiFunction;
 
 public abstract class DiffFileProcessor implements FileProcessor {
 	

@@ -1,9 +1,8 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors;
 
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CommitStatus;
 import org.junit.Before;
 import org.junit.Test;
-
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.CommitStatus;
 
 public class ASTFileProcessorTest extends ProcessorTest {
 	

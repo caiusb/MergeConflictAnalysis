@@ -1,11 +1,10 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors;
 
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CommitStatus;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.gitective.core.BlobUtils;
 import org.gitective.core.CommitUtils;
-
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.CommitStatus;
 
 public abstract class AbstractPreMergeProcessor implements FileProcessor {
 

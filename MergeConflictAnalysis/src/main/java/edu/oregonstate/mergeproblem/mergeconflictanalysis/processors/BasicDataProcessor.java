@@ -1,7 +1,7 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors;
 
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.CombinedFile;
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.CommitStatus;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CombinedFile;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CommitStatus;
 
 public class BasicDataProcessor implements FileProcessor {
 

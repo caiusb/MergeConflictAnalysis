@@ -1,5 +1,9 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.ASTFileGenerator;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.ChunkOwner;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CommitStatus;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;

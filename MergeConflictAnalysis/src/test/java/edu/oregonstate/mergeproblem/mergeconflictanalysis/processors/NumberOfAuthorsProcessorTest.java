@@ -1,8 +1,10 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors;
 
 import java.util.Date;
-import java.util.TimeZone;	
+import java.util.TimeZone;
 
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CommitStatus;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.InMemoryMerger;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
@@ -17,9 +19,6 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
-
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.CommitStatus;
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.InMemoryMerger;
 
 public class NumberOfAuthorsProcessorTest extends ProcessorTest {
 	

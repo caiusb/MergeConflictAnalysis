@@ -1,6 +1,6 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors;
 
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.CommitStatus;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CommitStatus;
 
 public class IsConflictProcessor implements FileProcessor {
 

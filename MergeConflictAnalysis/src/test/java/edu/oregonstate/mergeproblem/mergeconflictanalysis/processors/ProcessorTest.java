@@ -2,12 +2,12 @@ package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors;
 
 import java.util.HashMap;
 
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.ChunkOwner;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CombinedFile;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CommitStatus;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.InMemoryMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
 
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.ChunkOwner;
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.CombinedFile;
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.CommitStatus;
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.InMemoryMerger;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.MergeGitTest;
 
 public abstract class ProcessorTest extends MergeGitTest {

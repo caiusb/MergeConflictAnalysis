@@ -1,12 +1,11 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors;
 
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CommitStatus;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.InMemoryMerger;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
-
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.CommitStatus;
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.InMemoryMerger;
 
 public class MergedInMasterProcessorTest extends ProcessorTest {
 	

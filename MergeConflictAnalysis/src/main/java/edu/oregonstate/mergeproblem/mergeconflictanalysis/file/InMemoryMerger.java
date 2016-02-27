@@ -1,4 +1,4 @@
-package edu.oregonstate.mergeproblem.mergeconflictanalysis;
+package edu.oregonstate.mergeproblem.mergeconflictanalysis.file;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.Main;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.Util;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.Sequence;
 import org.eclipse.jgit.lib.Repository;

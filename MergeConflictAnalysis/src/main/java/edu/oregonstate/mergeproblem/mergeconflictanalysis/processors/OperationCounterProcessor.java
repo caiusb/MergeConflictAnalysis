@@ -2,10 +2,10 @@ package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors;
 
 import java.util.List;
 
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.ASTDiff;
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.ChunkOwner;
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.CombinedFile;
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.CommitStatus;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.ASTDiff;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.ChunkOwner;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CombinedFile;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CommitStatus;
 import fr.labri.gumtree.actions.model.Action;
 import fr.labri.gumtree.actions.model.Addition;
 import fr.labri.gumtree.actions.model.Delete;

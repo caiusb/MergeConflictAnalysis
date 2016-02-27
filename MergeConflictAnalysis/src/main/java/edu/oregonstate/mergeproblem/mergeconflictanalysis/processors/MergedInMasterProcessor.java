@@ -2,10 +2,9 @@ package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors;
 
 import java.util.regex.Pattern;
 
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CommitStatus;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.gitective.core.CommitUtils;
-
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.CommitStatus;
 
 public class MergedInMasterProcessor implements FileProcessor {
 

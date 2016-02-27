@@ -1,6 +1,6 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors;
 
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.ASTDiff;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.ASTDiff;
 
 public class ASTFileProcessor extends DiffFileProcessor {
 

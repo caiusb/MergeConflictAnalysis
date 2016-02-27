@@ -3,13 +3,13 @@ package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.ASTDiff;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.ChunkOwner;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CombinedFile;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CommitStatus;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Statement;
 
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.ASTDiff;
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.ChunkOwner;
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.CombinedFile;
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.CommitStatus;
 import fr.labri.gumtree.actions.model.Action;
 import fr.labri.gumtree.gen.jdt.JdtTree;
 import fr.labri.gumtree.tree.Tree;

@@ -1,10 +1,10 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors;
 
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CommitStatus;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.CommitStatus;
 
 public class CompositeProcessor implements FileProcessor {
 	

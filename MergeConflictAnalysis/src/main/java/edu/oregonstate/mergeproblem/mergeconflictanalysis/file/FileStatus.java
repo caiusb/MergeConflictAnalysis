@@ -1,4 +1,6 @@
-package edu.oregonstate.mergeproblem.mergeconflictanalysis;
+package edu.oregonstate.mergeproblem.mergeconflictanalysis.file;
+
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.Util;
 
 public class FileStatus {
 	
