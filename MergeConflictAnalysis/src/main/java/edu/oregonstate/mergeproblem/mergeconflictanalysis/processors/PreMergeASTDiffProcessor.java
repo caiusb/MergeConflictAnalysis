@@ -1,9 +1,9 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors;
 
-import java.util.List;
-
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.ASTDiff;
 import fr.labri.gumtree.actions.model.Action;
+
+import java.util.List;
 
 public class PreMergeASTDiffProcessor extends AbstractPreMergeProcessor {
 

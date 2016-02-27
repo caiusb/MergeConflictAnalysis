@@ -1,10 +1,10 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
-import java.util.Arrays;
-import java.util.Map;
-
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.Map;
 
 public class UtilTest extends MergeGitTest {
 

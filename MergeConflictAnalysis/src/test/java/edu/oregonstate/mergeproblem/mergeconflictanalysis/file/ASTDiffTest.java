@@ -1,15 +1,13 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.file;
 
-import static org.junit.Assert.assertEquals;
+import fr.labri.gumtree.actions.model.Action;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.IOException;
 import java.util.List;
 
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.ASTDiff;
-import org.junit.Before;
-import org.junit.Test;
-
-import fr.labri.gumtree.actions.model.Action;
+import static org.junit.Assert.assertEquals;
 
 public class ASTDiffTest {
 	

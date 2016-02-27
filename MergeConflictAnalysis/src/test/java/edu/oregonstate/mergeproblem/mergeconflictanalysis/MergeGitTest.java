@@ -1,8 +1,5 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.MergeResult;
 import org.eclipse.jgit.api.MergeResult.MergeStatus;
@@ -12,6 +9,9 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.gitective.core.CommitUtils;
 import org.gitective.tests.GitTestCase;
 import org.junit.Before;
+
+import java.io.File;
+import java.io.IOException;
 
 public abstract class MergeGitTest extends GitTestCase {
 

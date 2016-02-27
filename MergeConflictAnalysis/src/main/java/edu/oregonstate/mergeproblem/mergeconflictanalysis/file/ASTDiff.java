@@ -1,13 +1,13 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.file;
 
-import java.util.List;
-
 import fr.labri.gumtree.actions.ActionGenerator;
 import fr.labri.gumtree.actions.model.Action;
 import fr.labri.gumtree.gen.jdt.JdtTreeGenerator;
 import fr.labri.gumtree.matchers.Matcher;
 import fr.labri.gumtree.matchers.MatcherFactories;
 import fr.labri.gumtree.tree.Tree;
+
+import java.util.List;
 
 public class ASTDiff {
 	

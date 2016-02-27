@@ -1,18 +1,17 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.ASTDiff;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.ChunkOwner;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CombinedFile;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CommitStatus;
-import org.eclipse.jdt.core.dom.ASTNode;
-import org.eclipse.jdt.core.dom.Statement;
-
 import fr.labri.gumtree.actions.model.Action;
 import fr.labri.gumtree.gen.jdt.JdtTree;
 import fr.labri.gumtree.tree.Tree;
+import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.Statement;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ModifiedProgramElementsProcessor implements FileProcessor {
 
