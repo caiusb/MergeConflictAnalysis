@@ -12,7 +12,7 @@ libraryDependencies ++= Seq(
   "org.eclipse.jdt" % "org.eclipse.jdt.core" % "3.10.0",
   "args4j" % "args4j" % "2.33",
   "net.sf.trove4j" % "trove4j" % "3.0.3",
-  "org.apache.maven" % "maven-embedder" % "3.3.9",
+  "org.apache.maven.shared" % "maven-invoker" % "2.2",
   // for Gumtree Client
   "com.nanohttpd" % "nanohttpd-webserver" % "2.1.1",
   "org.rendersnake" % "rendersnake" % "1.8"
