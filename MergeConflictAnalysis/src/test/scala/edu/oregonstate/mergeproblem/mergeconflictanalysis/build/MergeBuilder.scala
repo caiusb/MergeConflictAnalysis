@@ -16,11 +16,11 @@ class MergeBuilder extends MergeGitTest with FlatSpecLike with Matchers with Bef
 
   it should "correctly merge a simple example" in {
     add(testRepo, "pom.xml", getPOMContent)
-    add(testRepo, "src/main/java/A.java", "public class A{\npublic int x{\nreturn 0;\n}}")
+    add(testRepo, "src/main/java/A.java", "public class A{\npublic int x{\nreturn 0;\n}\n}")
     branch("branch")
-    add(testRepo, "src/main/java/A.java", "public class A{\npublic int x{\return 0;\n}\npublic void n(){\n}}")
+    add(testRepo, "src/main/java/A.java", "public class A{\npublic int x{\nreturn 0;\n}\npublic void n(){\n}\n}")
     checkout("master")
-    add(testRepo, "scr/main/java/A.java", "public class A{\npublic int x{\nreturn 1;\n}}")
+    add(testRepo, "src/main/java/A.java", "public class A{\npublic int x{\nreturn 1;\n}\n}")
     val result = merge("branch")
     result.getMergeStatus.isSuccessful should be (true)
   }
