@@ -11,7 +11,7 @@ fi
 
 export M2_HOME=`mvn --version | grep "Maven home" | rev | cut -d':' -f1 | rev | sed "s/^ *//"`
 
-pushd MergeConflictAnalysis > /dev/null
+pushd ../MergeConflictAnalysis > /dev/null
 sbt assembly
 mv target/scala-2.11/MergeConflictAnalysis-assembly* ../
 popd > /dev/null
@@ -27,8 +27,32 @@ vizdataopts="-url-folder mergeviz -viz-folder $resultsloc/../../viz/data"
 dir=$PWD
 orderfile=$repoloc/'order.txt'
 
+if [ ! -d $repoloc ]
+then
+    echo "Repository folder does not exist"
+    exit 1
+fi
+
+if [ ! -d $resultsloc ]
+then
+    echo "Results folder does not exist"
+    exit 1
+fi
+
+if [ ! -d $resultsloc/"log" ]
+then
+    echo "Log folder does not exist. Creating one..."
+    mkdir $resultsloc/"log"
+fi   
+
 pushd $resultsloc > /dev/null
-git pull > /dev/null
+if [ ! -d ".git" ]
+then
+    echo "Git repo is not initalized. Initializing..."
+    git init
+else
+    git pull > /dev/null 2>&1
+fi
 popd > /dev/null
 
 pushd $repoloc > /dev/null
@@ -44,7 +68,7 @@ function run-for-repo() {
     pushd $resultsloc > /dev/null
     git add $reponame$results_suffix log/$reponame.txt > /dev/null
     git commit -m "Results as of $date" > /dev/null
-    git push > /dev/null
+    git push > /dev/null 2>&1
     popd > /dev/null    
 }
 
