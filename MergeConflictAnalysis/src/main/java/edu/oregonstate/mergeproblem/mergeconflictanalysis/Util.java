@@ -1,5 +1,9 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.lib.ObjectId;
@@ -8,10 +12,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.gitective.core.BlobUtils;
 import org.gitective.core.GitException;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class Util {
 	

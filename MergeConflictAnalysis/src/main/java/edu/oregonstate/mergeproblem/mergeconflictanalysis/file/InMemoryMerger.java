@@ -1,5 +1,11 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.file;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
+
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.Main;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.Util;
 import org.eclipse.jgit.diff.RawText;
@@ -12,12 +18,6 @@ import org.eclipse.jgit.merge.RecursiveMerger;
 import org.eclipse.jgit.merge.StrategyRecursive;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.gitective.core.CommitUtils;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Logger;
 
 public class InMemoryMerger {
 	

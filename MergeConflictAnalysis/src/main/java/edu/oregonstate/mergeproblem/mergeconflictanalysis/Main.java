@@ -1,11 +1,5 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.FileAnalysis;
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.Option;
-
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -15,6 +9,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.logging.StreamHandler;
+
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.FileAnalysis;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
 
 public class Main {
 

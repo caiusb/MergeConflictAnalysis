@@ -1,16 +1,16 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors;
 
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CommitStatus;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.gitective.core.CommitUtils;
-
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 
 public class AuthorProcessor implements FileProcessor {
 

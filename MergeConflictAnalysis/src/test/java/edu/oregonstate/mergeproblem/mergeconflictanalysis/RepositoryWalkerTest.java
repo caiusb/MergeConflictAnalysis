@@ -1,10 +1,10 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
+import java.util.List;
+
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.List;
 
 public class RepositoryWalkerTest extends MergeGitTest {
 

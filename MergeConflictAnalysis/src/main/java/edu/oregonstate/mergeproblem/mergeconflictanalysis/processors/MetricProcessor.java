@@ -1,16 +1,28 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.ASTDiff;
+import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.ClassInstanceCreation;
+import org.eclipse.jdt.core.dom.EnhancedForStatement;
+import org.eclipse.jdt.core.dom.FieldDeclaration;
+import org.eclipse.jdt.core.dom.ForStatement;
+import org.eclipse.jdt.core.dom.IfStatement;
+import org.eclipse.jdt.core.dom.Name;
+import org.eclipse.jdt.core.dom.QualifiedName;
+import org.eclipse.jdt.core.dom.SimpleType;
+import org.eclipse.jdt.core.dom.SwitchCase;
+import org.eclipse.jdt.core.dom.Type;
+import org.eclipse.jdt.core.dom.WhileStatement;
+
 import fr.labri.gumtree.actions.model.Action;
 import fr.labri.gumtree.actions.model.Addition;
 import fr.labri.gumtree.actions.model.Update;
 import fr.labri.gumtree.gen.jdt.JdtTree;
 import fr.labri.gumtree.tree.Tree;
-import org.eclipse.jdt.core.dom.*;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class MetricProcessor extends AbstractPreMergeProcessor {
 

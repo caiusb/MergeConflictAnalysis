@@ -1,10 +1,11 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors;
 
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.MergeGitTest;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CommitStatus;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.InMemoryMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
+
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.MergeGitTest;
 
 public class PreMergeASTDiffProcessorTest extends MergeGitTest{
 	

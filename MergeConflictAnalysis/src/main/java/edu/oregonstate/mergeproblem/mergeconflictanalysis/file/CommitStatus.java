@@ -1,12 +1,12 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.file;
 
-import org.eclipse.jgit.lib.Repository;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import org.eclipse.jgit.lib.Repository;
 
 public class CommitStatus {
 	private Repository repository;

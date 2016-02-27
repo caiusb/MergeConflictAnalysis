@@ -1,5 +1,7 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis
 
+import java.io.{ByteArrayOutputStream, PrintStream}
+
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.Builder._
 import org.gitective.tests.GitTestCase
 import org.scalatest.{BeforeAndAfter, FlatSpecLike, Matchers}

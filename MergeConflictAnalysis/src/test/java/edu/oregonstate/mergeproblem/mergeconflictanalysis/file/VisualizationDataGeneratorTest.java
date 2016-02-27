@@ -1,12 +1,5 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.file;
 
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.MergeGitTest;
-import org.eclipse.jgit.api.MergeResult;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,6 +8,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.MergeGitTest;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.*;
+import org.eclipse.jgit.api.MergeResult;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 
 public class VisualizationDataGeneratorTest extends MergeGitTest {
 	
