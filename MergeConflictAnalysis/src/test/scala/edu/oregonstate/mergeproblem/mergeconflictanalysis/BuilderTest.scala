@@ -1,14 +1,12 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis
 
-import java.io.{ByteArrayOutputStream, PrintStream}
-
-import Builder._
 import org.gitective.tests.GitTestCase
 import org.scalatest.{BeforeAndAfter, FlatSpecLike, Matchers}
 
 class BuilderTest extends GitTestCase with FlatSpecLike with Matchers with BeforeAndAfter {
 
   val goodProject = getClass.getResource("/simple-good-pom").getPath
+  import Builder._
 
   it should "correctly build a simple example" in {
     build(goodProject) should be (true)
