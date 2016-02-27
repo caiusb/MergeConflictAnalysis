@@ -26,6 +26,12 @@ class BuilderTest extends GitTestCase with FlatSpecLike with Matchers with Befor
     clean(goodProject)
   }
 
+  it should "fain on test failure" in {
+    val testFailProject = getClass.getResource("/test-fail").getPath
+    test(testFailProject) should be (false)
+    clean(testFailProject)
+  }
+
   it should "correctly clean a project" in {
     build(goodProject)
     getClass.getResource("/simple-good-pom/target") should not be (null)
