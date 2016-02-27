@@ -41,24 +41,28 @@ import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.PreMergeLOC
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.PreMergeLOCFileSizeProcessor;
 
 public class Main {
-	
+
 	public static final String LOG_NAME = "edu.oregonstate.mergeproblem";
 
-	@Option(name="-viz-folder", usage="Where the files for the visualization will be generated")
-	private String vizFolder = null;
-	
-	@Option(name="-url-folder", usage="Folder where the viz will be stored in the url")
-	private String urlFolder = "";
-	
-	@Option(name="-output", usage="The file where to output the results")
-	private String outputFile = null;
-	
-	@Option(name="-log-to-console", usage="If I should log to the console, using a fine level")
-	private boolean logToConsole = false;
-	
-	@Argument
-	private List<String> repositories = new ArrayList<String>();
-	
+	public class Config {
+
+		@Option(name = "-viz-folder", usage = "Where the files for the visualization will be generated")
+		public String vizFolder = null;
+
+		@Option(name = "-url-folder", usage = "Folder where the viz will be stored in the url")
+		public String urlFolder = "";
+
+		@Option(name = "-output", usage = "The file where to output the results")
+		public String outputFile = null;
+
+		@Option(name = "-log-to-console", usage = "If I should log to the console, using a fine level")
+		public boolean logToConsole = false;
+
+		@Argument
+		public List<String> repositories = new ArrayList<String>();
+
+	}
+
 	private static Logger logger = Logger.getLogger(LOG_NAME);
 
 	private CompositeProcessor processor;
@@ -70,14 +74,15 @@ public class Main {
 	private void doMain(String[] args) throws IOException, WalkException {
 		Logger gumtreeLogger = Logger.getLogger("fr.labri.gumtree");
 		gumtreeLogger.setLevel(Level.OFF);
-		
-		CmdLineParser cmdLineParser = new CmdLineParser(this);
+
+		Config config = new Config();
+		CmdLineParser cmdLineParser = new CmdLineParser(config);
 		try {
 			cmdLineParser.parseArgument(args);
 		} catch (CmdLineException e) {
 		}
 		
-		if (logToConsole) {
+		if (config.logToConsole) {
 			StreamHandler consoleHandler = new StreamHandler(System.out, new SimpleFormatter());
 			consoleHandler.setLevel(Level.FINE);
 			logger.addHandler(consoleHandler);
@@ -86,15 +91,15 @@ public class Main {
 		}
 		
 		BufferedOutputStream outputStream = new BufferedOutputStream(System.out);
-		if (outputFile != null) {
-			File file = new File(outputFile);
+		if (config.outputFile != null) {
+			File file = new File(config.outputFile);
 			if (!file.exists())
 				file.createNewFile();
 			outputStream = new BufferedOutputStream(new FileOutputStream(file));
 		}
 		
 		initializeProcessor();
-		for (String repositoryPath : repositories) {
+		for (String repositoryPath : config.repositories) {
 			String projectName = Paths.get(repositoryPath).getFileName().toString();
 			
 			logger.info("Recreating the commits for " + repositoryPath);
@@ -103,8 +108,8 @@ public class Main {
 			processResultsAndWriteToStream(statuses, outputStream);
 			outputStream.flush();
 			outputStream.close();
-			if (vizFolder != null)
-				generateDiffs(projectName, statuses);
+			if (config.vizFolder != null)
+				generateDiffs(projectName, statuses, config);
 		}
 	}
 	
@@ -128,11 +133,11 @@ public class Main {
 		processor.addProcessor(new MergedInMasterProcessor());
 	}
 
-	private void generateDiffs(String projectName, List<CommitStatus> statuses) {
+	private void generateDiffs(String projectName, List<CommitStatus> statuses, Config config) {
 		VisualizationDataGenerator dataGenerator = new VisualizationDataGenerator();
-		dataGenerator.setURLFolder(urlFolder);
+		dataGenerator.setURLFolder(config.urlFolder);
 		statuses.stream().filter(this::containsJavaFiles)
-			.forEach((status) -> dataGenerator.generateData(projectName, statuses, vizFolder));
+			.forEach((status) -> dataGenerator.generateData(projectName, statuses, config.vizFolder));
 	}
 	
 	private boolean containsJavaFiles(CommitStatus status) {
