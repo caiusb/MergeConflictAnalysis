@@ -20,7 +20,7 @@ import org.gitective.core.CommitUtils;
 public class InMemoryMerger {
 	
 	private final Repository repository;
-	private static Logger logger = Logger.getLogger(NewMain.LOG_NAME);
+	private static Logger logger = Logger.getLogger(Main.LOG_NAME);
 	
 	public InMemoryMerger(Repository repository) {
 		this.repository = repository;

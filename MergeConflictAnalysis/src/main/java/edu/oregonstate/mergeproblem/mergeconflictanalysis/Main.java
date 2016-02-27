@@ -40,7 +40,7 @@ import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.PreMergeAST
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.PreMergeLOCDiffProcessor;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.PreMergeLOCFileSizeProcessor;
 
-public class NewMain {
+public class Main {
 	
 	public static final String LOG_NAME = "edu.oregonstate.mergeproblem";
 
@@ -64,7 +64,7 @@ public class NewMain {
 	private CompositeProcessor processor;
 	
 	public static void main(String[] args) throws Exception {
-		new NewMain().doMain(args);
+		new Main().doMain(args);
 	}
 
 	private void doMain(String[] args) throws IOException, WalkException {
