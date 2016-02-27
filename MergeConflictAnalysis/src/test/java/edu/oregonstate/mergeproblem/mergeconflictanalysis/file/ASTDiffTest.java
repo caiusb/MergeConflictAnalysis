@@ -1,4 +1,4 @@
-package edu.oregonstate.mergeproblem.mergeconflictanalysis;
+package edu.oregonstate.mergeproblem.mergeconflictanalysis.file;
 
 import static org.junit.Assert.assertEquals;
 

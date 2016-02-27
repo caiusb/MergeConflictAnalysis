@@ -1,7 +1,8 @@
-package edu.oregonstate.mergeproblem.mergeconflictanalysis;
+package edu.oregonstate.mergeproblem.mergeconflictanalysis.file;
 
 import java.util.Arrays;
 
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.MergeGitTest;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CombinedFile;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CommitStatus;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.InMemoryMerger;

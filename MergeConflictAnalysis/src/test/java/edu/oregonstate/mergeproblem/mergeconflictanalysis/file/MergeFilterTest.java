@@ -1,11 +1,13 @@
-package edu.oregonstate.mergeproblem.mergeconflictanalysis;
+package edu.oregonstate.mergeproblem.mergeconflictanalysis.file;
 
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.MergeFilter;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.MergeGitTest;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Before;
 import org.junit.Test;
 
-public class MergeFilterTest extends MergeGitTest{
+public class MergeFilterTest extends MergeGitTest {
 	
 	private RevWalk revWalk;
 	private MergeFilter mergeFilter;

@@ -1,9 +1,10 @@
-package edu.oregonstate.mergeproblem.mergeconflictanalysis;
+package edu.oregonstate.mergeproblem.mergeconflictanalysis.file;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.MergeGitTest;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.ChunkOwner;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CombinedFile;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.CommitStatus;

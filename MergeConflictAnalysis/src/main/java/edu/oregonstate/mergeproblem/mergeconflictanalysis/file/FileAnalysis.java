@@ -2,7 +2,6 @@ package edu.oregonstate.mergeproblem.mergeconflictanalysis.file;
 
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.Main;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.RepositoryWalker;
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.VisualizationDataGenerator;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.WalkException;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.processors.*;
 import org.eclipse.jgit.api.Git;
