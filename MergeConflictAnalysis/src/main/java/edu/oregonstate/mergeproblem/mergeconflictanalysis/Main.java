@@ -71,7 +71,7 @@ public class Main {
 		new Main().doMain(args);
 	}
 
-	private void doMain(String[] args) throws IOException, WalkException {
+	private void doMain(String[] args) throws Exception {
 		Logger gumtreeLogger = Logger.getLogger("fr.labri.gumtree");
 		gumtreeLogger.setLevel(Level.OFF);
 
@@ -97,11 +97,15 @@ public class Main {
 				file.createNewFile();
 			outputStream = new BufferedOutputStream(new FileOutputStream(file));
 		}
-		
+
+		doAnalysis(config, outputStream);
+	}
+
+	private void doAnalysis(Config config, BufferedOutputStream outputStream) throws Exception {
 		initializeProcessor();
 		for (String repositoryPath : config.repositories) {
 			String projectName = Paths.get(repositoryPath).getFileName().toString();
-			
+
 			logger.info("Recreating the commits for " + repositoryPath);
 			List<CommitStatus> statuses = recreateMergesInRepository(repositoryPath);
 			logger.info("Processing results for " + repositoryPath);
@@ -112,7 +116,7 @@ public class Main {
 				generateDiffs(projectName, statuses, config);
 		}
 	}
-	
+
 	private void initializeProcessor() {
 		processor = new CompositeProcessor();
 		processor.addProcessor(new BasicDataProcessor());
