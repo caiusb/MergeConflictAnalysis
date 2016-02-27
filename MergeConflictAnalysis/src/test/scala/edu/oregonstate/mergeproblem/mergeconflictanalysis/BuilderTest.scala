@@ -1,15 +1,35 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis
 
-import org.gitective.tests.GitTestCase
-import org.scalatest.{FlatSpecLike, Matchers}
+import java.io.{ByteArrayOutputStream, PrintStream}
 
-class BuilderTest extends GitTestCase with FlatSpecLike with Matchers {
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.Builder._
+import org.gitective.tests.GitTestCase
+import org.scalatest.{BeforeAndAfter, FlatSpecLike, Matchers}
+
+class BuilderTest extends GitTestCase with FlatSpecLike with Matchers with BeforeAndAfter {
+
+  val goodProject = getClass.getResource("/simple-good-pom").getPath
 
   it should "correctly build a simple example" in {
-    Builder.build(getClass.getResource("/simple-good-pom").getPath) should be (true)
+    build(goodProject) should be (true)
+    clean(goodProject)
   }
 
   it should "correctly fail on compilation error" in {
-    Builder.build(getClass.getResource("/simple-bad-pom").getPath) should be (false)
+    val errorProject = getClass.getResource("/simple-bad-pom").getPath
+    build(errorProject) should be (false)
+    clean(errorProject)
+  }
+
+  it should "correctly test" in {
+    test(goodProject) should be (true)
+    clean(goodProject)
+  }
+
+  it should "correctly clean a project" in {
+    build(goodProject)
+    getClass.getResource("/simple-good-pom/target") should not be (null)
+    clean(goodProject)
+    getClass.getResource("/simple-good-pom/target") should be (null)
   }
 }
