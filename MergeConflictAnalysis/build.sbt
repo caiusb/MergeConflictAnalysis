@@ -26,6 +26,12 @@ testOptions += Tests.Argument(TestFrameworks.JUnit, "-q", "-v")
 
 resolvers += Resolver.sonatypeRepo("public")
 
+val mc = Some("edu.oregonstate.mergeproblem.mergeconflictanalysis.Main")
+
+mainClass in (Compile, run) := mc
+
+mainClass in assembly := mc
+
 lazy val root = (project in file(".")).
   settings(
     name := "MergeConflictAnalysis",
