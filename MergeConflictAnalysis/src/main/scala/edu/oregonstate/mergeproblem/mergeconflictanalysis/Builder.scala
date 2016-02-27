@@ -1,8 +1,8 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis
 
-import java.io.{File, PrintStream, ByteArrayOutputStream}
+import java.io.{ByteArrayOutputStream, File, PrintStream}
 
-import org.apache.maven.shared.invoker.{InvocationOutputHandler, DefaultInvoker, DefaultInvocationRequest}
+import org.apache.maven.shared.invoker.{DefaultInvocationRequest, DefaultInvoker, InvocationOutputHandler, InvocationResult}
 
 import scala.collection.JavaConversions._
 
@@ -17,6 +17,15 @@ object Builder {
 
   def runMaven(projectPath: String, tasks: Seq[String], out: PrintStream): Boolean = {
     //makeMavenHappy(projectPath)
+
+    val result = invoke(projectPath, tasks)
+
+    if (result.getExitCode != 0)
+      return false
+    return true
+  }
+
+  private def invoke(projectPath: String, tasks: Seq[String]): InvocationResult = {
     val request = new DefaultInvocationRequest
     request.setPomFile(new File(projectPath + "/pom.xml"))
     request.setGoals(seqAsJavaList(tasks))
@@ -25,9 +34,7 @@ object Builder {
     invoker.setErrorHandler(nullOutputHandler)
     invoker.setOutputHandler(nullOutputHandler)
     val result = invoker.execute(request)
-    if (result.getExitCode != 0)
-      return false
-    return true
+    result
   }
 
   def build(projectPath: String): Boolean = {
