@@ -31,11 +31,11 @@ object MergeBuilder {
       return result + "," + MERGE_FAIL
   }
 
-  def merge(git: Git, commits: Array[RevCommit]): Boolean = {
+  private def merge(git: Git, commits: Array[RevCommit]): Boolean = {
     new StrategyRecursive().newMerger(git.getRepository, true).merge(commits: _*)
   }
 
-  def checkoutAndBuild(git: Git, p: RevCommit): String = {
+  private def checkoutAndBuild(git: Git, p: RevCommit): String = {
     git.checkout().setName(p.getName).call()
     val project = git.getRepository.getWorkTree.getAbsolutePath
     if (Builder.build(project))
