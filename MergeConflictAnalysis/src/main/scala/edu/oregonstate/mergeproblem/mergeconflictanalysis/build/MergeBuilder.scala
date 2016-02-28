@@ -16,9 +16,11 @@ object MergeBuilder {
   def mergeAndBuild(git: Git, commitID: String): String = {
     val commit = CommitUtils.getCommit(git.getRepository, commitID)
     val parents = commit.getParents
-    val parentResults = parents.map(p => checkoutAndBuild(git, p)).fold("")((left, right) => left + "," + right)
-    val result = commitID + parentResults
     val project = git.getRepository.getWorkTree.getAbsolutePath
+    val parentResults = parents.map(p => {
+      checkoutBuildClean(git, project, p)
+    }).fold("")((left, right) => left + "," + right)
+    val result = commitID + parentResults
     if(merge(git, parents))
       if (Builder.build(project))
         if (Builder.test(project))
@@ -31,8 +33,16 @@ object MergeBuilder {
       return result + "," + MERGE_FAIL
   }
 
+  def checkoutBuildClean(git: Git, project: String, p: RevCommit): String = {
+    val result = checkoutAndBuild(git, p)
+    Builder.clean(project)
+    return result
+  }
+
   private def merge(git: Git, commits: Array[RevCommit]): Boolean = {
-    new StrategyRecursive().newMerger(git.getRepository, true).merge(commits: _*)
+    git.checkout.setName(commits(0).getName).call
+    val result = git.merge.include(commits(1)).call
+    return result.getMergeStatus.isSuccessful
   }
 
   private def checkoutAndBuild(git: Git, p: RevCommit): String = {

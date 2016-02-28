@@ -83,4 +83,19 @@ class MergeBuilderTest extends MergeGitTest with FlatSpecLike with Matchers with
     val name = commit.getNewHead.getName
     mergeAndBuild(Git.open(testRepo), name) should be (name + "," + SUCCESS + "," + TEST_FAIL + "," + TEST_FAIL)
   }
+
+  it should "correctly report even after failure in a parent" in {
+    add("pom.xml", getPOMContent)
+    add("src/main/java/A.java", getResourceContent("/merging/simple-class.java"))
+    add("src/test/java/TestA.java", getResourceContent("/merging/failing-test.java"))
+    branch("branch")
+    add("src/main/java/A.java", getResourceContent("/merging/changed-class.java"))
+    add("src/test/java/TestA.java", getResourceContent("/merging/passing-test.java"))
+    checkout("master")
+    add("src/main/java/A.java", getResourceContent("/merging/alternative-class.java"))
+    val mergeResult = merge("branch")
+    mergeResult.getMergeStatus.isSuccessful should be (true)
+    val mergeCommit = mergeResult.getNewHead.getName
+    mergeAndBuild(Git.open(testRepo), mergeCommit) should be (mergeCommit + "," + TEST_FAIL + "," + SUCCESS + "," + SUCCESS)
+  }
 }
