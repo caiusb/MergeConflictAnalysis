@@ -13,7 +13,7 @@ export M2_HOME=`mvn --version | grep "Maven home" | rev | cut -d':' -f1 | rev | 
 
 pushd ../MergeConflictAnalysis > /dev/null
 sbt assembly
-mv target/scala-2.11/MergeConflictAnalysis-assembly* ../
+mv target/scala-2.11/MergeConflictAnalysis-assembly-1.0.0.jar ../
 popd > /dev/null
 
 
@@ -63,7 +63,7 @@ function run-for-repo() {
     reponame=$(basename $path)
     echo "Processing: $reponame"
     date=`date`
-    java $javaopts -jar $dir/../MergingConflictAnalysis.jar -output $resultsloc/$reponame$results_suffix $vizdataopts $path 2>$resultsloc/log/$reponame.txt
+    java $javaopts -jar $dir/../MergeConflictAnalysis-assembly-1.0.0.jar -output $resultsloc/$reponame$results_suffix $vizdataopts $path 2>$resultsloc/log/$reponame.txt
 
     pushd $resultsloc > /dev/null
     git add $reponame$results_suffix log/$reponame.txt > /dev/null
