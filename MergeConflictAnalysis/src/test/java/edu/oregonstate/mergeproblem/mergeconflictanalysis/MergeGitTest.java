@@ -11,6 +11,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.gitective.core.CommitUtils;
 import org.gitective.tests.GitTestCase;
+import org.junit.After;
 import org.junit.Before;
 
 public abstract class MergeGitTest extends GitTestCase {
@@ -20,6 +21,11 @@ public abstract class MergeGitTest extends GitTestCase {
 	@Before 
 	public void before() throws Exception {
 		repository = Git.open(testRepo).getRepository();
+	}
+
+	@After
+	public void deleteRepo() throws Exception {
+		testRepo.delete();
 	}
 	
 	protected RevCommit createNonConflictingMerge() throws Exception {

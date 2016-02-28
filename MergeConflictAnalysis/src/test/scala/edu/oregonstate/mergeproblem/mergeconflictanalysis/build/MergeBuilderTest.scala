@@ -11,30 +11,39 @@ import scala.io.Source
 class MergeBuilderTest extends MergeGitTest with FlatSpecLike with Matchers with BeforeAndAfter {
 
   before {
-    setUp()
+    setUp
   }
 
-  def getPOMContent: String =
-    Source.fromFile(getClass.getResource("/example.pom.xml").getFile).mkString
+  after {
+    deleteRepo
+  }
+
+  def getPOMContent: String = {
+    getResourceContent("/example.pom.xml")
+  }
+
+  def getResourceContent(s: String): String = {
+    Source.fromFile(getClass.getResource(s).getFile).mkString
+  }
 
   def mergeSuccessfulWithPOM: MergeResult = {
     addBasicClassAndTest
     branch("branch")
     addNewMethodToClass
     checkout("master")
-    add(testRepo, "src/main/java/A.java", "public class A{\npublic int x(){\nreturn 1;\n}\n}")
+    add(testRepo, "src/main/java/A.java", getResourceContent("/merging/changed-class.java"))
     val result = merge("branch")
     result
   }
 
   def addNewMethodToClass: RevCommit = {
-    add(testRepo, "src/main/java/A.java", "public class A{\npublic int x(){\nreturn 0;\n}\npublic void n(){\n}\n}")
+    add(testRepo, "src/main/java/A.java", getResourceContent("/merging/alternative-class.java"))
   }
 
   def addBasicClassAndTest: RevCommit = {
     add(testRepo, "pom.xml", getPOMContent)
-    add(testRepo, "src/main/java/A.java", "public class A{\npublic int x(){\nreturn 0;\n}\n}")
-    add(testRepo, "src/test/java/TestA.java", "import org.junit.*;\nimport static org.junit.Assert.*;\npublic class TestA{\n@Test\npublic void m(){\nassertTrue(true);\n}\n}")
+    add(testRepo, "src/main/java/A.java", getResourceContent("/merging/simple-class.java"))
+    add(testRepo, "src/test/java/TestA.java", getResourceContent("/merging/passing-test.java"))
   }
 
   it should "correctly merge a simple example" in {
@@ -49,14 +58,29 @@ class MergeBuilderTest extends MergeGitTest with FlatSpecLike with Matchers with
   }
 
   it should "correctly report a merge failure" in {
-    addBasicClassAndTest
-    branch("branch")
-    add("src/main/java/A.java", "public class A{\npublic int x(){\nreturn 7;}\n}")
-    checkout("master")
-    add("src/main/java/A.java", "public class A{\npublic int x(){\nreturn 98;}\n}")
+    conflictingMergePOM
     merge("branch").getMergeStatus.isSuccessful should be (false)
-    val resolved = add("src/main/java/A.java", "public class A{\npublic int x(){\nreturn 7;\n}\npublic void n(){\n}\n}")
+    val resolved = add("src/main/java/A.java", getResourceContent("/merging/solution-class.java"))
     mergeAndBuild(Git.open(testRepo), resolved.getName) should be (resolved.getName + "," + SUCCESS + "," + SUCCESS + "," + MERGE_FAIL)
   }
 
+  def conflictingMergePOM: RevCommit = {
+    addBasicClassAndTest
+    branch("branch")
+    add("src/main/java/A.java", getResourceContent("/merging/changed-class.java"))
+    checkout("master")
+    add("src/main/java/A.java", getResourceContent("/merging/conflicting-class.java"))
+  }
+
+  it should "correctly report a test failure in a parent" in {
+    addBasicClassAndTest
+    branch("branch")
+    addNewMethodToClass
+    add("src/test/java/TestA.java", getResourceContent("/merging/failing-test.java"))
+    checkout("master")
+    add("src/main/java/A.java", getResourceContent("/merging/changed-class.java"))
+    val commit = merge("branch")
+    val name = commit.getNewHead.getName
+    mergeAndBuild(Git.open(testRepo), name) should be (name + "," + SUCCESS + "," + TEST_FAIL + "," + TEST_FAIL)
+  }
 }
