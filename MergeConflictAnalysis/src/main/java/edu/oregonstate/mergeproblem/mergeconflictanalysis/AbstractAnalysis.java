@@ -1,4 +1,4 @@
-package edu.oregonstate.mergeproblem.mergeconflictanalysis.file;
+package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.Main;
 

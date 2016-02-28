@@ -1,5 +1,6 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.file;
 
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.AbstractAnalysis;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.Main;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.RepositoryWalker;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.WalkException;
