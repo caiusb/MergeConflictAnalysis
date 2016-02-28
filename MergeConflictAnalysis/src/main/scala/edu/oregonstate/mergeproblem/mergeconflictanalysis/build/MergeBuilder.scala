@@ -1,10 +1,12 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.build
 
+import java.util.logging.Level
+
 import org.eclipse.jgit.api.{ResetCommand, Git}
 import org.eclipse.jgit.merge.StrategyRecursive
 import org.eclipse.jgit.revwalk.RevCommit
 import org.gitective.core.CommitUtils
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.Builder
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.{Main, Builder}
 
 object MergeBuilder {
 
@@ -13,14 +15,19 @@ object MergeBuilder {
   final def TEST_FAIL = "test"
   final def MERGE_FAIL = "text"
 
+  private val logger = Main.logger
+
   def mergeAndBuild(git: Git, commitID: String): String = {
+    logger.log(Level.INFO, "Processing " + commitID)
     val commit = CommitUtils.getCommit(git.getRepository, commitID)
     val parents = commit.getParents
+    logger.log(Level.INFO, "Parents: " + parents.mkString(","))
     val project = git.getRepository.getWorkTree.getAbsolutePath
     val parentResults = parents.map(p => {
       checkoutBuildClean(git, project, p)
     }).fold("")((left, right) => left + "," + right)
     val result = commitID + parentResults
+    logger.log(Level.INFO, "Parent results: " + result)
     if(merge(git, parents))
       if (Builder.build(project))
         if (Builder.test(project))
