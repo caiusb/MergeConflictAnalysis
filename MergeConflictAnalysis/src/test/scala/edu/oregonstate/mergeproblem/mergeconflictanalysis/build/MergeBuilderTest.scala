@@ -19,7 +19,7 @@ class MergeBuilderTest extends MergeGitTest with FlatSpecLike with Matchers with
   }
 
   def getPOMContent: String = {
-    getResourceContent("/example.pom.xml")
+    getResourceContent("/simple-good-pom/pom.xml")
   }
 
   def getResourceContent(s: String): String = {
