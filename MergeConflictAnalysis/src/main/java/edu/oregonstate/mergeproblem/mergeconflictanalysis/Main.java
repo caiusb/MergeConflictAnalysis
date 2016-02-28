@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.logging.StreamHandler;
 
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.build.BuildAnalysis;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.FileAnalysis;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
@@ -75,6 +76,9 @@ public class Main {
 			outputStream = new BufferedOutputStream(new FileOutputStream(file));
 		}
 
-		new FileAnalysis().doAnalysis(config, outputStream);
+		if (config.build)
+			BuildAnalysis.doAnalysis(config, outputStream);
+		else
+			new FileAnalysis().doAnalysis(config, outputStream);
 	}
 }	
