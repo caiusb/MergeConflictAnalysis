@@ -1,6 +1,6 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.build
 
-import org.eclipse.jgit.api.Git
+import org.eclipse.jgit.api.{ResetCommand, Git}
 import org.eclipse.jgit.merge.StrategyRecursive
 import org.eclipse.jgit.revwalk.RevCommit
 import org.gitective.core.CommitUtils
@@ -29,8 +29,10 @@ object MergeBuilder {
           return result + "," + TEST_FAIL
       else
         return result + "," + BUILD_FAIL
-    else
+    else {
+      cleanRepo(git)
       return result + "," + MERGE_FAIL
+    }
   }
 
   def checkoutBuildClean(git: Git, project: String, p: RevCommit): String = {
@@ -44,6 +46,9 @@ object MergeBuilder {
     val result = git.merge.include(commits(1)).call
     return result.getMergeStatus.isSuccessful
   }
+
+  private def cleanRepo(git: Git) =
+    git.reset().setMode(ResetCommand.ResetType.HARD).setRef("HEAD").call()
 
   private def checkoutAndBuild(git: Git, p: RevCommit): String = {
     git.checkout().setName(p.getName).call()
