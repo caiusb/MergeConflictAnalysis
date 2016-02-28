@@ -80,5 +80,8 @@ public class Main {
 			BuildAnalysis.doAnalysis(config, outputStream);
 		else
 			new FileAnalysis().doAnalysis(config, outputStream);
+
+		outputStream.flush();
+		outputStream.close();
 	}
 }	
