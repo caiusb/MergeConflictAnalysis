@@ -34,6 +34,9 @@ public class Main {
 		@Option(name = "-log-to-console", usage = "If I should log to the console, using a fine level")
 		public boolean logToConsole = false;
 
+		@Option(name = "-build", usage = "If I should do a build analysis. Default is off, doing a file anaylsis")
+		public boolean build = false;
+
 		@Argument
 		public List<String> repositories = new ArrayList<String>();
 
