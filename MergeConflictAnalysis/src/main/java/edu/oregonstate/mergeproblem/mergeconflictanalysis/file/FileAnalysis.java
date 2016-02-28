@@ -16,11 +16,12 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class FileAnalysis {
+public class FileAnalysis extends AbstractAnalysis {
 
     CompositeProcessor processor;
 
 
+    @Override
     public void doAnalysis(Main.Config config, BufferedOutputStream outputStream) throws Exception {
         initializeProcessor();
         for (String repositoryPath : config.repositories) {
