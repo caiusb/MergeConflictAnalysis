@@ -25,5 +25,5 @@ for repo in repos:
 		script.write("pushd \"$tmpdir\" > /dev/null \n")
 		script.write("git clone " + repo + "\n")
 		script.write("popd >/dev/null \n\n")
-		script.write("java -jar " + jar + " -Xmx2G " + "-output=../../build-data/results/" + repoName + ".csv -build -log-to-console " + repoName + ".csv " + "/scratch/brindesc/" + repoName + "\n\n")
+		script.write("java -jar " + jar + " -Xmx2G " + "-output=../../build-data/results/" + repoName + ".csv -build -log-to-console " + "/scratch/brindesc/" + repoName + "\n\n")
 		script.write("rm -rf \"$tmpdir\"\n\n")
