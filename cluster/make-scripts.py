@@ -21,7 +21,6 @@ for repo in repos:
 		script.write("\tmkdir \"$tmpdir\"\n")
 		script.write("fi\n\n")
 		script.write("pushd \"$tmpdir\" > /dev/null \n")
-		print(repo)
 		script.write("git clone " + repo + "\n")
 		script.write("popd >/dev/null \n\n")
 		script.write("java -jar " + jar + " -Xmx1G " + "-output=../../build-data/results/" + repoName + ".csv " + "/scratch/brindesc/" + repoName + "\n\n")
