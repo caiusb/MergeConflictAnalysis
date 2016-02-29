@@ -68,20 +68,26 @@ public class Main {
 		} else {
 			logger.setLevel(Level.SEVERE);
 		}
-		
+
+		logger.log(Level.INFO, "Up and loaded in the JVM");
+
 		BufferedOutputStream outputStream = new BufferedOutputStream(System.out);
 		if (config.outputFile != null) {
 			try {
 				File file = new File(config.outputFile);
 				if (file.isDirectory()) {
 					System.out.println(config.outputFile + " is a directory!");
+					logger.log(Level.SEVERE, config.outputFile + " is a directory!");
 					System.exit(1);
 				}
-				if (!file.exists())
+				if (!file.exists()) {
 					file.createNewFile();
+					logger.log(Level.INFO, "Created the result file");
+				}
 				outputStream = new BufferedOutputStream(new FileOutputStream(file));
 			} catch (IOException e) {
 				System.out.println("Error creating results file");
+				logger.log(Level.SEVERE, "Error creating results file");
 				System.out.println(e);
 				System.exit(2);
 			}
