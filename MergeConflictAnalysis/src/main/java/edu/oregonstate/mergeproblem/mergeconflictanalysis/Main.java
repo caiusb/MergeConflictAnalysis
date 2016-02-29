@@ -3,6 +3,7 @@ package edu.oregonstate.mergeproblem.mergeconflictanalysis;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -70,10 +71,20 @@ public class Main {
 		
 		BufferedOutputStream outputStream = new BufferedOutputStream(System.out);
 		if (config.outputFile != null) {
-			File file = new File(config.outputFile);
-			if (!file.exists())
-				file.createNewFile();
-			outputStream = new BufferedOutputStream(new FileOutputStream(file));
+			try {
+				File file = new File(config.outputFile);
+				if (file.isDirectory()) {
+					System.out.println(config.outputFile + " is a directory!");
+					System.exit(1);
+				}
+				if (!file.exists())
+					file.createNewFile();
+				outputStream = new BufferedOutputStream(new FileOutputStream(file));
+			} catch (IOException e) {
+				System.out.println("Error creating results file");
+				System.out.println(e);
+				System.exit(2);
+			}
 		}
 
 		if (config.build)
