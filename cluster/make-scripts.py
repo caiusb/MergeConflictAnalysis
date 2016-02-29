@@ -6,8 +6,8 @@ import subprocess as s
 repos = [line.rstrip('\n') for line in open('../repos-buildable.txt')]
 
 shebang = "#!/bin/bash\n\n"
-jar = "$HOME/merging/workspace/MergeConflictAnalysis-assembly-1.0.0.jar"
-jobOps = "-cwd"
+wd="wd=$HOME/merging/workspace/"
+jar = "$wd/MergeConflictAnalysis-assembly-1.0.0.jar"
 
 s.call("./make-dir-structure.sh")
 
@@ -15,6 +15,9 @@ for repo in repos:
 	repoName = repo.split("/")[-1]
 	with open("scripts/" + repoName + ".sh", "w") as script:
 		script.write(shebang)
+		script.write(wd)
+		script.write("cd $wd\n")
+		script.write("pwd\n\n")
 		script.write("export PATH=$HOME/jdk8/bin:$HOME/maven/bin:$HOME/.local/bin:$PATH\n")
 		script.write("export M2_HOME=`mvn --version | grep \"Maven home\" | rev | cut -d':' -f1 | rev | sed \"s/^ *//\"`\n\n")
 		script.write("tmpdir=\"/scratch/brindesc\"\n\n")
@@ -25,5 +28,5 @@ for repo in repos:
 		script.write("pushd \"$tmpdir\" > /dev/null \n")
 		script.write("git clone " + repo + "\n")
 		script.write("popd >/dev/null \n\n")
-		script.write("java -jar " + jar + " -Xmx2G " + "-output=../../../build-data/results/" + repoName + ".csv -build -log-to-console " + "/scratch/brindesc/" + repoName + "\n\n")
+		script.write("java -jar " + jar + " -Xmx2G " + "-output=../build-data/results/" + repoName + ".csv -build -log-to-console " + "$tmpdir" + repoName + "\n\n")
 		script.write("rm -rf \"$tmpdir\"\n\n")
