@@ -15,8 +15,8 @@ for repo in repos:
 	repoName = repo.split("/")[-1]
 	with open("scripts/" + repoName + ".sh", "w") as script:
 		script.write(shebang)
-		script.write("export PATH=$HOME/jdk8/bin:$HOME/maven/bin:$PATH\n\n")
-		script.write("export M2_HOME=`mvn --version | grep \"Maven home\" | rev | cut -d':' -f1 | rev | sed \"s/^ *//\"`\n")
+		script.write("export PATH=$HOME/jdk8/bin:$HOME/maven/bin:$HOME/.local/bin:$PATH\n")
+		script.write("export M2_HOME=`mvn --version | grep \"Maven home\" | rev | cut -d':' -f1 | rev | sed \"s/^ *//\"`\n\n")
 		script.write("tmpdir=\"/scratch/brindesc\"\n\n")
 		script.write("if [ ! -d \"$tmpdir\" ]\n")
 		script.write("then\n")
