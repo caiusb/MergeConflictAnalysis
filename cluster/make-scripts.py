@@ -15,6 +15,7 @@ for repo in repos:
 	repoName = repo.split("/")[-1]
 	with open("scripts/" + repoName + ".sh", "w") as script:
 		script.write(shebang)
+		scrite.write("export M2_HOME=`mvn --version | grep \"Maven home\" | rev | cut -d':' -f1 | rev | sed "s/^ *//"`\n\n")
 		script.write("tmpdir=\"/scratch/brindesc\"\n\n")
 		script.write("if [ ! -d \"$tmpdir\" ]\n")
 		script.write("then\n")
