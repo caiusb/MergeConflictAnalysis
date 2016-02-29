@@ -16,7 +16,7 @@ for repo in repos:
 	with open("scripts/" + repoName + ".sh", "w") as script:
 		script.write(shebang)
 		script.write("export M2_HOME=`mvn --version | grep \"Maven home\" | rev | cut -d':' -f1 | rev | sed \"s/^ *//\"`\n")
-		script.write("export PATH=$HOME/jdk8/bin:$PATH\n\n")
+		script.write("export PATH=$HOME/jdk8/bin:$HOME/maven/bin:$PATH\n\n")
 		script.write("tmpdir=\"/scratch/brindesc\"\n\n")
 		script.write("if [ ! -d \"$tmpdir\" ]\n")
 		script.write("then\n")
