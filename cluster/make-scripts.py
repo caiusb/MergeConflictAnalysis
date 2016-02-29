@@ -6,7 +6,7 @@ import subprocess as s
 repos = [line.rstrip('\n') for line in open('../repos-buildable.txt')]
 
 shebang = "#!/bin/bash\n\n"
-jar = "$HOME/merging/Merge"
+jar = "$HOME/merging/MergeConflictAnalysis-assembly-1.0.0.jar"
 jobOps = "-cwd"
 
 s.call("./make-dir-structure.sh")
