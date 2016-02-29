@@ -1,12 +1,12 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.build
 
+import java.io.OutputStream
 import java.util.logging.Level
 
-import org.eclipse.jgit.api.{ResetCommand, Git}
-import org.eclipse.jgit.merge.StrategyRecursive
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.{Builder, Main}
+import org.eclipse.jgit.api.{Git, ResetCommand}
 import org.eclipse.jgit.revwalk.RevCommit
 import org.gitective.core.CommitUtils
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.{Main, Builder}
 
 object MergeBuilder {
 
@@ -40,6 +40,14 @@ object MergeBuilder {
       cleanRepo(git)
       return result + "," + MERGE_FAIL
     }
+  }
+
+  def mergeAndBuild(git: Git, commitID: String, out: OutputStream): String = {
+    val result = mergeAndBuild(git, commitID)
+    out.write(result.getBytes)
+    out.write("\n".getBytes)
+    out.flush
+    return result
   }
 
   def checkoutBuildClean(git: Git, project: String, p: RevCommit): String = {

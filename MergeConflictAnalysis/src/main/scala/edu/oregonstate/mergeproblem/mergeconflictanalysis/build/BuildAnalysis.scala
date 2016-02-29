@@ -14,8 +14,7 @@ object BuildAnalysis extends AbstractAnalysis {
       val git = Git.open(new File(r))
       val repo = git.getRepository
       val mergeCommits = asScalaBuffer(new RepositoryWalker(repo).getMergeCommits)
-      val result = mergeCommits.map(c => MergeBuilder.mergeAndBuild(git, c.getName) + "\n").reduce((c, e) => (c + e))
-      outputStream.write(result.getBytes)
+      val result = mergeCommits.map(c => MergeBuilder.mergeAndBuild(git, c.getName, outputStream))
     })
   }
 }
