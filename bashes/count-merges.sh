@@ -6,7 +6,7 @@ folder=$1
 
 echo $header
 
-pushd folder > /dev/null
+pushd $folder > /dev/null
 for i in *
 do
 	cd $i
@@ -14,4 +14,4 @@ do
 	cd ../
 done
 
-popd folder > /dev/null
+popd > /dev/null
