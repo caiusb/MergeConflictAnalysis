@@ -23,6 +23,7 @@ results_suffix='.csv'
 javaopts='-Xmx12G'
 vizdataopts=''
 #vizdataopts="-url-folder mergeviz -viz-folder $resultsloc/../../viz/data"
+buildopts="" #"-build"
 
 dir=$PWD
 orderfile=$repoloc/'order.txt'
@@ -46,7 +47,8 @@ then
 fi   
 
 pushd $resultsloc > /dev/null
-if [ ! -d ".git" ]
+git status > /dev/null
+if [ $? -ne 0 ]
 then
     echo "Git repo is not initalized. Initializing..."
     git init
@@ -63,7 +65,7 @@ function run-for-repo() {
     reponame=$(basename $path)
     echo "Processing: $reponame"
     date=`date`
-    java $javaopts -jar $dir/../MergeConflictAnalysis-assembly-1.0.0.jar -output $resultsloc/$reponame$results_suffix $vizdataopts $path 2>$resultsloc/log/$reponame.txt
+    java $javaopts -jar $dir/../MergeConflictAnalysis-assembly-1.0.0.jar -output $resultsloc/$reponame$results_suffix $buildopts $vizdataopts $path 2>$resultsloc/log/$reponame.txt
 
     pushd $resultsloc > /dev/null
     git add $reponame$results_suffix log/$reponame.txt > /dev/null

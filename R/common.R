@@ -24,6 +24,10 @@ listCSVFiles <- function(folder) {
 }
 
 readCSVFiles <- function(files, dataFrame) {
+  return(readCSVFiles(files, dataFrame, T))
+}
+
+readCSVFiles <- function(files, dataFrame, header) {
   lapply(files, function(file) {
     fileLength = length(readLines(file))
     if (fileLength <= 1)
@@ -31,7 +35,7 @@ readCSVFiles <- function(files, dataFrame) {
     else {
       print(cat('Processing: ', file))
       fileInfo <- file.info(file)
-      currentDataFile <- fread(file, header=T, sep=',')
+      currentDataFile <- fread(file, header=header, sep=',')
       project <- basename(file_path_sans_ext(file))
       currentDataFile$PROJECT <- project
       dataFrame <<- rbind(dataFrame, currentDataFile, fill=TRUE)
