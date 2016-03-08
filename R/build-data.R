@@ -21,7 +21,7 @@ sanityCheck <- function(buildData, mergeData) {
   for(project in row.names(t)) {
     noMerges = mergeData[mergeData$PROJECT == project, ]$NO_MERGES
     if (t[project] < noMerges) {
-      print(paste("Failed for", project, ": ", noMerges, " merges and ", t[project], " builds", sep=""))
+      print(paste("Failed for ", project, ": ", noMerges, " merges and ", t[project], " builds", sep=""))
       pass = FALSE
     }
   }
