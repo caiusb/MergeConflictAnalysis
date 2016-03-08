@@ -15,10 +15,10 @@ then
 	mkdir "../../build-data/output"
 fi
 
-if [ ! -d "../../build-data/errors" ]
-then
-	mkdir "../../build-data/errors"
-fi
+#if [ ! -d "../../build-data/errors" ]
+#then
+#	mkdir "../../build-data/errors"
+#fi
 
 if [ ! -d "../../build-data/results" ]
 then
