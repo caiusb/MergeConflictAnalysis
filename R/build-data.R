@@ -39,12 +39,16 @@ buildData.mergeFails = buildData[buildData$Merge == "text", ]
 buildData.mergeFails.valid = buildData.validParents[buildData.validParents$Merge == "text", ]
 buildData.pass = buildData.validParents[buildData.validParents$Merge == "pass", ]
 
+total = nrow(buildData)
 all = nrow(buildData.validParents)
 testFails = nrow(buildData.testFails)
 buildFails = nrow(buildData.buildFails)
 mergeFails = nrow(buildData.mergeFails)
+mergeFails.valid = nrow(buildData.mergeFails.valid)
 pass = nrow(buildData.pass)
 print(paste("Test Fails: ", round(testFails/all*100, 2), "%", sep=""))
 print(paste("Build Fails: ", round(buildFails/all*100, 2), "%", sep=""))
-print(paste("Merge Fails: ", round(mergeFails/all*100, 2), "%", sep=""))
+print(paste("Merge Fails: ", round(mergeFails/total*100, 2), "%", sep=""))
+print(paste("Merge Fails (valid): ", round(mergeFails.valid/all*100,2), "%", sep=""))
 print(paste("Successful: ", round(pass/all*100, 2), "%", sep=""))
+
