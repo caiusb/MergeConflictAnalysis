@@ -47,7 +47,7 @@ commits = repo.iter_commits(repo.branches.master)
 merges = [c for c in commits if len(c.parents) == 2]
 
 for m in merges:
-	print('Testing ' + m.hexsha + " [" +  str(merges.index(m)) + "/" + str(len(merges)) + "]")
+	print('Testing ' + m.hexsha + " [" +  str(merges.index(m) + 1) + "/" + str(len(merges)) + "]")
 	hexsha = m.hexsha
 	p1 = m.parents[0].hexsha
 	p2 = m.parents[1].hexsha
@@ -63,10 +63,8 @@ for m in merges:
 		results[hexsha] = BuildResult(builds[p1], builds[p2], "text")
 		continue
 	results[hexsha] = BuildResult(builds[p1], builds[p2], build())
-	print(results[hexsha])
-	print(type(builds[p1]))
 	repo.git.checkout(".", f=True)
 	with open(os.path.expanduser("~/merging/build-data/git.csv"), "w+") as f:
-		f.write(hexsha + "," + builds[p1] + "," + builds[p2] + "," + results[hexsha] + "\n")
+		f.write(hexsha + "," + builds[p1] + "," + builds[p2] + "," + str(results[hexsha]) + "\n")
 
 print(merges)
