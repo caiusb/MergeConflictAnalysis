@@ -52,6 +52,9 @@ print(paste("Merge Fails: ", round(mergeFails/total*100, 2), "%", sep=""))
 print(paste("Merge Fails (valid): ", round(mergeFails.valid/all*100,2), "%", sep=""))
 print(paste("Successful: ", round(pass/all*100, 2), "%", sep=""))
 
+invalid = buildData[buildData$Parent1 != "pass" | buildData$Parent2 != "pass", ]
+pass.invalid = invalid[invalid$Merge == "pass", ]
+
 gitData = read.csv("../../results/build-data/git.csv", header=FALSE)
 setnames(gitData, c("SHA", "Parent1", "Parent2", "Merge"))
 gitData.valid = gitData[gitData$Parent1 == "pass" & gitData$Parent2 == "pass", ]
