@@ -25,7 +25,7 @@ class BuildResult:
 		return self.parent1 + ',' + self.parent2 + ',' + self.merge
 
 def buildAsIs(hexsha, repo):
-	repo.git.checkout(hexsha)
+	repo.git.checkout(hexsha, f=True)
 	return build()
 
 def build():
@@ -56,7 +56,7 @@ for m in merges:
 	if (not p2 in builds):
 		builds[p2 ] = buildAsIs(p2, repo)
 	s.call(cleanCommand, stdout=FNULL, stderr=FNULL)
-	repo.git.checkout(p2)
+	repo.git.checkout(p2, f=True)
 	try:
 		repo.git.merge(p1)
 	except GitCommandError:
