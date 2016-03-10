@@ -52,9 +52,9 @@ for m in merges:
 	p1 = m.parents[0].hexsha
 	p2 = m.parents[1].hexsha
 	if (not p1 in builds):
-		builds[p1]=buildAsIs(p1, repo)
+		builds[p1] = buildAsIs(p1, repo)
 	if (not p2 in builds):
-		builds[p2]=buildAsIs(p2, repo)
+		builds[p2 ] = buildAsIs(p2, repo)
 	s.call(cleanCommand, stdout=FNULL, stderr=FNULL)
 	repo.git.checkout(p2)
 	try:
@@ -62,7 +62,7 @@ for m in merges:
 	except GitCommandError:
 		results[hexsha] = BuildResult(builds[p1], builds[p2], "text")
 		continue
-	results[hexsha] = BuildResult(builds[p1], builds[p2], build)
+	results[hexsha] = BuildResult(builds[p1], builds[p2], build())
 	print(results[hexsha])
 	print(type(builds[p1]))
 	repo.git.checkout(".", f=True)
