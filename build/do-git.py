@@ -37,6 +37,11 @@ def build():
 	else:
 		return "pass"
 
+def writeToFile(hexsha, BuildResult):
+	with open(os.path.expanduser("~/merging/build-data/git.csv"), "a") as f:
+		f.write(hexsha + "," + str(results[hexsha]) + "\n")
+
+
 results = {}
 builds = {}
 
@@ -61,10 +66,10 @@ for m in merges:
 		repo.git.merge(p1)
 	except GitCommandError:
 		results[hexsha] = BuildResult(builds[p1], builds[p2], "text")
+		writeToFile(hexsha, results[hexsha])
 		continue
 	results[hexsha] = BuildResult(builds[p1], builds[p2], build())
+	writeToFile(hexsha, results[hexsha])
 	repo.git.checkout(".", f=True)
-	with open(os.path.expanduser("~/merging/build-data/git.csv"), "a") as f:
-		f.write(hexsha + "," + builds[p1] + "," + builds[p2] + "," + str(results[hexsha]) + "\n")
-
+	
 print(merges)
