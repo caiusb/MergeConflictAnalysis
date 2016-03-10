@@ -64,7 +64,7 @@ for m in merges:
 		continue
 	results[hexsha] = BuildResult(builds[p1], builds[p2], build())
 	repo.git.checkout(".", f=True)
-	with open(os.path.expanduser("~/merging/build-data/git.csv"), "w+") as f:
+	with open(os.path.expanduser("~/merging/build-data/git.csv"), "a") as f:
 		f.write(hexsha + "," + builds[p1] + "," + builds[p2] + "," + str(results[hexsha]) + "\n")
 
 print(merges)
