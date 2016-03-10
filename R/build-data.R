@@ -52,3 +52,24 @@ print(paste("Merge Fails: ", round(mergeFails/total*100, 2), "%", sep=""))
 print(paste("Merge Fails (valid): ", round(mergeFails.valid/all*100,2), "%", sep=""))
 print(paste("Successful: ", round(pass/all*100, 2), "%", sep=""))
 
+gitData = read.csv("../../results/build-data/git.csv", header=FALSE)
+setnames(gitData, c("SHA", "Parent1", "Parent2", "Merge"))
+gitData.valid = gitData[gitData$Parent1 == "pass" & gitData$Parent2 == "pass", ]
+gitData.mergeFails.overall = gitData[gitData$Merge == "text", ]
+gitData.mergeFails = gitData.valid[gitData.valid$Merge == "text", ]
+gitData.buildFails = gitData.valid[gitData.valid$Merge == "build", ]
+gitData.testFails = gitData.valid[gitData.valid$Merge == "test", ]
+gitData.pass = gitData.valid[gitData.valid$Merge == "pass", ]
+all = nrow(gitData)
+valid = nrow(gitData.valid)
+git.mergeFails.overall = nrow(gitData.mergeFails.overall)
+git.mergeFails.valid = nrow(gitData.mergeFails)
+git.buildFails = nrow(gitData.buildFails)
+git.testFails = nrow(gitData.testFails)
+git.pass = nrow(gitData.pass)
+print("========Git Data=========")
+print(paste("Merge fails (overall): ", round(git.mergeFails.overall/all*100, 2), "%", sep=""))
+print(paste("Merge fails (valid): " , round(git.mergeFails.valid/valid*100, 2), "%", sep=""))
+print(paste("Build Fails: ", round(git.buildFails/valid*100, 2), "%", sep=""))
+print(paste("Test Fails: ", round(git.testFails/valid*100, 2), "%", sep=""))
+print(paste("Succesful: ", round(git.pass/valid*100, 2), "%", sep=""))
