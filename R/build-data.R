@@ -10,7 +10,7 @@ files <- listCSVFiles("../../results/build-data/results")
 print(files)
 
 buildData <- readCSVFiles(files, data.frame(), F)
-
+setnames(buildData, c('Commit', 'Parent1', 'Parent2', 'Merge', 'PROJECT'))
 
 mergeData <- read.csv("../../results/build-data-no-merges.csv", header=T, sep=',')
 
@@ -32,11 +32,12 @@ sanityCheck <- function(buildData, mergeData) {
 if(sanityCheck(buildData, mergeData) == FALSE)
   print("Oh fuck!")
 
-buildData.validParents = buildData[buildData$V2 == "pass" & buildData$V3 == "pass", ]
-buildData.testFails = buildData.validParents[buildData.validParents$V4 == "test", ]
-buildData.buildFails = buildData.validParents[buildData.validParents$V4 == "build", ]
-buildData.mergeFails = buildData.validParents[buildData.validParents$V4 == "text", ]
-buildData.pass = buildData.validParents[buildData.validParents$V4 == "pass", ]
+buildData.validParents = buildData[buildData$Parent1 == "pass" & buildData$Parent2 == "pass", ]
+buildData.testFails = buildData.validParents[buildData.validParents$Merge == "test", ]
+buildData.buildFails = buildData.validParents[buildData.validParents$Merge == "build", ]
+buildData.mergeFails = buildData[buildData$Merge == "text", ]
+buildData.mergeFails.valid = buildData.validParents[buildData.validParents$Merge == "text", ]
+buildData.pass = buildData.validParents[buildData.validParents$Merge == "pass", ]
 
 all = nrow(buildData.validParents)
 testFails = nrow(buildData.testFails)
