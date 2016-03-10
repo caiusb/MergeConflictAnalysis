@@ -65,7 +65,7 @@ for m in merges:
 	repo.git.checkout(p2, f=True)
 	try:
 		repo.git.merge(p1)
-	except GitCommandError:
+	except g.exc.GitCommandError:
 		results[hexsha] = BuildResult(builds[p1], builds[p2], "text")
 		writeToFile(hexsha, results[hexsha])
 		continue
