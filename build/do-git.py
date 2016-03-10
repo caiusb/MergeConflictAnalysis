@@ -50,6 +50,7 @@ os.chdir(gitFolder)
 repo = g.Repo(gitFolder)
 commits = repo.iter_commits(repo.branches.master)
 merges = [c for c in commits if len(c.parents) == 2]
+merges.sort(key = lambda x: x.authored_date + x.author_tz_offset)
 
 for m in merges:
 	print('Testing ' + m.hexsha + " [" +  str(merges.index(m) + 1) + "/" + str(len(merges)) + "]")
