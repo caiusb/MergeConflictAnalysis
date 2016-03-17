@@ -1,6 +1,7 @@
 #!/opt/local/bin/python
 
 import subprocess as s
+import shlex
 import os
 import git as g
 import sys
@@ -10,9 +11,9 @@ repoFolder = '/scratch/brindesc/git'
 if (len(sys.argv) == 2):
 	repoFolder = sys.argv[1]
 
-testCommand = ['make', 'test']
-buildCommand = 'make'
-cleanCommand = ['make', 'clean']
+testCommand = ["./Configure -des -Dusedevel Dprefix=\"/scratch/brindesc/tmp\"", "make test"]
+buildCommand = ["./Configure -des -Dusedevel Dprefix=\"/scratch/brindesc/tmp\"", 'make']
+cleanCommand = ['make clean']
 
 FNULL = open(os.devnull, 'w')
 
@@ -33,10 +34,10 @@ def buildAsIs(hexsha, repo):
 	return build()
 
 def build():
-	s.call(cleanCommand, stdout=FNULL, stderr=FNULL)
-	if (s.call(buildCommand, stdout=FNULL, stderr=FNULL) != 0):
+	call(cleanCommand)
+	if (call(buildCommand) != 0):
 		return "build"
-	elif (s.call(testCommand, stdout=FNULL, stderr=FNULL) != 0):
+	elif (call(testCommand) != 0):
 		return "test"
 	else:
 		return "pass"
@@ -45,6 +46,13 @@ def writeToFile(hexsha, BuildResult):
 	with open(os.path.expanduser("~/merging/build-data/perl.csv"), "a") as f:
 		f.write(hexsha + "," + str(results[hexsha]) + "\n")
 
+def call(command):
+	for c in command:
+		split = shlex.split(command)
+		result = s.call(split, stdout=FNULL, stderr=FNULL)
+		if (result != 0)
+			return result
+	return 0
 
 results = {}
 builds = {}
@@ -65,7 +73,7 @@ for m in merges:
 		builds[p1] = buildAsIs(p1, repo)
 	if (not p2 in builds):
 		builds[p2] = buildAsIs(p2, repo)
-	s.call(cleanCommand, stdout=FNULL, stderr=FNULL)
+	call(cleanCommand)
 	repo.git.checkout(p2, f=True)
 	try:
 		repo.git.merge(p1)
