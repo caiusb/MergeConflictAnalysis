@@ -6,7 +6,7 @@ import os
 import git as g
 import sys
 
-repoFolder = '/scratch/brindesc/git'
+repoFolder = '/scratch/brindesc/perl5'
 
 if (len(sys.argv) == 2):
 	repoFolder = sys.argv[1]
@@ -43,13 +43,13 @@ def build():
 		return "pass"
 
 def writeToFile(hexsha, BuildResult):
-	with open(os.path.expanduser("~/merging/build-data/perl.csv"), "a") as f:
+	with open(os.path.expanduser("~/merging/build-data/perl5.csv"), "a") as f:
 		f.write(hexsha + "," + str(results[hexsha]) + "\n")
 
 def call(command):
 	for c in command:
-		split = shlex.split(command)
-		p = s.Popen(c, stdin=s.PIPE)
+		split = shlex.split(c)
+		p = s.Popen(split, stdin=s.PIPE, stdout=FNULL, stderr=FNULL)
 		p.communicate('y\ny\ny\ny\n')
 		if (p.returncode != 0):
 			return p.returncode
