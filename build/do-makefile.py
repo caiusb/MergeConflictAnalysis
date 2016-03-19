@@ -49,9 +49,13 @@ def writeToFile(hexsha, BuildResult):
 def call(command):
 	for c in command:
 		split = shlex.split(command)
-		result = s.call(split, stdout=FNULL, stderr=FNULL)
-		if (result != 0)
-			return result
+		p = s.Popen(c, stdin=s.PIPE)
+		p.communicate('y\ny\ny\ny\n')
+		if (p.returncode != 0):
+			return p.returncode
+		#result = s.call(split, stdout=FNULL, stderr=FNULL)
+		#if (result != 0)
+		#	return result
 	return 0
 
 results = {}
