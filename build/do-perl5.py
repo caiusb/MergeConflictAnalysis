@@ -49,10 +49,13 @@ def writeToFile(hexsha, BuildResult):
 def call(command):
 	for c in command:
 		split = shlex.split(c)
-		p = s.Popen(split, stdin=s.PIPE, stdout=FNULL, stderr=FNULL)
-		p.communicate('y\ny\ny\ny\n')
-		if (p.returncode != 0):
-			return p.returncode
+		try:
+			p = s.Popen(split, stdin=s.PIPE, stdout=FNULL, stderr=FNULL)
+			p.communicate('y\ny\ny\ny\n')
+			if (p.returncode != 0):
+				return p.returncode
+		except OSError:
+			return 1
 		#result = s.call(split, stdout=FNULL, stderr=FNULL)
 		#if (result != 0)
 		#	return result
@@ -88,7 +91,6 @@ for m in merges:
 	results[hexsha] = BuildResult(builds[p1], builds[p2], build())
 	writeToFile(hexsha, results[hexsha])
 	repo.git.checkout(".", f=True)
-	repo.git.reset("--hard")
 	call(cleanCommand)
 	
 print(merges)
