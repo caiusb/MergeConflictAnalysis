@@ -11,8 +11,8 @@ repoFolder = '/scratch/brindesc/perl5'
 if (len(sys.argv) == 2):
 	repoFolder = sys.argv[1]
 
-testCommand = ["./Configure -des -Dusedevel Dprefix=\"/scratch/brindesc/tmp\"", "make test"]
-buildCommand = ["./Configure -des -Dusedevel Dprefix=\"/scratch/brindesc/tmp\"", 'make']
+testCommand = ["./Configure -des -Dusedevel Dprefix=\"/scratch/brindesc/tmp\"", "perl -i~ -nle \'print unless /<(built-in|command-line)>/\' makefile x2p/makefile", "make test"]
+buildCommand = ["./Configure -des -Dusedevel Dprefix=\"/scratch/brindesc/tmp\"", "perl -i~ -nle \'print unless /<(built-in|command-line)>/\' makefile x2p/makefile", 'make']
 cleanCommand = ['make clean']
 
 FNULL = open(os.devnull, 'w')
