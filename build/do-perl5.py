@@ -43,7 +43,7 @@ def build():
 		return "pass"
 
 def writeToFile(hexsha, BuildResult):
-	with open(os.path.expanduser("~/merging/build-data/perl5.csv"), "a") as f:
+	with open(os.path.expanduser("~/merging/build-data/perl5-v2.csv"), "a") as f:
 		f.write(hexsha + "," + str(results[hexsha]) + "\n")
 
 def call(command):
@@ -88,5 +88,6 @@ for m in merges:
 	results[hexsha] = BuildResult(builds[p1], builds[p2], build())
 	writeToFile(hexsha, results[hexsha])
 	repo.git.checkout(".", f=True)
+	repo.git.reset("--hard")
 	
 print(merges)
