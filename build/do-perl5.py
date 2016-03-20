@@ -11,8 +11,8 @@ repoFolder = '/scratch/brindesc/perl5'
 if (len(sys.argv) == 2):
 	repoFolder = sys.argv[1]
 
-testCommand = ["./Configure -des -Dusedevel Dprefix=\"/scratch/brindesc/tmp\"", "perl -i~ -nle \'print unless /<(built-in|command-line)>/\' makefile x2p/makefile", "make test"]
-buildCommand = ["./Configure -des -Dusedevel Dprefix=\"/scratch/brindesc/tmp\"", "perl -i~ -nle \'print unless /<(built-in|command-line)>/\' makefile x2p/makefile", 'make']
+testCommand = ["./Configure -des -Dusedevel -Dprefix=\"/scratch/brindesc/tmp\"", "perl -i~ -nle \'print unless /<(built-in|command-line)>/\' makefile x2p/makefile", "make test"]
+buildCommand = ["./Configure -des -Dusedevel -Dprefix=\"/scratch/brindesc/tmp\"", "perl -i~ -nle \'print unless /<(built-in|command-line)>/\' makefile x2p/makefile", 'make']
 cleanCommand = ['make clean']
 
 FNULL = open(os.devnull, 'w')
@@ -89,5 +89,6 @@ for m in merges:
 	writeToFile(hexsha, results[hexsha])
 	repo.git.checkout(".", f=True)
 	repo.git.reset("--hard")
+	call(cleanCommand)
 	
 print(merges)
