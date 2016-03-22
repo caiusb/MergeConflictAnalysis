@@ -3,8 +3,11 @@
 import subprocess as s
 import os
 import git as g
+import json
 
 gitFolder = '/scratch/brindesc/git'
+resultsFile = os.path.expanduser("~/merging/build-data/git.csv")
+doneCommitsFile = os.path.expanduser('~/merging/build-data/git-commits-done.json')
 
 testCommand = ['make', 'test']
 buildCommand = 'make'
@@ -38,7 +41,7 @@ def build():
 		return "pass"
 
 def writeToFile(hexsha, BuildResult):
-	with open(os.path.expanduser("~/merging/build-data/git.csv"), "a") as f:
+	with open(resultsFile, "a") as f:
 		f.write(hexsha + "," + str(results[hexsha]) + "\n")
 
 
@@ -51,6 +54,16 @@ repo = g.Repo(gitFolder)
 commits = repo.iter_commits(repo.branches.master)
 merges = [c for c in commits if len(c.parents) == 2]
 merges.sort(key = lambda x: x.authored_date + x.author_tz_offset)
+
+print(len(merges))
+
+with open(doneCommitsFile) as jsonFile:
+	doneCommits = json.load(jsonFile)
+
+print(len(doneCommits))
+
+merges = [c for c in merges if c not in doneCommits]
+print(len(merges))
 
 for m in merges:
 	print('Testing ' + m.hexsha + " [" +  str(merges.index(m) + 1) + "/" + str(len(merges)) + "]")
