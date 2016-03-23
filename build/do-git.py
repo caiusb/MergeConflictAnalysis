@@ -62,11 +62,13 @@ with open(doneCommitsFile) as jsonFile:
 
 print(len(doneCommits))
 
-merges = [c for c in merges if c not in doneCommits]
+merges = [c for c in merges if c.hexsha not in doneCommits]
 print(len(merges))
 
+start = len(doneCommits)
+
 for m in merges:
-	print('Testing ' + m.hexsha + " [" +  str(merges.index(m) + 1) + "/" + str(len(merges)) + "]")
+	print('Testing ' + m.hexsha + " [" +  str(start + merges.index(m) + 1) + "/" + str(len(merges)) + "]")
 	hexsha = m.hexsha
 	p1 = m.parents[0].hexsha
 	p2 = m.parents[1].hexsha
