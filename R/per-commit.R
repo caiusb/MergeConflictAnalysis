@@ -1,5 +1,8 @@
 source('common.R')
 
+resultsFolder <- "../../ase16/data-cost-conc-devel-ase16/merge-data/"
+commitFolder <- "../../ase16/data-cost-conc-devel-ase16/per-commit/"
+
 data <- loadData(resultsFolder)
 commitData <- createCommitData(data)
 

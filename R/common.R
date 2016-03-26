@@ -1,10 +1,6 @@
 library(tools)
 require(data.table)
 
-resultsFolder <<- "../../results/merge-data"
-prFolder <<- "../../results/pr-summary"
-commitFolder <<- "../../results/per-commit/"
-
 plotWithLinearRegression <<- function(data, x, y) {
   trim <- trimNegativeValues(data, x)
   trim <- trimNegativeValues(data, y)
@@ -24,7 +20,7 @@ listCSVFiles <- function(folder) {
 }
 
 readCSVFiles <- function(files, dataFrame) {
-  return(readCSVFiles(files, dataFrame, T))
+  return(readCSVFiles(files, dataFrame, T));
 }
 
 readCSVFiles <- function(files, dataFrame, header) {
@@ -33,9 +29,8 @@ readCSVFiles <- function(files, dataFrame, header) {
     if (fileLength <= 1)
       return 
     else {
-      print(cat('Processing: ', file))
       fileInfo <- file.info(file)
-      currentDataFile <- fread(file, header=header, sep=',')
+      currentDataFile <- fread(file, header=T, sep=',')
       project <- basename(file_path_sans_ext(file))
       currentDataFile$PROJECT <- project
       dataFrame <<- rbind(dataFrame, currentDataFile, fill=TRUE)
@@ -85,7 +80,6 @@ getEmptyDataFrame <<- function() {
 }
 
 processData <<- function(data) {
-  print("Removing bad data points")
   data <- data[data$LOC_SIZE_A > 1, ]
   data <- data[data$LOC_SIZE_B > 1, ]
   data <- data[data$LOC_SIZE_SOLVED > 1, ]
@@ -93,10 +87,8 @@ processData <<- function(data) {
   data$PROJECT <- factor(data$PROJECT)
   
   #calculate commit data
-  print("Calculating the dates")
   data$Date <- unix2POSIXct(data$TIME_SOLVED)
   
-  print("Converting boolean data to boolean")
   data$IS_CONFLICT <- ifelse(data$IS_CONFLICT == "true", TRUE, FALSE)
   #data$MERGED_IN_MASTER <- ifelse(data$MERGED_IN_MASTER == "True", TRUE, FALSE)
   
@@ -108,7 +100,6 @@ loadData <<- function(folder) {
   
   data <- getEmptyDataFrame()
   
-  print("Loading data")
   data <- readCSVFiles(files, data)
   
   #removing file add and delete. They are not interesting to me
@@ -119,7 +110,6 @@ loadData <<- function(folder) {
 
 createCommitData <<- function(data) {
   
-  print("Grouping data by commits")
   or <- function(vector) {
     
     oneElementOr <- function(element, accumulated) {
@@ -214,17 +204,6 @@ unix2POSIXct <- function(time) as.POSIXct(time, origin="1970-01-01", tz="GMT")
 
 getConflictingMerges <- function(data) return(data[data$IS_CONFLICT == "true", ])
 getSuccessfulMerges <- function(data) return(data[data$IS_CONFLICT == "false", ])
-
-loadNonMerge <- function(folder) {
-  files <- listCSVFiles(folder)
-  
-  data <- data.frame(SHA = character(0),
-                     TIME = integer(0),
-                     AUTHOR = character(0))
-
-  data <- readCSVFiles(files, data)
-  return(data)
-}
 
 concat <- function(a, b) paste(a, b, colapse=NULL, sep='')
 
