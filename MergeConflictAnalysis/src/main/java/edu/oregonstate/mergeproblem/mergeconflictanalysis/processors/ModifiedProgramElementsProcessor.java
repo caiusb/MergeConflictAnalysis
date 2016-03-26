@@ -65,8 +65,7 @@ public class ModifiedProgramElementsProcessor implements FileProcessor {
 				knownClasses.add(containedNode);
 			return;
 		}
-		
-		
+
 		List<Tree> parents = jdtNode.getParents();
 		for (Tree parent : parents) {
 			if (parent instanceof JdtTree)
