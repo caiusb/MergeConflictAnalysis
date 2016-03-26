@@ -1,5 +1,7 @@
 source('common.R')
 
+resultsFolder <- "../../results/merge-data"
+
 data <- loadData(resultsFolder)
 
 calculateWeekdays <- function(data) {

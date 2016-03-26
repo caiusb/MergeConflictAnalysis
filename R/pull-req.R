@@ -1,5 +1,8 @@
 source('common.R')
 
+prFolder <- "../../results/pr-summary"
+commitFolder <- "../../results/per-commit/"
+
 commitData <- loadCommitData(commitFolder)
 pullReq <- loadPullReqData(prFolder)
 
