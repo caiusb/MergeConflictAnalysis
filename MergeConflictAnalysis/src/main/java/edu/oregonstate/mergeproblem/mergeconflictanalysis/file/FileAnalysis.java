@@ -57,6 +57,7 @@ public class FileAnalysis extends AbstractAnalysis {
         processor.addProcessor(new MetricProcessor());
         processor.addProcessor(new AuthorProcessor());
         processor.addProcessor(new MergedInMasterProcessor());
+        processor.addProcessor(new ProjectNameProcessor());
     }
 
     void generateDiffs(String projectName, List<CommitStatus> statuses, Main.Config config) {
