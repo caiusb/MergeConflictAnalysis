@@ -39,7 +39,7 @@ https://github.com/Jasig/cas.git
 https://github.com/Jasig/uPortal.git
 https://github.com/JetBrains/intellij-community.git
 https://github.com/JetBrains/kotlin.git
-https://github.com/KentBeck/junit.git
+https://github.com/junit-team/junit4.git
 https://github.com/M66B/XPrivacy.git
 https://github.com/Maescool/Catacomb-Snatch.git
 https://github.com/MasDennis/Rajawali.git
