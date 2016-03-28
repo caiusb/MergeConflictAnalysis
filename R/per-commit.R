@@ -1,12 +1,15 @@
 source('common.R')
 source('analysis.R')
 
+library(dplyr)
+
 resultsFolder <- "../../data-cost-conc-devel-ase16/merge-data/"
 commitFolder <- "../../data-cost-conc-devel-ase16/per-commit/"
 
-data <- loadCSVFiles(resultsFolder)
+mergeData <- loadCSVFiles(resultsFolder)
 print(summary(data))
-commitData <- createCommitData(data)
+
+commitData <- group_by(mergeData, SHA) 
 
 factors <- levels(factor(commitData$PROJECT))
 frames <- split(commitData, commitData$PROJECT)
