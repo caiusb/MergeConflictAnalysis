@@ -1,9 +1,11 @@
 source('common.R')
+source('analysis.R')
 
-resultsFolder <- "../../ase16/data-cost-conc-devel-ase16/merge-data/"
-commitFolder <- "../../ase16/data-cost-conc-devel-ase16/per-commit/"
+resultsFolder <- "../../data-cost-conc-devel-ase16/merge-data/"
+commitFolder <- "../../data-cost-conc-devel-ase16/per-commit/"
 
-data <- loadData(resultsFolder)
+data <- loadCSVFiles(resultsFolder)
+print(summary(data))
 commitData <- createCommitData(data)
 
 factors <- levels(factor(commitData$PROJECT))
