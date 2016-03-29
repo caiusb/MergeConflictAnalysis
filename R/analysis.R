@@ -1,8 +1,9 @@
 mergeDataFolder <- "../../data-cost-conc-devel-ase16/merge-data"
 
 read <- function(f) {
+	print(f)
 	if (file.size(f) != 0) 
-		return(read.csv(f, header=TRUE, sep=","))
+		return(read.table(f, header=TRUE, sep=",", fill=TRUE))
 }
 
 loadCSVFiles <- function(folder) {
@@ -14,7 +15,8 @@ loadCSVFiles <- function(folder) {
 	
 	data <- Filter(isNotNull, data)
 	data <- Filter(hasProjectColumn, data)
-	mergeData <- do.call(rbind, data)
+	frames <- lapply(csvFiles, read)
+	mergeData <- rbindlist(frames, use.names=TRUE, fill=TRUE) 
 	return(mergeData)
 }
 
