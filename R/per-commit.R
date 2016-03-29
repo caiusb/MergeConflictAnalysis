@@ -1,6 +1,6 @@
 library(dplyr)
 
-mergeData <- load("../../data/mergeData.R")
+mergeData <- load("../../data/mergeData")
 
 commitData <- mergeData %>% group_by(SHA) %>%
   summarise(NO_FILES=length(unique(FILE)),
