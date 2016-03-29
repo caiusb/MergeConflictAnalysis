@@ -1,22 +1,24 @@
-source('common.R')
-source('analysis.R')
-
 library(dplyr)
 
-resultsFolder <- "../../data-cost-conc-devel-ase16/merge-data/"
-commitFolder <- "../../data-cost-conc-devel-ase16/per-commit/"
+mergeData <- load("../../data/mergeData.R")
 
-mergeData <- loadCSVFiles(resultsFolder)
-print(summary(data))
+commitData <- mergeData %>% group_by(SHA) %>%
+  summarise(NO_FILES=length(unique(FILE)),
+            LOC_A_TO_B=sum(LOC_A_TO_B),
+            LOC_A_TO_SOVED=sum(LOC_A_TO_SOLVED),
+            LOC_B_TO_SOLVED=sum(LOC_B_TO_SOLVED),
+            AST_A_TO_B=sum(AST_A_TO_B),
+            AST_A_TO_SOLVED=sum(AST_A_TO_SOLVED),
+            AST_B_TO_SOLVED=sum(AST_B_TO_SOLVED),
+            SHA_A=SHA_A[[1]],
+            SHA_B=SHA_B[[1]],
+            BASE_SHA=BASE_SHA[[1]],
+            NO_METHODS=sum(NO_METHODS),
+            NO_CLASSES=sum(NO_CLASSES),
+            NO_STATEMENTS=sum(NO_STATEMENTS),
+            TIME_A=min(TIME_A),
+            TIME_B=min(TIME_B),
+            BASE_TIME=min(BASE_TIME),
+            PROJECT=PROJECT[[1]])
 
-commitData <- group_by(mergeData, SHA) 
-
-factors <- levels(factor(commitData$PROJECT))
-frames <- split(commitData, commitData$PROJECT)
-
-lapply(factors, function(factor) {
-  file <- concat(concat(commitFolder, as.character(factor)), ".csv")
-  print(file)
-  project <- frames[[factor]]
-  write.csv(project, file, sep='')
-})
+save(commitData, file="commitData", ascii=TRUE, compress=TRUE)
