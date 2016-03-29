@@ -5,13 +5,29 @@ buildData <- data.frame(commit = character(0),
                          parent1 = character(0),
                          parent2 = character(0),
                          merge = character(0))
+print(getwd())
+files <- list.files("/Users/caius/osu/TheMergingProblem/build-data/results", pattern="*.csv", full.names=TRUE)
 
-files <- listCSVFiles("../../results/build-data/results")
+read <- function(f) {
+  if (file.size(f) != 0) {
+    frame = read.csv(f, header=FALSE, sep=",")
+    frame$Project = basename(file_path_sans_ext(f))
+    return(frame)
+  }
+}
 
-buildData <- readCSVFiles(files, data.frame(), F)
-setnames(buildData, c('Commit', 'Parent1', 'Parent2', 'Merge', 'PROJECT'))
+loadCSVFiles <- function(folder) {
+  csvFiles <- list.files(folder, pattern="*.csv", full.names=TRUE)
+  data <- lapply(csvFiles, read)
+  
+  frames = lapply(files, read)
+  buildData <- rbindlist(frames, use.names=TRUE, fill=TRUE)
+  return(buildData)
+}
 
-mergeData <- read.csv("../../results/build-data-no-merges.csv", header=T, sep=',')
+buildData <- loadCSVFiles(files)
+
+setnames(buildData, c('Commit', 'Parent1', 'Parent2', 'Merge', "Project"))
 
 sanityCheck <- function(buildData, mergeData) {
   f <- factor(buildData$PROJECT)
