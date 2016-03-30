@@ -10,15 +10,15 @@ commitData <- mergeData %>% group_by(SHA) %>%
             AST_A_TO_B=sum(AST_A_TO_B),
             AST_A_TO_SOLVED=sum(AST_A_TO_SOLVED),
             AST_B_TO_SOLVED=sum(AST_B_TO_SOLVED),
-            SHA_A=SHA_A[[1]],
-            SHA_B=SHA_B[[1]],
-            BASE_SHA=BASE_SHA[[1]],
+            SHA_A=first(SHA_A),
+            SHA_B=first(SHA_B),
+            BASE_SHA=first(BASE_SHA),
             NO_METHODS=sum(NO_METHODS),
             NO_CLASSES=sum(NO_CLASSES),
             NO_STATEMENTS=sum(NO_STATEMENTS),
             TIME_A=min(TIME_A),
             TIME_B=min(TIME_B),
             BASE_TIME=min(BASE_TIME),
-            PROJECT=PROJECT[[1]])
+            PROJECT=first(PROJECT))
 
 save(commitData, file="commitData", ascii=TRUE, compress=TRUE)
