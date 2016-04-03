@@ -9,7 +9,7 @@ public class ASTSizeProcessor implements FileProcessor {
 
 	@Override
 	public String getHeader() {
-		return "AST_SIZE_A,AST_SIZE_B,AST_SIZE_SOLVED";
+		return "COMBINED_AST_SIZE_A,COMBINED_AST_SIZE_B,AST_SIZE_SOLVED";
 	}
 
 	@Override

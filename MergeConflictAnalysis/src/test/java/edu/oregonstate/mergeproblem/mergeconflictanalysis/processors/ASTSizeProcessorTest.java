@@ -17,7 +17,7 @@ public class ASTSizeProcessorTest extends ProcessorTest {
 	@Test
 	public void testHeader() {
 		String header = processor.getHeader();
-		assertEquals("AST_SIZE_A,AST_SIZE_B,AST_SIZE_SOLVED", header);
+		assertEquals("COMBINED_AST_SIZE_A,COMBINED_AST_SIZE_B,AST_SIZE_SOLVED", header);
 	}
 	
 	@Test
