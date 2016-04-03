@@ -83,7 +83,7 @@ public abstract class MergeGitTest extends GitTestCase {
 		assertEquals(1,merge.getConflicts().keySet().size());
 		assertTrue(merge.getConflicts().keySet().contains(fileName));
 		
-		RevCommit mergeCommit = add(fileName,"version two+three", message);
+		RevCommit mergeCommit = add(fileName,"public class A{}", message);
 		assertEquals(2, mergeCommit.getParentCount());
 		return mergeCommit;
 	}
