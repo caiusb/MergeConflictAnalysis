@@ -17,7 +17,7 @@ public class ASTFileProcessorTest extends ProcessorTest {
 	@Test
 	public void testHeader() {
 		String header = astFileProcessor.getHeader();
-		assertEquals("AST_A_TO_B,AST_A_TO_SOLVED,AST_B_TO_SOLVED", header);
+		assertEquals("COMBINED_AST_A_TO_B,COMBINED_AST_A_TO_SOLVED,COMBINED_AST_B_TO_SOLVED", header);
 	}
 	
 	@Test
