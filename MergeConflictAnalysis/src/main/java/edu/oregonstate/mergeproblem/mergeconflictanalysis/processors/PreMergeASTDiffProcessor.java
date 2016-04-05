@@ -2,10 +2,10 @@ package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors;
 
 import java.util.List;
 
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.ASTDiff;
 import fr.labri.gumtree.actions.model.Action;
+import fr.labri.gumtree.tree.Tree;
 
-public class PreMergeASTDiffProcessor extends AbstractPreMergeProcessor {
+public class PreMergeASTDiffProcessor extends AbstractPerMergeASTDiffProcessor {
 
 	@Override
 	public String getHeader() {
@@ -13,8 +13,7 @@ public class PreMergeASTDiffProcessor extends AbstractPreMergeProcessor {
 	}
 
 	@Override
-	protected String getResults(String a, String b) {
-		List<Action> actions = new ASTDiff().getActions(a, b);
+	public String getResults(Tree a, Tree b, List<Action> actions) {
 		return actions.size() + "";
 	}
 
