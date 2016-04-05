@@ -6,7 +6,7 @@ public class ASTFileProcessor extends DiffFileProcessor {
 
 	@Override
 	public String getHeader() {
-		return "AST_A_TO_B,AST_A_TO_SOLVED,AST_B_TO_SOLVED";
+		return "COMBINED_AST_A_TO_B,COMBINED_AST_A_TO_SOLVED,COMBINED_AST_B_TO_SOLVED";
 	}
 
 	@Override
