@@ -35,7 +35,7 @@ mainClass in assembly := mc
 lazy val root = (project in file(".")).
   settings(
     name := "MergeConflictAnalysis",
-    version := "1.0.0"
+    version := "1.1"
   )
 
 lazy val versionReport = TaskKey[String]("version-report")
