@@ -12,7 +12,7 @@ public class PreMergeASTDiffProcessorTest extends MergeGitTest{
 	@Test
 	public void testHeader() {
 		String header = new PreMergeASTDiffProcessor().getHeader();
-		assertEquals("AST_DIFF_BEFORE", header);
+		assertEquals("AST_DIFF", header);
 	}
 	
 	@Test

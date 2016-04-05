@@ -17,7 +17,7 @@ public class PreMergeFileProcessorTest extends ProcessorTest {
 	@Test
 	public void testHeader() {
 		String header = processor.getHeader();
-		assertEquals("LOC_A_BEFORE_SIZE,LOC_B_BEFORE_SIZE", header);
+		assertEquals("LOC_A_SIZE,LOC_B_SIZE", header);
 	}
 	
 	@Test

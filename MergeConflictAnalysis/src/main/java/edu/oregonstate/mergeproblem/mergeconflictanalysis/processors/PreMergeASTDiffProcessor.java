@@ -9,7 +9,7 @@ public class PreMergeASTDiffProcessor extends AbstractPreMergeProcessor {
 
 	@Override
 	public String getHeader() {
-		return "AST_DIFF_BEFORE";
+		return "AST_DIFF";
 	}
 
 	@Override

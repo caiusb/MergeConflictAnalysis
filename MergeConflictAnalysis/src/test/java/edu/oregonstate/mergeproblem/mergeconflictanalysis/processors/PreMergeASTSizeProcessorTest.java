@@ -12,7 +12,7 @@ public class PreMergeASTSizeProcessorTest extends MergeGitTest {
 	@Test
 	public void testHeader() {
 		String header = new PreMergeASTSizeProcessor().getHeader();
-		assertEquals("AST_A_BEFORE_SIZE,AST_B_BEFORE_SIZE", header);
+		assertEquals("AST_A_SIZE,AST_B_SIZE", header);
 	}
 
 	@Test

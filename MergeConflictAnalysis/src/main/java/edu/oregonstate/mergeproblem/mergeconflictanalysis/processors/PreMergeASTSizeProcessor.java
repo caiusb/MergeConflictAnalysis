@@ -7,7 +7,7 @@ public class PreMergeASTSizeProcessor extends AbstractPreMergeProcessor {
 
 	@Override
 	public String getHeader() {
-		return "AST_A_BEFORE_SIZE,AST_B_BEFORE_SIZE";
+		return "AST_A_SIZE,AST_B_SIZE";
 	}
 
 	@Override

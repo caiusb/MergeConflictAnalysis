@@ -12,7 +12,7 @@ public class PreMergeLOCDiffProcessorTest extends MergeGitTest {
 	@Test
 	public void testHeader() {
 		String header = new PreMergeLOCDiffProcessor().getHeader();
-		assertEquals("LOC_DIFF_BEFORE", header);
+		assertEquals("LOC_DIFF", header);
 	}
 	
 	@Test

@@ -5,7 +5,7 @@ public class PreMergeLOCFileSizeProcessor extends AbstractPreMergeProcessor {
 
 	@Override
 	public String getHeader() {
-		return "LOC_A_BEFORE_SIZE,LOC_B_BEFORE_SIZE";
+		return "LOC_A_SIZE,LOC_B_SIZE";
 	}
 
 	@Override

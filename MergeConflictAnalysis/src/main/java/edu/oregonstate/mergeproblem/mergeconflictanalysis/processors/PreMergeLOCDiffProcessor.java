@@ -10,7 +10,7 @@ public class PreMergeLOCDiffProcessor extends AbstractPreMergeProcessor {
 
 	@Override
 	public String getHeader() {
-		return "LOC_DIFF_BEFORE";
+		return "LOC_DIFF";
 	}
 
 	@Override
