@@ -9,7 +9,7 @@ import org.scalatest.junit.AssertionsForJUnit
 class PreMergeAffectedNodesProcessorTest extends MergeGitTest with AssertionsForJUnit with Matchers {
 
   @Test def testHeader =
-    new PreMergeAffectedNodesProcessor().getHeader should equal ("AFFECTED_NODES")
+    new PreMergeAffectedNodesProcessor().getHeader should equal ("DIFF_NODES_A_TO_B")
 
   @Test def testGetNodesInConflict = {
     val commit = createConflictingCommit()
