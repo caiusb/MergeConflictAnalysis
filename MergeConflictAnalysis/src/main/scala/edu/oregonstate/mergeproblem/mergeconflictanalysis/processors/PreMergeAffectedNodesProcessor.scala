@@ -13,5 +13,6 @@ class PreMergeAffectedNodesProcessor extends AbstractPerMergeASTDiffProcessor {
   override def getHeader: String = "DIFF_NODES_A_TO_B"
 
   override def getResults(aTree: Tree, bTree: Tree, actions: util.List[Action]): String =
-    asScalaBuffer(actions).map(a => a.getNode.asInstanceOf[JdtTree].getContainedNode.getClass.getSimpleName).distinct.mkString(";")
+    asScalaBuffer(actions).map(a => a.getNode.asInstanceOf[JdtTree].getContainedNode.getClass.getSimpleName)
+      .distinct.mkString(";")
 }
