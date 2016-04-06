@@ -1,10 +1,12 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.file;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.Main;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.Util;
@@ -16,6 +18,7 @@ import org.eclipse.jgit.merge.MergeChunk.ConflictState;
 import org.eclipse.jgit.merge.MergeResult;
 import org.eclipse.jgit.merge.RecursiveMerger;
 import org.eclipse.jgit.merge.StrategyRecursive;
+import org.eclipse.jgit.revwalk.DepthWalk;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.gitective.core.CommitUtils;
 
@@ -34,21 +37,9 @@ public class InMemoryMerger {
 		
 		if (parents.length < 2)
 			throw new IllegalArgumentException();
-		
-		RevCommit first = CommitUtils.getCommit(repository, parents[0]);
-		RevCommit second = CommitUtils.getCommit(repository, parents[1]);
-		if (getUTCTime(first) < getUTCTime(second)) {
-			RevCommit tmp = second; 
-			second = first;
-			first = tmp;
-		}
-		
+
 		try {
-			CommitStatus commitStatus = new CommitStatus(repository, mergeCommit.getName(), merge(first, second), mergeCommit.getCommitTime());
-			commitStatus.setTimes(first.getCommitTime(), second.getCommitTime());
-			commitStatus.setSHAs(first.getName(), second.getName());
-			commitStatus.addModifiedFiles(Util.getFilesChangedByCommit(repository, mergeCommit.getName()));
-			commitStatus.setTimeOffset(getTimeZoneOffset(first));
+			CommitStatus commitStatus = new CommitStatus(repository, mergeCommit, merge(mergeCommit.getParent(0), mergeCommit.getParent(1)));
 			return commitStatus;
 		} catch (IOException e) {
 			return null;
@@ -109,13 +100,4 @@ public class InMemoryMerger {
 		}
 		return actualSequenceText;
 	}
-
-	private int getTimeZoneOffset(RevCommit commit) {
-		return commit.getAuthorIdent().getTimeZoneOffset() * 60;
-	}
-
-	private int getUTCTime(RevCommit commit) {
-		return commit.getCommitTime() + getTimeZoneOffset(commit);
-	}
-
 }

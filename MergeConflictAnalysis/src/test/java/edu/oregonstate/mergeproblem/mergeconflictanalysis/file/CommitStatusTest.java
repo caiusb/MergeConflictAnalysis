@@ -25,7 +25,7 @@ public class CommitStatusTest extends MergeGitTest {
 	public void getTimeZone() throws Exception {
 		RevCommit merge = createConflictingCommit();
 		CommitStatus commitStatus = new InMemoryMerger(repository).recreateMerge(merge);
-		int offset = commitStatus.getTimeOffset();
+		int offset = commitStatus.getTimeZoneOffset();
 		assertEquals(author.getTimeZoneOffset() * 60, offset);
 	}
 }

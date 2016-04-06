@@ -12,7 +12,7 @@ public class OperationCounterProcessorTest extends ProcessorTest {
 	}
 
 	@Test
-	public void testModifyOperation() {
+	public void testModifyOperation() throws Exception {
 		String a = "public class A{}";
 		String b = "public class B{}";
 		CommitStatus commitStatus = crateCommitStatus(a, b);
@@ -22,7 +22,7 @@ public class OperationCounterProcessorTest extends ProcessorTest {
 	}
 
 	@Test
-	public void tesDeleteOperation() {
+	public void tesDeleteOperation() throws Exception {
 		String a = "public class A{public void m(){}}";
 		String b = "public class A{}";
 		CommitStatus commitStatus = crateCommitStatus(a, b);
@@ -32,7 +32,7 @@ public class OperationCounterProcessorTest extends ProcessorTest {
 	}
 	
 	@Test
-	public void testAddOperation() {
+	public void testAddOperation() throws Exception {
 		String a = "public class A{}";
 		String b = "public class A{public void m(){}}";
 		CommitStatus commitStatus = crateCommitStatus(a, b);

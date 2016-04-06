@@ -20,14 +20,15 @@ public abstract class ProcessorTest extends MergeGitTest {
 		return status;
 	}
 
-	public CommitStatus crateCommitStatus(String a, String b) {
+	public CommitStatus crateCommitStatus(String a, String b) throws Exception {
+		RevCommit commit = createConflictingCommit();
 		CombinedFile combinedFile = new CombinedFile();
 		combinedFile.addChunk(ChunkOwner.A, a);
 		combinedFile.addChunk(ChunkOwner.B, b);
 		
 		HashMap<String, CombinedFile> conflictingFiles = new HashMap<String, CombinedFile>();
 		conflictingFiles.put(FILE_NAME, combinedFile);
-		CommitStatus commitStatus = new CommitStatus(null, null, conflictingFiles, -1);
+		CommitStatus commitStatus = new CommitStatus(repository, commit, conflictingFiles);
 		return commitStatus;
 	}
 }

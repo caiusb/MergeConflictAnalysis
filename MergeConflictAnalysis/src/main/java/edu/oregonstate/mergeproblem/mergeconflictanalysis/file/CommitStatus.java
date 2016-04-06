@@ -1,16 +1,17 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.file;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.Util;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.gitective.core.CommitUtils;
 
 public class CommitStatus {
 	private Repository repository;
 	private String sha1;
+	private RevCommit commit;
 	private int time;
 	private int aTime;
 	private int bTime;
@@ -18,17 +19,28 @@ public class CommitStatus {
 	private Map<String, FileStatus> fileStatuses = new HashMap<String, FileStatus>();
 	private String aSHA;
 	private String bSHA;
-	private int timeOffset;
-	
-	public CommitStatus(Repository repository, String sha1, Map<String, CombinedFile> conflictingFiles, int time) {
+
+	public CommitStatus(Repository repository, RevCommit commit, Map<String, CombinedFile> conflictingFiles) {
 		this.repository = repository;
-		this.sha1 = sha1;
-		this.time = time;
+		this.commit = commit;
+		this.sha1 = commit.getName();
+		this.time = commit.getCommitTime();
+
+		List<RevCommit> sortedParents = Arrays.asList(commit.getParents()).stream().map((c) -> CommitUtils.getCommit(repository, c))
+				.sorted((o1, o2) -> getUTCTime(o1) < getUTCTime(o2) ? -1 : 1).collect(Collectors.toList());
+		RevCommit first = CommitUtils.getCommit(repository, sortedParents.get(0));
+		RevCommit second = CommitUtils.getCommit(repository, sortedParents.get(1));
+		aTime = first.getCommitTime();
+		aSHA = first.getName();
+		bTime = second.getCommitTime();
+		bSHA = second.getName();
 		
 		for (String file : conflictingFiles.keySet()) {
 			FileStatus filestatus = new FileStatus(this, file, conflictingFiles.get(file));
 			fileStatuses.put(file, filestatus);
 		}
+
+		addModifiedFiles(Util.getFilesChangedByCommit(repository, commit.getName()));
 	}
 	
 	public List<String> getListOfConflictingFiles() {
@@ -74,16 +86,6 @@ public class CommitStatus {
 		return list;
 	}
 	
-	public void setTimes(int aTime, int bTime) {
-		this.aTime = aTime;
-		this.bTime = bTime;
-	}
-
-	public void setSHAs(String aSHA, String bSHA) {
-		this.aSHA = aSHA;
-		this.bSHA = bSHA;
-	}
-	
 	public String getASHA() {
 		return aSHA;
 	}
@@ -92,11 +94,11 @@ public class CommitStatus {
 		return bSHA;
 	}
 	
-	public void setTimeOffset(int offset) {
-		this.timeOffset = offset;
+	private int getUTCTime(RevCommit commit) {
+		return commit.getCommitTime() + getTimeZoneOffset();
 	}
 
-	public int getTimeOffset() {
-		return timeOffset;
+	public int getTimeZoneOffset() {
+		return commit.getCommitterIdent().getTimeZoneOffset() * 60;
 	}
 }
