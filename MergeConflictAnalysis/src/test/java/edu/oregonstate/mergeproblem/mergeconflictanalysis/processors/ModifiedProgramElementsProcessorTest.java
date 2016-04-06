@@ -16,7 +16,7 @@ public class ModifiedProgramElementsProcessorTest extends ProcessorTest {
 	}
 	
 	private void assertResult(String a, String b, String expected) throws Exception {
-		CommitStatus commitStatus = crateCommitStatus(a, b);
+		CommitStatus commitStatus = createCommitStatus(a, b);
 		String data = processor.getData(commitStatus, FILE_NAME);
 		assertEquals(expected,data);
 	}

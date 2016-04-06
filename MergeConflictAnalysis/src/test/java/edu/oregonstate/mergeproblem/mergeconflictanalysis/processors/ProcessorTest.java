@@ -20,7 +20,7 @@ public abstract class ProcessorTest extends MergeGitTest {
 		return status;
 	}
 
-	public CommitStatus crateCommitStatus(String a, String b) throws Exception {
+	public CommitStatus createCommitStatus(String a, String b) throws Exception {
 		RevCommit commit = createConflictingCommit();
 		CombinedFile combinedFile = new CombinedFile();
 		combinedFile.addChunk(ChunkOwner.A, a);
