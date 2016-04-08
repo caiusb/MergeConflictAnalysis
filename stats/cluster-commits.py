@@ -32,6 +32,8 @@ data.set_index('SHA')
 
 toCluster = data[['SHA', 'LOC_DIFF', 'LOC_A_TO_B', 'LOC_A_TO_SOLVED', 'NO_METHODS', 'NO_STATEMENTS', 'NO_CLASSES', 'AFFECTED_NODES']]
 toCluster = dropOutliers(toCluster, ['LOC_DIFF', 'LOC_A_TO_B', 'LOC_A_TO_SOLVED', 'NO_METHODS', 'NO_STATEMENTS', 'NO_CLASSES'])
+toCluster = toCluster.reset_index(drop=True)
+
 commits = toCluster[['SHA']]
 toCluster = toCluster.drop('SHA', 1)
 
