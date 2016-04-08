@@ -65,3 +65,10 @@ print("==== Birch results: ====")
 print("# of clusters: " + str(len(set(birch.labels_))))
 
 p.concat([commits, toCluster, p.DataFrame(birch.labels_, columns=["LABEL"])], axis=1, ignore_index=True).to_csv("../data-labeled-birch.csv")
+
+affinity = cluster.AffinityPropagation()
+affinity.fit(toCluster)
+print("===== Affinity Propagation results: =====")
+print("# of clusters: " + str(len(set(affinity.labels_))))
+
+p.concat([commits, toCluster, p.DataFrame(affinity.labels_, columns=["LABEL"])], axis=1, ignore_index=True).to_csv("../data-labeled-affinity.csv")
