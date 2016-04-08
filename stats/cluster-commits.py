@@ -57,11 +57,11 @@ dbscan.fit(toCluster)
 print("==== DBSCAN results: ====")
 print("# of clusters: " + str(len(set(dbscan.labels_))))
 
-p.concat([commits, toCluster, p.DataFrame(dbscan.labels_, columns=["LABEL"])], axis=1, ignore_index=True).to_csv("data-labeled-birch.csv", index_label=False)
+p.concat([commits, toCluster, p.DataFrame(dbscan.labels_, columns=["LABEL"])], axis=1).to_csv("../data-labeled-dbscan.csv", index=False)
 
 birch = cluster.Birch()
 birch.fit(toCluster)
 print("==== Birch results: ====")
 print("# of clusters: " + str(len(set(birch.labels_))))
 
-p.concat([commits, toCluster, p.DataFrame(birch.labels_, columns=["LABEL"])], axis=1, ignore_index=True).to_csv("data-labeled-birch.csv", index_label=False)
+p.concat([commits, toCluster, p.DataFrame(birch.labels_, columns=["LABEL"])], axis=1, ignore_index=True).to_csv("../data-labeled-birch.csv")
