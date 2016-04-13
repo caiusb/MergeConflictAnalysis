@@ -23,7 +23,7 @@ do
     if [ -e $base/'my-repos'/$project ]
     then
         pushd $base/'my-repos'/$project > /dev/null
-    elif [ -e $base/'ase16-repos'/$project]
+    elif [ -e $base/'ase16-repos'/$project ]
     then
         pushd $base/'ase16-repos'/$project > /dev/null
     else
@@ -50,6 +50,8 @@ do
     copyFilesAsIs($conflicting, "one")
     git checkout -f $two
     copyFilesAsIs($conflicting, "two")
-    git checkout master
+    git checkout -f $sha
+    copyFilesAsIs($conflicting, "solved")
+    git checkout -f master
     popd > /dev/null
 done
