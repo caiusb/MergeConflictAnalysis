@@ -5,6 +5,17 @@ results='/scratch/brindesc/merges'
 
 mkdir -P $results
 
+function copyFilesAsIs() {
+    conflicting=$0
+    folderName=$1
+
+    print '%s\n' "$conflicting" | while IFS= read line
+    do
+        mkdir -p $results/$project/$sha/$folderName
+        cp $file $results/$project/$sha/$folderName/$(basename $file)
+    done
+}
+
 while read line
 do
     sha=`echo $line | cut -d "," -f1`
@@ -33,5 +44,12 @@ do
         file=`echo $line | cut -d " " -f2`
         cp $file $results/$project/$sha/$(basename $file)
     done
+
+    git reset --hard
+    git checkout -f $one
+    copyFilesAsIs($conflicting, "one")
+    git checkout -f $two
+    copyFilesAsIs($conflicting, "two")
+    git checkout master
     popd > /dev/null
 done
