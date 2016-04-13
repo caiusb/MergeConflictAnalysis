@@ -3,7 +3,7 @@
 base='/scratch/brindesc'
 results='/scratch/brindesc/merges'
 
-mkdir -P $results
+mkdir -p $results
 
 function copyFilesAsIs() {
     conflicting=$0
@@ -18,8 +18,8 @@ function copyFilesAsIs() {
 
 while read line
 do
-    sha=`echo $line | cut -d "," -f1`
-    project=`echo $line | cut -d "," -f2`
+    sha=`echo $line | cut -d "," -f2`
+    project=`echo $line | cut -d "," -f3`
     if [ -e $base/'my-repos'/$project ]
     then
         pushd $base/'my-repos'/$project > /dev/null
@@ -27,20 +27,21 @@ do
     then
         pushd $base/'ase16-repos'/$project > /dev/null
     else
-        echo "Count not find $project"
+        echo "Could not find $project"
         continue
     fi
 
+    git reset --hard
     git checkout -f .
-    parents=`git status --quiet --format="%P"`
+    parents=`git show --quiet --format="%P" $sha`
     one=`echo $parents | cut -d " " -f1`
     two=`echo $parents | cut -d " " -f2`
     git checkout $one
     git merge $two
-    conficting=`git status --procelain | grep "^UU"`
-    echo $conflicting | while read line
+    conflicting=`git status --porcelain | grep "^UU"`
+    printf '%s\n' "$conflicting" | while IFS= read line
     do
-        mkdir $results/$project/$sha
+        mkdir -p $results/$project/$sha
         file=`echo $line | cut -d " " -f2`
         cp $file $results/$project/$sha/$(basename $file)
     done
