@@ -30,7 +30,7 @@ groupDict = {'AST_A_SIZE': n.sum,
              'PROJECT': first,
              'SHA_A': first,
              'SHA_B': first,
-             'SHA_BASE:': first,
+             'BASE_SHA': first,
              'TIME_SOLVED': first,
              'TIME_OFFSET': first,
              'TIME_A': first,
@@ -66,4 +66,4 @@ data['TIME_SOLVED'] = p.to_datetime(data['TIME_SOLVED'], unit='s')
 
 perCommit = data.groupby('SHA').aggregate(groupDict)
 print(perCommit.columns)
-perCommit.to_csv('per-commit.csv')
+perCommit.to_csv('../../data/per-commit.csv')
