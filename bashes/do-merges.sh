@@ -6,13 +6,17 @@ results='/scratch/brindesc/merges'
 mkdir -p $results
 
 function copyFilesAsIs() {
-    conflicting=$0
-    folderName=$1
+    conflicting="$1"
+    folderName=$2
 
-    print '%s\n' "$conflicting" | while IFS= read line
+    mkdir -p $results/$project/$sha/$folderName
+
+    printf '%s\n' "$conflicting" | while IFS= read line
     do
-        mkdir -p $results/$project/$sha/$folderName
-        cp $file $results/$project/$sha/$folderName/$(basename $file)
+	echo $line
+        file=`echo $line | cut -d " " -f2`
+	echo $file
+        cp $file "$results/$project/$sha/$folderName/$(basename $file)"
     done
 }
 
@@ -39,20 +43,16 @@ do
     git checkout $one
     git merge $two
     conflicting=`git status --porcelain | grep "^UU"`
-    printf '%s\n' "$conflicting" | while IFS= read line
-    do
-        mkdir -p $results/$project/$sha
-        file=`echo $line | cut -d " " -f2`
-        cp $file $results/$project/$sha/$(basename $file)
-    done
+    copyFilesAsIs "$conflicting"  "."
 
     git reset --hard
+    git checkout -f .
     git checkout -f $one
-    copyFilesAsIs($conflicting, "one")
+    copyFilesAsIs "$conflicting" "one"
     git checkout -f $two
-    copyFilesAsIs($conflicting, "two")
+    copyFilesAsIs "$conflicting" "two"
     git checkout -f $sha
-    copyFilesAsIs($conflicting, "solved")
+    copyFilesAsIs "$conflicting" "solved"
     git checkout -f master
     popd > /dev/null
 done
