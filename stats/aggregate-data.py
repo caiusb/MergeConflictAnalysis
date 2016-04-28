@@ -39,6 +39,7 @@ groupDict = {'AST_A_SIZE': n.sum,
              'NO_METHODS': n.sum,
              'NO_CLASSES': n.sum,
              'DIFF_NODES_A_TO_B': groupNodes,
+             'IS_AST_CONFLICT': any
 }
 
 def readData(folder):
@@ -67,3 +68,4 @@ data['TIME_SOLVED'] = p.to_datetime(data['TIME_SOLVED'], unit='s')
 perCommit = data.groupby('SHA').aggregate(groupDict)
 print(perCommit.columns)
 perCommit.to_csv('../../data/per-commit.csv')
+data.to_csv("../../data/all.csv.bz2", compression="bz2", index=False)
