@@ -15,7 +15,8 @@ libraryDependencies ++= Seq(
   "org.apache.maven.shared" % "maven-invoker" % "2.2",
   // for Gumtree Client
   "com.nanohttpd" % "nanohttpd-webserver" % "2.1.1",
-  "org.rendersnake" % "rendersnake" % "1.8"
+  "org.rendersnake" % "rendersnake" % "1.8",
+  "com.brindescu" %% "conflict-detector" % "0.1"
 )
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.4" % "test"
