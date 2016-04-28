@@ -16,7 +16,7 @@ def dropOutliers(df, columns):
     return df
 
 data = loadData()
-data['AFFECTED_NODES'] = data['AFFECTED_NODES'].fillna('')
+data['DIFF_NODES_A_TO_B'] = data['DIFF_NODES_A_TO_B'].fillna('')
 
 data = data.loc[(data['IS_CONFLICT'] == True) &
             (data['LOC_DIFF']) > 0 &
@@ -30,7 +30,7 @@ data = data.loc[(data['IS_CONFLICT'] == True) &
 print(str(len(data)) + " observations")
 data.set_index('SHA')
 
-toCluster = data[['SHA', 'LOC_DIFF', 'LOC_A_TO_B', 'LOC_A_TO_SOLVED', 'NO_METHODS', 'NO_STATEMENTS', 'NO_CLASSES', 'AFFECTED_NODES']]
+toCluster = data[['SHA', 'LOC_DIFF', 'LOC_A_TO_B', 'LOC_A_TO_SOLVED', 'NO_METHODS', 'NO_STATEMENTS', 'NO_CLASSES', 'DIFF_NODES_A_TO_B']]
 toCluster = dropOutliers(toCluster, ['LOC_DIFF', 'LOC_A_TO_B', 'LOC_A_TO_SOLVED', 'NO_METHODS', 'NO_STATEMENTS', 'NO_CLASSES'])
 toCluster = toCluster.reset_index(drop=True)
 
@@ -38,11 +38,11 @@ commits = toCluster[['SHA']]
 toCluster = toCluster.drop('SHA', 1)
 
 vectorizer = CountVectorizer(binary=True, lowercase=False)
-X = vectorizer.fit_transform(toCluster.AFFECTED_NODES)
+X = vectorizer.fit_transform(toCluster.DIFF_NODES_A_TO_B)
 print(len(vectorizer.get_feature_names()))
 print(X.shape)
 
-toCluster = toCluster.drop('AFFECTED_NODES', 1)
+toCluster = toCluster.drop('DIFF_NODES_A_TO_B', 1)
 
 scaler = preprocessing.MinMaxScaler()
 toCluster = p.DataFrame(scaler.fit_transform(toCluster), columns=toCluster.columns.values)

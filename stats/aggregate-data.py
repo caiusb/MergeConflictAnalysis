@@ -38,7 +38,7 @@ groupDict = {'AST_A_SIZE': n.sum,
              'NO_STATEMENTS': n.sum,
              'NO_METHODS': n.sum,
              'NO_CLASSES': n.sum,
-             'AFFECTED_NODES': groupNodes
+             'DIFF_NODES_A_TO_B': groupNodes,
 }
 
 def readData(folder):
