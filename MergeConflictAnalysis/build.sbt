@@ -27,6 +27,8 @@ testOptions += Tests.Argument(TestFrameworks.JUnit, "-q", "-v")
 
 resolvers += Resolver.sonatypeRepo("public")
 
+resolvers += "Mine" at "http://releases.ivy.brindescu.com"
+
 val mc = Some("edu.oregonstate.mergeproblem.mergeconflictanalysis.Main")
 
 mainClass in (Compile, run) := mc
