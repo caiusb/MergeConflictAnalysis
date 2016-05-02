@@ -2,6 +2,8 @@ import pandas as p
 import numpy as n
 import os
 
+from sklearn.feature_extraction.text import CountVectorizer
+
 first = lambda x: x.iloc[0]
 
 def groupNodes(v):
@@ -11,7 +13,18 @@ def groupNodes(v):
         allNodes.extend(nodes)
     return ';'.join(set(allNodes))
 
-groupDict = {'AST_A_SIZE': n.sum,
+def vectorize_column(data, column):
+    result = data
+    result = result.reset_index(drop=True)
+    vectorizer = CountVectorizer(binary=True, lowercase=False)
+    X = vectorizer.fit_transform(data[column])
+    result = result.drop(column, 1)
+    result = p.concat([result, p.DataFrame(X.toarray(), columns=vectorizer.get_feature_names())], axis=1)
+    return result
+
+
+groupDict = {'SHA': first,
+             'AST_A_SIZE': n.sum,
              'LOC_A_SIZE': n.sum,
              'AST_B_SIZE': n.sum,
              'LOC_B_SIZE': n.sum,
@@ -62,10 +75,15 @@ data = data.fillna('')
 data['TIME_A'] = p.to_datetime(data['TIME_A'], unit='s')
 data['TIME_B'] = p.to_datetime(data['TIME_B'], unit='s')
 data['TIME_SOLVED'] = p.to_datetime(data['TIME_SOLVED'], unit='s')
+
 #data['IS_CONFLICT'] = data['IS_CONFLICT'].replace({'TRUE': True, 'FALSE': False})
 #data['MERGED_IN_MASTER'] = data['MERGED_IN_MASTER'].replace({'TRUE': True, 'FALSE': False})
 
 perCommit = data.groupby('SHA').aggregate(groupDict)
+
+#data = vectorize_column(data, 'DIFF_NODES_A_TO_B')
+perCommit = vectorize_column(perCommit, 'DIFF_NODES_A_TO_B')
+
 print(perCommit.columns)
 perCommit.to_csv('../../data/per-commit.csv')
 data.to_csv("../../data/all.csv.bz2", compression="bz2", index=False)
