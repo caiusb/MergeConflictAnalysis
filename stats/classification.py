@@ -28,7 +28,7 @@ adaBoost = ensemble.AdaBoostClassifier(n_estimators=100)
 #dt = tree.DecisionTreeClassifier() 
 scores = cross_val_score(adaBoost, toClassify, labels, cv=5, scoring=r2) 
 print("R^2: {0:.2f} (+/- {1:.2f})".format(scores.mean(), scores.std() * 2))
-print("Min: {0:.2f}; Max: {1:.2f}".format(max(scores), min(scores)))
+print("Min: {0:.2f}; Max: {1:.2f}".format(min(scores), max(scores)))
 
 #adaBoost.fit(train, labels)
 #pred = adaBoost.predict(test)
