@@ -6,6 +6,7 @@ from sklearn.cross_validation import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics import precision_score, recall_score, accuracy_score, matthews_corrcoef
 from sklearn.grid_search import GridSearchCV
+from sklearn.linear_model import SGDClassifier
 
 def precisionRecall(actual, predicted, classifier=""):
     print(classifier + "\nPrecision: {0:.2f}\nRecall: {1:.2f}\n\n".format(precision_score(actual, predicted), recall_score(actual, predicted)))
@@ -16,9 +17,9 @@ def matthews(estimator, X, y_true):
 
 scoring = matthews
 
-from sklearn.linear_model import SGDClassifier
-#with open("../../data/all.csv.bz2", "rb") as f:
-data = p.read_csv("../../data/all.csv.bz2", skip_blank_lines=True, compression="bz2", low_memory=False)
+#data = p.concat(p.read_csv("../../data/all.csv", low_memory=False, skip_blank_lines=True, chunksize=100000), axis=0)
+#data.reset_index(inplace=True)
+data = p.read_csv("../../data/all.csv.bz2", low_memory=False, skip_blank_lines=True, compression="bz2")
 
 data['DIFF_NODES_A_TO_B'] = data['DIFF_NODES_A_TO_B'].fillna('')
 conflicts = data[data['IS_CONFLICT'] == True]

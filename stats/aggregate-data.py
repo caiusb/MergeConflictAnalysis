@@ -85,5 +85,5 @@ perCommit = data.groupby('SHA').aggregate(groupDict)
 perCommit = vectorize_column(perCommit, 'DIFF_NODES_A_TO_B')
 
 print(perCommit.columns)
-perCommit.to_csv('../../data/per-commit.csv')
-data.to_csv("../../data/all.csv.bz2", compression="bz2", index=False)
+perCommit.to_csv('../../data/per-commit.csv', index=False)
+data.to_csv("../../data/all.csv.bz2", index=False, compression="bz2")
