@@ -18,3 +18,4 @@ github/token
 .idea
 target/
 build/scripts
+.DS_Store
