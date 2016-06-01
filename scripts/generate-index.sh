@@ -34,9 +34,9 @@ htmlFoot="
 </table>
 <div id=\"diffoutput\"></div>
 <script src=\"https://code.jquery.com/jquery-1.11.2.min.js\"></script>
-<script src=\"/jsdifflib/difflib.js\"></script>
-<script src=\"/jsdifflib/diffview.js\"></script>
-<script src=\"/diffLOC.js\"></script>
+<script src=\"//web.engr.oregonstate.edu/~brindesc/merges/jsdifflib/difflib.js\"></script>
+<script src=\"//web.engr.oregonstate.edu/~brindesc/merges/jsdifflib/diffview.js\"></script>
+<script src=\"//web.engr.oregonstate.edu/~brindesc/merges/diffLOC.js\"></script>
 <script src=\"//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js\"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js\" integrity=\"sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS\" crossorigin=\"anonymous\"></script>
