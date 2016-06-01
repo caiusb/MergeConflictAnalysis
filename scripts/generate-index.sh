@@ -1,7 +1,8 @@
 #!/bin/bash
 
 #mergesRoot="../../data/1000-merges"
-mergesRoot="/Users/caius/osu/TheMergingProblem/data/test"
+#mergesRoot="/Users/caius/osu/TheMergingProblem/data/test"
+mergesRoot="$HOME/public_html/merges"
 
 pushd $mergesRoot
 
@@ -11,7 +12,7 @@ htmlHead="<!DOCTYPE html>
 <head>
 	<meta charset=\"utf-8\" />
 	<title>Merge Visualizer</title>
-	<link rel=\"stylesheet\" href=\"/jsdifflib/diffview.css\"/>
+	<link rel=\"stylesheet\" href=\"//web.engr.oregonstate.edu/~brindesc/merges/jsdifflib/diffview.css\"/>
 	<link rel=\"stylesheet\" href=\"//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css\">
 	<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\" integrity=\"sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7\" crossorigin=\"anonymous\">
 </head>
