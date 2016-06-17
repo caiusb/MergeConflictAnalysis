@@ -12,6 +12,7 @@ import java.util.logging.SimpleFormatter;
 import java.util.logging.StreamHandler;
 
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.build.BuildAnalysis;
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.build.MergeOnlyBuildAnalysis;
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.FileAnalysis;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
@@ -38,6 +39,9 @@ public class Main {
 
 		@Option(name = "-build", usage = "If I should do a build analysis. Default is off, doing a file anaylsis")
 		public boolean build = false;
+
+		@Option(name = "-merge-only", usage = "If I should do a build analysis only for the merge commits. Ignored if build is off")
+		public boolean mergeOnly = false;
 
 		@Argument
 		public List<String> repositories = new ArrayList<String>();
@@ -94,7 +98,10 @@ public class Main {
 		}
 
 		if (config.build)
-			BuildAnalysis.doAnalysis(config, outputStream);
+			if (!config.mergeOnly)
+				BuildAnalysis.doAnalysis(config, outputStream);
+			else
+				MergeOnlyBuildAnalysis.doAnalysis(config, outputStream);
 		else
 			new FileAnalysis().doAnalysis(config, outputStream);
 
