@@ -5,14 +5,14 @@ then
 	mkdir "scripts"
 fi
 
-if [ ! -d "../../build-data" ] 
+if [ ! -d "../../build-merge-data" ] 
 then
-	mkdir "../../build-data"
+	mkdir "../../build-merge-data"
 fi
 
-if [ ! -d "../../build-data/output" ]
+if [ ! -d "../../build-merge-data/output" ]
 then
-	mkdir "../../build-data/output"
+	mkdir "../../build-merge-data/output"
 fi
 
 #if [ ! -d "../../build-data/errors" ]
@@ -20,7 +20,7 @@ fi
 #	mkdir "../../build-data/errors"
 #fi
 
-if [ ! -d "../../build-data/results" ]
+if [ ! -d "../../build-merge-data/results" ]
 then
-	mkdir "../../build-data/results"
+	mkdir "../../build-merge-data/results"
 fi
