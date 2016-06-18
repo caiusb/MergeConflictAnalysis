@@ -8,7 +8,7 @@ repos = [line.rstrip('\n') for line in open('../repos-buildable.txt')]
 shebang = "#!/bin/bash\n\n"
 wd="wd=$HOME/merging/workspace/\n"
 
-jar = "$wd/MergeConflictAnalysis-assembly-1.0.0.jar"
+jar = "$wd/MergeConflictAnalysis-assembly-1.1.jar"
 
 s.call("./make-dir-structure.sh")
 
