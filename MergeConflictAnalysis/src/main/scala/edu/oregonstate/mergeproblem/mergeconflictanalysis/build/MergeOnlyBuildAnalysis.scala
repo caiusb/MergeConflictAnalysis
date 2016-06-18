@@ -23,11 +23,11 @@ object MergeOnlyBuildAnalysis extends AbstractAnalysis {
 		val project = git.getRepository.getWorkTree.getAbsolutePath
 		Builder.clean(project)
 		if (!Builder.build(project))
-			stream.write((commit.getName + "build" + "\n").getBytes)
+			stream.write((commit.getName + ",build" + "\n").getBytes)
 		else if (!Builder.test(project))
-			stream.write((commit.getName + "test" + "\n").getBytes)
+			stream.write((commit.getName + ",test" + "\n").getBytes)
 		else
-			stream.write((commit.getName + "pass" + "\n").getBytes)
+			stream.write((commit.getName + ",pass" + "\n").getBytes)
 		Builder.clean(project)
 	}
 }
