@@ -38,7 +38,7 @@ for repo in repos:
 		#script.write("sleep $WAIT\n")
 		#script.write("git clone " + repo + "\n")
 		#script.write("echo \"Clonning finished with status $?\"\n")
-		script.write("rsync -avz babylon1:/scratch/brindesc/ase16-repos/" + repoName + "/" + " .\n")
+		script.write("rsync -avz babylon01.eecs.oregonstate.edu:/scratch/brindesc/ase16-repos/" + repoName + "/" + " .\n")
 		script.write("popd >/dev/null \n\n")
 		script.write("java -Xmx2G -jar " + jar + " -output=\"../build-merge-data/results/" + repoName + ".csv\"" " -build -merge-only -log-to-console " + "$tmpdir/" + repoName + "\n\n")
 		script.write("echo \"Analysis is done for " + repoName + " with status $?\"\n\n")
