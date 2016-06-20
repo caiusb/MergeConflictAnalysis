@@ -7,7 +7,7 @@ resultloc=$(resolve-path $2)
 
 cd $repoloc
 for i in *
-then
+do
 	if [ ! -d $i ]
 		continue
 	fi
