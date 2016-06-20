@@ -8,7 +8,7 @@ class CompositeProcessor extends FileProcessor {
 	private val processors  = new ListBuffer[FileProcessor]
 
 	def addProcessor(processor: FileProcessor) =
-		processors :+ processor
+		processors.append(processor)
 
 	def getHeader: String =
 		processors map { _.getHeader } mkString ","
