@@ -11,7 +11,7 @@ def getChangedLines(repo, sha):
 	toCall = "git diff " + sha + " " + sha + "~1 -U0 | grep -E \"(@@)|(\+\+\+)\""
 	try:
 		output = s.check_output(toCall, shell=True)
-	except CalledProcessError:
+	except s.CalledProcessError:
 		return {}
 	dict = {}
 	currentFile = ""
