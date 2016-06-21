@@ -14,6 +14,7 @@ do
 	then
 		continue
 	fi
+	echo "Processing $i"
 	cd $i
 	python $wd/get-merged-lines.py $PWD > $resultloc/$i.json
 	cd ../
