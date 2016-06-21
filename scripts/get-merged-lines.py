@@ -50,7 +50,7 @@ for m in merges:
 		newLines[file]=ranges
 	bigDict[m.hexsha] = newLines
 
-print(json.dumps(bigDict))
+print(json.dumps(bigDict, indent=3, separators=(',',':')))
 
 
 	
