@@ -6,7 +6,7 @@ buildData <- data.frame(commit = character(0),
                          parent2 = character(0),
                          merge = character(0))
 print(getwd())
-files <- list.files("/Users/caius/osu/TheMergingProblem/build-data/results", pattern="*.csv", full.names=TRUE)
+files <- list.files("/Users/caius/osu/TheMergingProblem/data/build-data/results", pattern="*.csv", full.names=TRUE)
 
 read <- function(f) {
   if (file.size(f) != 0) {
