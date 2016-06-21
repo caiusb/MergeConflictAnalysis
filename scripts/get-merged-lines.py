@@ -9,7 +9,10 @@ import json
 
 def getChangedLines(repo, sha):
 	toCall = "git diff " + sha + " " + sha + "~1 -U0 | grep -E \"(@@)|(\+\+\+)\""
-	output = s.check_output(toCall, shell=True)
+	try:
+		output = s.check_output(toCall, shell=True)
+	except CalledProcessError:
+		return {}
 	dict = {}
 	currentFile = ""
 	ranges = []
