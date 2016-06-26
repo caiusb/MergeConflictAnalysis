@@ -5,6 +5,7 @@ import java.io.File
 import org.apache.maven.shared.invoker.{DefaultInvocationRequest, DefaultInvoker, InvocationOutputHandler, InvocationResult}
 
 import scala.collection.JavaConversions._
+import scala.collection.mutable.ListBuffer
 
 object Builder {
 
@@ -45,4 +46,17 @@ object Builder {
 
   private def makeMavenHappy(projectPath: String) =
     System.setProperty("maven.multiModuleProjectDirectory", projectPath)
+
+  def getClasspathEntries(projectPath: String): List[String] = {
+    val handler = new InvocationOutputHandler {
+      private val builder = new ListBuffer[String]
+      override def consumeLine(line: String): Unit = builder += line
+      def getOutput = builder.toList
+    }
+    runMaven(projectPath, Seq("dependency:build-classpath"), handler)
+    handler.getOutput.find( ! _.startsWith("[INFO]")) match {
+      case Some(l) => l.split(":").toList
+      case None => List()
+    }
+  }
 }

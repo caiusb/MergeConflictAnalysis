@@ -36,4 +36,9 @@ class BuilderTest extends GitTestCase with FlatSpecLike with Matchers with Befor
     clean(goodProject)
     getClass.getResource("/simple-good-pom/target") should be (null)
   }
+
+  it should "find the correct dependencies" in {
+    val entries = getClasspathEntries(goodProject)
+    entries should have size 2
+  }
 }
