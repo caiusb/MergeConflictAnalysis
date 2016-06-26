@@ -2,7 +2,7 @@ package edu.oregonstate.mergeproblem.mergeconflictanalysis.build
 
 import java.io.{BufferedOutputStream, File, OutputStream}
 
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.{AbstractAnalysis, Builder, Main, RepositoryWalker}
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.{AbstractAnalysis, MavenBuilder, Main, RepositoryWalker}
 import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.revwalk.RevCommit
 
@@ -21,13 +21,13 @@ object MergeOnlyBuildAnalysis extends AbstractAnalysis {
 	private def buildCommit(git: Git, commit: RevCommit, stream: OutputStream) = {
 		git.checkout().setForce(true).setName(commit.getName).call()
 		val project = git.getRepository.getWorkTree.getAbsolutePath
-		Builder.clean(project)
-		if (!Builder.build(project))
+		MavenBuilder.clean(project)
+		if (!MavenBuilder.build(project))
 			stream.write((commit.getName + ",build" + "\n").getBytes)
-		else if (!Builder.test(project))
+		else if (!MavenBuilder.test(project))
 			stream.write((commit.getName + ",test" + "\n").getBytes)
 		else
 			stream.write((commit.getName + ",pass" + "\n").getBytes)
-		Builder.clean(project)
+		MavenBuilder.clean(project)
 	}
 }

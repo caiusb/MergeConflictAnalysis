@@ -3,7 +3,7 @@ package edu.oregonstate.mergeproblem.mergeconflictanalysis.build
 import java.io.OutputStream
 import java.util.logging.Level
 
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.{Builder, Main}
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.{MavenBuilder, Main}
 import org.eclipse.jgit.api.{Git, ResetCommand}
 import org.eclipse.jgit.revwalk.RevCommit
 import org.gitective.core.CommitUtils
@@ -29,8 +29,8 @@ object MergeBuilder {
     val result = commitID + parentResults
     logger.log(Level.INFO, "Parent results: " + result)
     if(merge(git, parents))
-      if (Builder.build(project))
-        if (Builder.test(project))
+      if (MavenBuilder.build(project))
+        if (MavenBuilder.test(project))
           return result + "," + SUCCESS
         else
           return result + "," + TEST_FAIL
@@ -52,7 +52,7 @@ object MergeBuilder {
 
   def checkoutBuildClean(git: Git, project: String, p: RevCommit): String = {
     val result = checkoutAndBuild(git, p)
-    Builder.clean(project)
+    MavenBuilder.clean(project)
     return result
   }
 
@@ -68,8 +68,8 @@ object MergeBuilder {
   private def checkoutAndBuild(git: Git, p: RevCommit): String = {
     git.checkout().setName(p.getName).call()
     val project = git.getRepository.getWorkTree.getAbsolutePath
-    if (Builder.build(project))
-      if (Builder.test(project))
+    if (MavenBuilder.build(project))
+      if (MavenBuilder.test(project))
         return SUCCESS
       else
         return TEST_FAIL

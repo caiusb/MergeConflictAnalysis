@@ -7,7 +7,7 @@ import org.apache.maven.shared.invoker.{DefaultInvocationRequest, DefaultInvoker
 import scala.collection.JavaConversions._
 import scala.collection.mutable.ListBuffer
 
-object Builder {
+object MavenBuilder {
 
   val nullOutputHandler = new InvocationOutputHandler {
     override def consumeLine(line: String) = {}
