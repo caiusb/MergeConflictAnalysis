@@ -20,10 +20,10 @@ def getChangedLines(repo, sha):
 		if (line.startswith("+++")):
 			if (currentFile != ""):
 				dict[currentFile] = ranges
-				currentFile = line.split(" ")[1]
+				currentFile = line.split(" ")[1].split("/",1)[1]
 				ranges = []
 			else:
-				currentFile = line.split(" ")[1]
+				currentFile = line.split(" ")[1].split("/",1)[1]
 		elif (line.startswith("@@")):
 			ranges.append(line.split(" ")[2])
 
