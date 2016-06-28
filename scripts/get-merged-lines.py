@@ -57,7 +57,6 @@ a = []
 for commit in bigDict.keys():
 	files = []
 	for file in bigDict[commit]:
-		print(file)
 		files.append({'name': file, 'lines': bigDict[commit][file]})
 	newDict = {'sha': commit, 'files': files}
 	a.append(newDict)
