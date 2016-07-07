@@ -48,11 +48,7 @@ object MavenBuilder {
     System.setProperty("maven.multiModuleProjectDirectory", projectPath)
 
   def getClasspathEntries(projectPath: String): List[String] = {
-    val handler = new InvocationOutputHandler {
-      private val builder = new ListBuffer[String]
-      override def consumeLine(line: String): Unit = builder += line
-      def getOutput = builder.toList
-    }
+    val handler = new Handler()
     runMaven(projectPath, Seq("dependency:build-classpath"), handler)
     handler.getOutput.find( ! _.startsWith("[INFO]")) match {
       case Some(l) => l.split(":").toList
