@@ -42,8 +42,8 @@ for repo in repos:
         script.write("\trm -rf \"$mavenCache\"\n")
         script.write("\texit\n")
         script.write("fi\n\n")
-    script.write("pwd\n")
-    script.write("ls\n")
+    	script.write("pwd\n")
+    	script.write("ls\n")
         script.write("popd >/dev/null \n\n")
         script.write("java -Xmx32G -jar " + jar + "\"$tmpdir/" + repoName " +.json\" \"$tmpdir/" + repoName + "\n + ../../slicer-results/" + repoName + ".csv")
         script.write("echo \"Analysis is done for " +
