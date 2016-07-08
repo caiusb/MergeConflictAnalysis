@@ -33,10 +33,8 @@ for repo in repos:
         script.write("\tmkdir -p \"$mavenCache\"\n")
         script.write("fi\n\n")
         script.write("pushd \"$tmpdir\" > /dev/null \n")
-        script.write(
-            "rsync -avz babylon01.eecs.oregonstate.edu:/scratch/brindesc/ase16-repos/" + repoName + " .\n")
-        script.write(
-            "rsync -avz babylon01.eecs.oregonstate.edu:/scratch/brindesc/merge-lines/" + repoName + ".json . \n")
+        script.write("rsync -avz babylon01.eecs.oregonstate.edu:/scratch/brindesc/ase16-repos/" + repoName + " .\n")
+        script.write("rsync -avz babylon01.eecs.oregonstate.edu:/scratch/brindesc/merge-lines/" + repoName + ".json . \n")
         script.write("if [ ! -e " + repoName + "/pom.xml ] then\n")
         script.write("\trm -rf \"$tmpdir\"\n")
         script.write("\trm -rf \"$mavenCache\"\n")
@@ -45,8 +43,7 @@ for repo in repos:
     	script.write("pwd\n")
     	script.write("ls\n")
         script.write("popd >/dev/null \n\n")
-        script.write("java -Xmx32G -jar " + jar + "\"$tmpdir/" + repoName " +.json\" \"$tmpdir/" + repoName + "\n + ../../slicer-results/" + repoName + ".csv")
-        script.write("echo \"Analysis is done for " +
-                     repoName + " with status $?\"\n\n")
+        script.write("java -Xmx32G -jar " + jar + "\"$tmpdir/" + repoName " +.json\" \"$tmpdir/" + repoName + "\n ../../slicer-results/" + repoName + ".csv \n")
+        script.write("echo \"Analysis is done for " + repoName + " with status $?\"\n\n")
         script.write("rm -rf \"$tmpdir\"\n")
         script.write("rm -rf \"$mavenCache\"\n")
