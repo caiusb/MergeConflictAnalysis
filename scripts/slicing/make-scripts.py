@@ -16,7 +16,7 @@ for repo in repos:
         script.write(shebang)
         script.write(wd)
         script.write("cd $wd\n")
-        script.write("mkdir ../../slicer-results")
+        script.write("mkdir ../../slicer-results\n")
         script.write("pwd\n\n")
         script.write(
             "export PATH=$HOME/jdk8/bin:$HOME/maven/bin:$HOME/.local/bin:$PATH\n")
@@ -35,7 +35,7 @@ for repo in repos:
         script.write("pushd \"$tmpdir\" > /dev/null \n")
         script.write("rsync -avz babylon01.eecs.oregonstate.edu:/scratch/brindesc/ase16-repos/" + repoName + " .\n")
         script.write("rsync -avz babylon01.eecs.oregonstate.edu:/scratch/brindesc/merge-lines/" + repoName + ".json . \n")
-        script.write("if [ ! -e " + repoName + "/pom.xml ] then\n")
+        script.write("if [ ! -e " + repoName + "/pom.xml ]\nthen\n")
         script.write("\trm -rf \"$tmpdir\"\n")
         script.write("\trm -rf \"$mavenCache\"\n")
         script.write("\texit\n")
