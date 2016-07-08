@@ -43,7 +43,7 @@ for repo in repos:
     	script.write("pwd\n")
     	script.write("ls\n")
         script.write("popd >/dev/null \n\n")
-        script.write("java -Xmx32G -jar " + jar + "\"$tmpdir/" + repoName " +.json\" \"$tmpdir/" + repoName + "\n ../../slicer-results/" + repoName + ".csv \n")
+        script.write("java -Xmx32G -jar " + jar + "\"$tmpdir/" + repoName + " .json\" \"$tmpdir/" + repoName + "\n ../../slicer-results/" + repoName + ".csv \n")
         script.write("echo \"Analysis is done for " + repoName + " with status $?\"\n\n")
         script.write("rm -rf \"$tmpdir\"\n")
         script.write("rm -rf \"$mavenCache\"\n")
