@@ -13,6 +13,12 @@ object MavenBuilder {
     override def consumeLine(line: String) = {}
   }
 
+  private class Handler extends InvocationOutputHandler {
+    private val builder = new ListBuffer[String]
+    override def consumeLine(line: String): Unit = builder += line
+    def getOutput = builder.toList
+  }
+
   def runMaven(projectPath: String, tasks: Seq[String],
                outputHandler: InvocationOutputHandler = nullOutputHandler,
                errorHandler: InvocationOutputHandler = nullOutputHandler): Boolean =
