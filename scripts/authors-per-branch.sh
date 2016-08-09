@@ -12,7 +12,7 @@ do
         p2=`echo $line | cut -d"," -f3`
         base=`git merge-base $p1 $p2`
         onebranch=`git log $base..$p1 --format="%an" | sort | uniq | wc -l`
-        twobranch=`git log $base..$p1 --format="%an" | sort | uniq | wc -l`
+        twobranch=`git log $base..$p2 --format="%an" | sort | uniq | wc -l`
         echo $project,$sha,$onebranch,$twobranch
     done
 done
