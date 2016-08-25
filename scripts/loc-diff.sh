@@ -7,7 +7,7 @@ do
         repo="/scratch/brindesc/my-repos/$project"
     elif [ -e "/scratch/brindesc/ase16-repos/$project" ]
     then
-        repo="/scratch/brindesc/ase16-repos/$project" ]
+        repo="/scratch/brindesc/ase16-repos/$project" 
     else
         echo "Could not find $project"
         continue
