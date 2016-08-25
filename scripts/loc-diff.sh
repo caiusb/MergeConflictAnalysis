@@ -1,13 +1,17 @@
 #!/bin/bash
 
-for i in $1/*
+while read project
 do
-    if [ ! -d $i ]
+    if [ -e /scratch/brindesc/my-repos/$project ]
     then
-        continue
+        repo=/scratch/brindesc/my-repos/$project
+    elif [ -e /scratch/brindesc/ase16-repos/$project ]
+    then
+        repo=/scratch/brindesc/ase16-repos/$project ]
+    else
+        echo "Could not find $project"
     fi
-    project=$i
-    cd $i
+    pushd $repo
     output=`git log --merges --format="%H"`
     printf "%s\n" $output | while read sha
     do
@@ -19,5 +23,5 @@ do
         fi
         echo $project,$sha,$result
     done
-    cd ../
+    popd
 done
