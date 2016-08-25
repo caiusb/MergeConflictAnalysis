@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for i in *
+for i in $1/*
 do
     if [ ! -d $i ]
     then
