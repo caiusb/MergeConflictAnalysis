@@ -2,6 +2,10 @@
 
 for i in *
 do
+    if [ ! -d $i ]
+    then
+        continue
+    fi
     project=$i
     cd $i
     output=`git log --merges --format="%H"`
