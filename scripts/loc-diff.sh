@@ -11,7 +11,7 @@ do
     output=`git log --merges --format="%H"`
     printf "%s\n" $output | while read sha
     do
-        parents=`git log --format="%P" $sha`
+        parents=`git show --quiet --format="%P" $sha`
         result=`git diff --stat $parents | grep -E "java\s" | tr -s ' ' | cut -d" " -f4 | paste -sd+ - | bc`
         if [ -z $result ]
         then
