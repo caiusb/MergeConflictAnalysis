@@ -10,6 +10,7 @@ do
         repo=/scratch/brindesc/ase16-repos/$project ]
     else
         echo "Could not find $project"
+        continue
     fi
     pushd $repo
     output=`git log --merges --format="%H"`
@@ -24,4 +25,4 @@ do
         echo $project,$sha,$result
     done
     popd
-done
+done < $1
