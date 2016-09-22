@@ -34,24 +34,24 @@ public class InMemoryMerger {
 	public CommitStatus recreateMerge(RevCommit mergeCommit) {
 		logger.info("Recreating commit " + mergeCommit.getName());
 		RevCommit[] parents = mergeCommit.getParents();
-		
+
 		if (parents.length < 2)
 			throw new IllegalArgumentException();
 
-		try {
-			CommitStatus commitStatus = new CommitStatus(repository, mergeCommit, merge(mergeCommit.getParent(0), mergeCommit.getParent(1)));
-			return commitStatus;
-		} catch (IOException e) {
-			return null;
-		}
+		CommitStatus commitStatus = new CommitStatus(repository, mergeCommit);
+		return commitStatus;
 	}
 
-	public Map<String, CombinedFile> merge(RevCommit first, RevCommit second) throws IOException {
+	public Map<String, CombinedFile> merge(RevCommit first, RevCommit second) {
 		Map<String, CombinedFile> results = new HashMap<String, CombinedFile>();
 		
 		RecursiveMerger recursiveMerger = (RecursiveMerger) new StrategyRecursive().newMerger(repository, true);
-			
-		recursiveMerger.merge(first,second);
+
+		try {
+			recursiveMerger.merge(first, second);
+		} catch (IOException e) {
+			return new HashMap<>();
+		}
 		
 		Map<String, MergeResult<? extends Sequence>> mergeResults = recursiveMerger.getMergeResults();
 		for (String touchedFile : mergeResults.keySet()) {

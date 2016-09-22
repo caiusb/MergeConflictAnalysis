@@ -1,5 +1,6 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.file;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -15,12 +16,12 @@ public class CommitStatus {
 	private int time;
 	private int aTime;
 	private int bTime;
-	
+
 	private Map<String, FileStatus> fileStatuses = new HashMap<String, FileStatus>();
 	private String aSHA;
 	private String bSHA;
 
-	public CommitStatus(Repository repository, RevCommit commit, Map<String, CombinedFile> conflictingFiles) {
+	public CommitStatus(Repository repository, RevCommit commit) {
 		this.repository = repository;
 		this.commit = commit;
 		this.sha1 = commit.getName();
@@ -28,13 +29,14 @@ public class CommitStatus {
 
 		List<RevCommit> sortedParents = Arrays.asList(commit.getParents()).stream().map((c) -> CommitUtils.getCommit(repository, c))
 				.sorted((o1, o2) -> getUTCTime(o1) < getUTCTime(o2) ? -1 : 1).collect(Collectors.toList());
+		Map<String, CombinedFile> conflictingFiles = new InMemoryMerger(repository).merge(sortedParents.get(0), sortedParents.get(1));
 		RevCommit first = CommitUtils.getCommit(repository, sortedParents.get(0));
 		RevCommit second = CommitUtils.getCommit(repository, sortedParents.get(1));
 		aTime = first.getCommitTime();
 		aSHA = first.getName();
 		bTime = second.getCommitTime();
 		bSHA = second.getName();
-		
+
 		for (String file : conflictingFiles.keySet()) {
 			FileStatus filestatus = new FileStatus(this, file, conflictingFiles.get(file));
 			fileStatuses.put(file, filestatus);
@@ -42,32 +44,32 @@ public class CommitStatus {
 
 		addModifiedFiles(Util.getFilesChangedByCommit(repository, commit.getName()));
 	}
-	
+
 	public List<String> getListOfConflictingFiles() {
 		return fileStatuses.values().stream().filter(status -> status.isConflicting())
 				.map((status) -> status.getFileName()).collect(Collectors.toList());
 	}
-	
+
 	public String getSolvedVersion(String fileName) {
 		return fileStatuses.get(fileName).getSolvedVersion();
 	}
-	
+
 	public CombinedFile getCombinedFile(String fileName) {
 		return fileStatuses.get(fileName).getCombinedFile();
 	}
-	
+
 	public String getSHA1() {
 		return sha1;
 	}
-	
+
 	public int getSolvedTime() {
 		return time;
 	}
-	
+
 	public Repository getRepository() {
 		return repository;
 	}
-	
+
 	public void addModifiedFiles(Map<String, String> modifiedFiles) {
 		for (String file : modifiedFiles.keySet()) {
 			if (fileStatuses.containsKey(file))
@@ -79,21 +81,21 @@ public class CommitStatus {
 			fileStatuses.put(file, fileStatus);
 		}
 	}
-	
+
 	public List<String> getModifiedFiles() {
 		List<String> list = new ArrayList<String>();
 		list.addAll(fileStatuses.keySet());
 		return list;
 	}
-	
+
 	public String getASHA() {
 		return aSHA;
 	}
-	
+
 	public String getBSHA() {
 		return bSHA;
 	}
-	
+
 	private int getUTCTime(RevCommit commit) {
 		return commit.getCommitTime() + getTimeZoneOffset();
 	}

@@ -53,7 +53,7 @@ public class VisualizationDataGeneratorTest extends MergeGitTest {
 	@Test
 	public void testCreateCommitFolder() throws Exception {
 		RevCommit commit = createConflictingCommit();
-		CommitStatus commitStatus = new CommitStatus(repository, commit, new HashMap<String, CombinedFile>());
+		CommitStatus commitStatus = new CommitStatus(repository, commit);
 		generator.generateData(projectName, asList(commitStatus), tempFolderAbsolutePath);
 		Path commitPath = tempDirectory.resolve(projectName).resolve(commit.getName());
 		assertIsFolder(commitPath);
@@ -230,7 +230,7 @@ public class VisualizationDataGeneratorTest extends MergeGitTest {
 		add("a.txt", "three");
 		merge("branch");
 		RevCommit commit = add("a.txt", "bla");
-		CommitStatus status = new CommitStatus(repository, commit, conflictingFiles);
+		CommitStatus status = new CommitStatus(repository, commit);
 		
 		new VisualizationDataGenerator().generateData(projectName, asList(status), tempFolderAbsolutePath);
 		Path commitDir = tempDirectory.resolve(tempDirectory).resolve("abcde");

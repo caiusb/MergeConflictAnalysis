@@ -28,7 +28,7 @@ public abstract class ProcessorTest extends MergeGitTest {
 		
 		HashMap<String, CombinedFile> conflictingFiles = new HashMap<String, CombinedFile>();
 		conflictingFiles.put(FILE_NAME, combinedFile);
-		CommitStatus commitStatus = new CommitStatus(repository, commit, conflictingFiles);
+		CommitStatus commitStatus = new CommitStatus(repository, commit);
 		return commitStatus;
 	}
 }

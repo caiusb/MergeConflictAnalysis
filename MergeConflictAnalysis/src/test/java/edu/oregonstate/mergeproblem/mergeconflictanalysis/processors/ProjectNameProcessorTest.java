@@ -14,7 +14,7 @@ public class ProjectNameProcessorTest extends MergeGitTest {
     public void testName() throws Exception {
         ProjectNameProcessor processor = new ProjectNameProcessor();
         assertEquals("PROJECT", processor.getHeader());
-        CommitStatus status = new CommitStatus(repository, createConflictingCommit(), new HashMap<>());
+        CommitStatus status = new CommitStatus(repository, createConflictingCommit());
         String expected = testRepo.getParentFile().getName();
         assertEquals(expected, processor.getData(status, ""));
     }
