@@ -1,6 +1,7 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.processors
 
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.Util
+import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.Chunk.ChunkSource
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.ChunkOwner._
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.file.{ChunkOwner, CommitStatus}
 import org.eclipse.jgit.diff.{DiffAlgorithm, RawText, RawTextComparator}
@@ -11,7 +12,7 @@ import scala.collection.mutable
 
 object ConflictContentProcessor {
 
-	def getHeader: String = "SHA,FILE_NAME,A_EMAIL,B_EMAIL,S_EMAIL,A_CONFLICT,B_CONFLICT,S_CONFLICT"
+	def getHeader: String = "SHA,FILE_NAME,A_EMAIL,B_EMAIL,S_EMAIL,A_CONFLICT,B_CONFLICT,S_CONFLICT,A_TOTAL,B_TOTAL"
 
 	def getData(status: CommitStatus, fileName: String): String = {
 		val cf = status.getCombinedFile(fileName)
@@ -32,18 +33,22 @@ object ConflictContentProcessor {
 		val diffBS = diffAlgo.diff(RawTextComparator.DEFAULT, new RawText(b.getBytes), new RawText(s.getBytes))
 
 		val newSLinesToA = diffAS.flatMap(e => Range(e.getBeginB, e.getEndB).diff(aLines)).distinct.diff(aLines)
-		val newSLinesToB: mutable.Buffer[Int] = diffBS.flatMap(e => Range(e.getBeginB, e.getEndB)).distinct.diff(bLines)
+		val newSLinesToB = diffBS.flatMap(e => Range(e.getBeginB, e.getEndB)).distinct.diff(bLines)
 		val newSLines = newSLinesToA.union(newSLinesToB)
 
-		val aContribution = cf.getChunksForOwner(ChunkOwner.A).map(_.getContent).mkString
-		val bContribution = cf.getChunksForOwner(ChunkOwner.B).map(_.getContent).mkString
+		val aContribution = cf.getChunksForOwner(ChunkOwner.A).map(_.getContent).mkString.split("\n")
+		val bContribution = cf.getChunksForOwner(ChunkOwner.B).map(_.getContent).mkString.split("\n")
 
 		val repo = status.getRepository
 		val aAuthor = CommitUtils.getCommit(repo, status.getASHA).getCommitterIdent.getEmailAddress
 		val bAuthor = CommitUtils.getCommit(repo, status.getBSHA).getCommitterIdent.getEmailAddress
 		val sAuthor = CommitUtils.getCommit(repo, status.getSHA1).getCommitterIdent.getEmailAddress
 
+		val aMergedLine = cf.getChunkForSource(ChunkSource.A).flatMap(c => Range(c.getBeginLine, c.getEndLine)).distinct
+		val bMergedLine = cf.getChunkForSource(ChunkSource.B).flatMap(c => Range(c.getBeginLine, c.getEndLine)).distinct
+
 		return status.getSHA1 + "," + fileName + "," + aAuthor + "," + bAuthor + "," + sAuthor +
-			"," + aContribution.size + "," + bContribution.size + "," + newSLines.size
+			"," + aLines.size + "," + bLines.size + "," + newSLines.size +
+			"," + aMergedLine.size + "," + bMergedLine.size
 	}
 }
