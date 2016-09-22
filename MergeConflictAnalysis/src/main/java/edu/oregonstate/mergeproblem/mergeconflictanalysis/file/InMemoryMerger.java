@@ -1,15 +1,6 @@
 package edu.oregonstate.mergeproblem.mergeconflictanalysis.file;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Logger;
-import java.util.stream.Collectors;
-
 import edu.oregonstate.mergeproblem.mergeconflictanalysis.Main;
-import edu.oregonstate.mergeproblem.mergeconflictanalysis.Util;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.Sequence;
 import org.eclipse.jgit.lib.Repository;
@@ -18,9 +9,13 @@ import org.eclipse.jgit.merge.MergeChunk.ConflictState;
 import org.eclipse.jgit.merge.MergeResult;
 import org.eclipse.jgit.merge.RecursiveMerger;
 import org.eclipse.jgit.merge.StrategyRecursive;
-import org.eclipse.jgit.revwalk.DepthWalk;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.gitective.core.CommitUtils;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
 
 public class InMemoryMerger {
 	
@@ -89,8 +84,18 @@ public class InMemoryMerger {
 			owner = ChunkOwner.B;
 		if (conflictState.equals(ConflictState.NO_CONFLICT))
 			owner = ChunkOwner.BOTH;
-		
-		combinedFile.addChunk(owner, actualSequenceText);
+
+		Chunk.ChunkSource source = null;
+		if (mergeChunk.getSequenceIndex() == 1)
+			source = Chunk.ChunkSource.BASE;
+		else if (mergeChunk.getSequenceIndex() == 2)
+			source = Chunk.ChunkSource.A;
+		else if (mergeChunk.getSequenceIndex() == 3)
+			source = Chunk.ChunkSource.B;
+		else
+			source = Chunk.ChunkSource.NONE;
+
+		combinedFile.addChunk(owner, actualSequenceText, beginIndex, endIndex, source);
 	}
 
 	private String getTextForLines(RawText textSequence, int beginIndex, int endIndex) {
