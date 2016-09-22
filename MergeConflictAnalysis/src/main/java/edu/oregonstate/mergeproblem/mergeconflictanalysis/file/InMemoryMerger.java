@@ -86,11 +86,11 @@ public class InMemoryMerger {
 			owner = ChunkOwner.BOTH;
 
 		Chunk.ChunkSource source = null;
-		if (mergeChunk.getSequenceIndex() == 1)
+		if (mergeChunk.getSequenceIndex() == 0)
 			source = Chunk.ChunkSource.BASE;
-		else if (mergeChunk.getSequenceIndex() == 2)
+		else if (mergeChunk.getSequenceIndex() == 1)
 			source = Chunk.ChunkSource.A;
-		else if (mergeChunk.getSequenceIndex() == 3)
+		else if (mergeChunk.getSequenceIndex() == 2)
 			source = Chunk.ChunkSource.B;
 		else
 			source = Chunk.ChunkSource.NONE;

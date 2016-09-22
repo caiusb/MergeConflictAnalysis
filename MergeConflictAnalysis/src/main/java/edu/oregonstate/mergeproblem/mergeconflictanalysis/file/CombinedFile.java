@@ -61,4 +61,8 @@ public class CombinedFile {
 	public List<Chunk> getChunksForOwner(ChunkOwner owner) {
 		return chunks.stream().filter(c -> c.isExclusiveOwner(owner)).collect(Collectors.toList());
 	}
+
+	public List<Chunk> getChunkForSource(Chunk.ChunkSource source) {
+		return chunks.stream().filter(c -> source.equals(c.getSource())).collect(Collectors.toList());
+	}
 }

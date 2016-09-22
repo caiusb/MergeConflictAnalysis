@@ -17,6 +17,7 @@ public class Chunk {
         this.content = content;
         this.beginLine = beginLine;
         this.endLine = endLine;
+        this.source = source;
     }
 
     public Chunk(ChunkOwner owner, String content, int beginLine, int endLine) {
@@ -32,6 +33,10 @@ public class Chunk {
             return true;
 
         return owner.equals(a);
+    }
+
+    public ChunkSource getSource() {
+        return source;
     }
 
     public boolean isExclusiveOwner(ChunkOwner a) {
