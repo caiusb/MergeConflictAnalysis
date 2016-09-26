@@ -12,7 +12,7 @@ import scala.collection.mutable
 
 object ConflictContentProcessor {
 
-	def getHeader: String = "SHA,FILE_NAME,A_EMAIL,B_EMAIL,S_EMAIL,A_CONFLICT,B_CONFLICT,S_CONFLICT,A_TOTAL,B_TOTAL"
+	def getHeader: String = "SHA,FILE_NAME,A_EMAIL,B_EMAIL,S_EMAIL,A_CONFLICT,B_CONFLICT,S_CONFLICT,S_DIFF_A,S_DIFF_B,A_TOTAL,B_TOTAL"
 
 	def getData(status: CommitStatus, fileName: String): String = {
 		val cf = status.getCombinedFile(fileName)
@@ -32,7 +32,7 @@ object ConflictContentProcessor {
 		val diffAS = diffAlgo.diff(RawTextComparator.DEFAULT, new RawText(a.getBytes), new RawText(s.getBytes))
 		val diffBS = diffAlgo.diff(RawTextComparator.DEFAULT, new RawText(b.getBytes), new RawText(s.getBytes))
 
-		val newSLinesToA = diffAS.flatMap(e => Range(e.getBeginB, e.getEndB).diff(aLines)).distinct.diff(aLines)
+		val newSLinesToA = diffAS.flatMap(e => Range(e.getBeginB, e.getEndB)).distinct.diff(aLines)
 		val newSLinesToB = diffBS.flatMap(e => Range(e.getBeginB, e.getEndB)).distinct.diff(bLines)
 		val newSLines = newSLinesToA.union(newSLinesToB)
 
@@ -49,6 +49,7 @@ object ConflictContentProcessor {
 
 		return status.getSHA1 + "," + fileName + "," + aAuthor + "," + bAuthor + "," + sAuthor +
 			"," + aLines.size + "," + bLines.size + "," + newSLines.size +
+			"," + newSLinesToA + "," + newSLinesToB +
 			"," + aMergedLine.size + "," + bMergedLine.size
 	}
 }
