@@ -25,6 +25,8 @@ libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % "test"
 
 testOptions += Tests.Argument(TestFrameworks.JUnit, "-q", "-v")
 
+test in assembly := {}
+
 resolvers += Resolver.sonatypeRepo("public")
 
 resolvers += "Mine" at "http://releases.ivy.brindescu.com"
