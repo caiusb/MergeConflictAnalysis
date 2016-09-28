@@ -2,23 +2,23 @@
 
 filesFolder=$1
 
-pushd $filesFolder
+pushd $filesFolder > /dev/null
 
 hasHeader=false
 
 for i in *.csv
 do
-    project =`echo $i | cut -d'.' -f1`
+    project=`echo $i | cut -d'.' -f1`
     header=`head -n 1 $i`
-    if [ !$hasHeader ]
+    if [ $hasHeader != true ]
     then
-        echo "$header,project"
+        echo "$header,PROJECT"
         hasHeader=true
     fi
 
     while read line
     do
-        if [ $line -eq $header ]
+        if [ "$line" == "$header" ]
         then
             continue
         else
@@ -27,4 +27,4 @@ do
     done < $i
 done
 
-popd
+popd > /dev/null
