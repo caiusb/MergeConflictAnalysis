@@ -28,11 +28,12 @@ function getBranchCommits() {
             firstParent=$secondParent
             secondParent=`echo $parents | cut -d" " -f1`
         fi
+        echo "SHA,BRANCH,COMMIT,DATE" >> $resultFolder/$repo.csv
         base=`git merge-base $firstParent $secondParent`
         aCommits=`git log --format="%H,%at" $base..$firstParent`
-        printBranch $merge "A" "$aCommits" > $resultFolder/$repo.csv
+        printBranch $merge "A" "$aCommits" >> $resultFolder/$repo.csv
         bCommits=`git log --format="%H,%at" $base..$secondParent`
-        printBranch $merge "B" "$bCommits" > $resultFolder/$repo.csv
+        printBranch $merge "B" "$bCommits" >> $resultFolder/$repo.csv
     done
 }
 
