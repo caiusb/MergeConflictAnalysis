@@ -6,6 +6,7 @@ from sklearn.metrics import precision_score, recall_score, accuracy_score, f1_sc
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.svm import SVC
+import operator
 
 def precisionRecall(actual, predicted, classifier=""):
     print(classifier + "\nPrecision: {0:.2f}\nRecall: {1:.2f}\n\n".format(precision_score(actual, predicted), recall_score(actual, predicted)))
@@ -29,19 +30,34 @@ data = p.read_csv("../../data/per-commit.csv")
 classified = p.merge(manual, data, how='inner', on=['SHA'])#._get_numeric_data()
 classified = vectorize_column(classified, 'LABEL')
 classified = classified._get_numeric_data()
-print(classified.columns.values)
 #print(classified['LABEL'])
 #print(classified.loc[classified['SHA'] == "357724af3ee50cc2195988220275182d69e5eacd"])
 
 labels = classified[['COMMENTS', 'CONFIGURATION', 'DELETE', 'FORMATTING', 'OTHER', 'SEMANTIC', 'UNLABELED', 'UNRELATED']]
 toClassify = classified.drop(['COMMENTS', 'CONFIGURATION', 'DELETE', 'FORMATTING', 'OTHER', 'SEMANTIC', 'UNLABELED', 'UNRELATED'], 1)
+features=toClassify.columns.values
 
 adaBoost = OneVsRestClassifier(ensemble.AdaBoostClassifier(n_estimators=100), n_jobs=-1) #ensemble.AdaBoostClassifier(n_estimators=100)
-scores = cross_val_score(adaBoost, toClassify, labels, cv=10, scoring=r2)
-print("R^2: {0:.2f} (+/- {1:.2f})".format(scores.mean(), scores.std() * 2))
+p = cross_val_score(adaBoost, toClassify, labels, cv=10, scoring="precision")
+print(max(p))
+print(p.mean())
+r = cross_val_score(adaBoost, toClassify, labels, cv=10, scoring="recall")
+print(max(r))
+print(r.mean())
+f1 = cross_val_score(adaBoost, toClassify, labels, cv=10, scoring="f1_weighted")
+print(max(f1))
+print(f1.mean())
 
 adaBoost.fit(toClassify, labels)
 print(adaBoost.score(toClassify, labels))
+estimators= adaBoost.estimators_
+print(len(estimators))
+print("Estimators follow")
+print(labels.columns.values)
+for estimator in estimators:
+    importance = sorted(dict(zip(features, estimator.feature_importances_)).items(), key=operator.itemgetter(1), reverse=True)
+    print(importance)
+
 predicted = adaBoost.predict(data._get_numeric_data())
 p.DataFrame(predicted).to_csv("../../data/predicted.csv", index=False)
 

@@ -30,6 +30,7 @@ groupDict = {'SHA': first,
              'LOC_B_SIZE': n.sum,
              'COMBINED_AST_A_TO_B': n.sum,
              'LOC_A_TO_B': n.sum,
+             'AST_A_TO_B': n.sum,
              'COMBINED_AST_A_TO_SOLVED': n.sum,
              'LOC_A_TO_SOLVED': n.sum,
              'COMBINED_AST_B_TO_SOLVED': n.sum,
@@ -75,6 +76,10 @@ data = data.fillna('')
 data['TIME_A'] = p.to_datetime(data['TIME_A'], unit='s')
 data['TIME_B'] = p.to_datetime(data['TIME_B'], unit='s')
 data['TIME_SOLVED'] = p.to_datetime(data['TIME_SOLVED'], unit='s')
+
+smallData = data[['SHA', 'FILE', 'IS_CONFLICT', 'NO_AUTHORS', 'NO_CLASSES', 'NO_METHODS', 'LOC_A_TO_B', 'AST_DIFF']]
+smallData.to_csv("../../data/all-small.csv", index=False)
+quit()
 
 #data['IS_CONFLICT'] = data['IS_CONFLICT'].replace({'TRUE': True, 'FALSE': False})
 #data['MERGED_IN_MASTER'] = data['MERGED_IN_MASTER'].replace({'TRUE': True, 'FALSE': False})
