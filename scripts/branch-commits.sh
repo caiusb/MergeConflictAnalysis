@@ -35,3 +35,5 @@ function getBranchCommits() {
         printBranch $merge "B" "$bCommits" > $resultFolder/$repo.csv
     done
 }
+
+process-repos getBranchCommits $1 $2
