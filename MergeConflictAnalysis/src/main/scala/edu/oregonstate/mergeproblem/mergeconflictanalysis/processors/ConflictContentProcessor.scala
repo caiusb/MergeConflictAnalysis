@@ -13,6 +13,7 @@ import scala.collection.mutable
 object ConflictContentProcessor {
 
 	def getHeader: String = "SHA,FILE_NAME,A_EMAIL,B_EMAIL,S_EMAIL," +
+		"A_NAME,B_NAME,S_NAME" +
 		"A_CONFLICT,B_CONFLICT,S_NEW," +
 		"S_NEW_A,S_NEW_B," +
 		"A_S,B_S" +
@@ -40,14 +41,18 @@ object ConflictContentProcessor {
 		val linesInBandS = bLines.diff(newSLinesToB)
 
 		val repo = status.getRepository
-		val aAuthor = CommitUtils.getCommit(repo, status.getASHA).getCommitterIdent.getEmailAddress
-		val bAuthor = CommitUtils.getCommit(repo, status.getBSHA).getCommitterIdent.getEmailAddress
-		val sAuthor = CommitUtils.getCommit(repo, status.getSHA1).getCommitterIdent.getEmailAddress
+		val aEmail = CommitUtils.getCommit(repo, status.getASHA).getCommitterIdent.getEmailAddress
+		val aName = CommitUtils.getCommit(repo, status.getASHA).getCommitterIdent.getName
+		val bEmail = CommitUtils.getCommit(repo, status.getBSHA).getCommitterIdent.getEmailAddress
+		val bName = CommitUtils.getCommit(repo, status.getBSHA).getCommitterIdent.getName
+		val sEmail = CommitUtils.getCommit(repo, status.getSHA1).getCommitterIdent.getEmailAddress
+		val sName = CommitUtils.getCommit(repo, status.getSHA1).getCommitterIdent.getName
 
 		val aMergedLine = cf.getChunkForSource(ChunkSource.A).flatMap(c => Range(c.getBeginLine, c.getEndLine)).distinct
 		val bMergedLine = cf.getChunkForSource(ChunkSource.B).flatMap(c => Range(c.getBeginLine, c.getEndLine)).distinct
 
-		return status.getSHA1 + "," + fileName + "," + aAuthor + "," + bAuthor + "," + sAuthor +
+		return status.getSHA1 + "," + fileName + "," + aEmail + "," + bEmail + "," + sEmail +
+			"," + aName + "," + bName + "," + sName +
 			"," + aLines.size + "," + bLines.size + "," + newSLines.size +
 			"," + newSLinesToA.size + "," + newSLinesToB.size +
 		 	"," + linesInAandS.size + "," + linesInBandS.size +
