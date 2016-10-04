@@ -16,6 +16,7 @@ function getBranchCommits() {
     repo=$1
     resultFolder=$2
     merges=`git log --merges --format="%H"`
+    echo "SHA,BRANCH,COMMIT,DATE" >> $resultFolder/$repo.csv
     printf "%s" "$merges" | while read merge
     do
         parents=`git show --format="%P" -s $merge`
@@ -28,7 +29,6 @@ function getBranchCommits() {
             firstParent=$secondParent
             secondParent=`echo $parents | cut -d" " -f1`
         fi
-        echo "SHA,BRANCH,COMMIT,DATE" >> $resultFolder/$repo.csv
         base=`git merge-base $firstParent $secondParent`
         aCommits=`git log --format="%H,%at" $base..$firstParent`
         printBranch $merge "A" "$aCommits" >> $resultFolder/$repo.csv
