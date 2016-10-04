@@ -24,10 +24,10 @@ function process-repos() {
 		pushd $i > /dev/null
 		if [ -e '.git' ]
 		then
-			$processFunction $i $results
+			echo "$i $results"
 		fi
 		popd > /dev/null
-	done
+	done | xargs -n -1 -P 8 -I % $processFunction %
 
 	popd > /dev/null
 }
