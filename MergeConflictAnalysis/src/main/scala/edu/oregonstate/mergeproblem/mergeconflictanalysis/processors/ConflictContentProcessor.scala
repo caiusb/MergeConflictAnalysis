@@ -52,8 +52,8 @@ object ConflictContentProcessor {
 		val bMergedLine = cf.getChunkForSource(ChunkSource.B).flatMap(c => Range(c.getBeginLine, c.getEndLine)).distinct
 
 		return status.getSHA1 + "," + fileName + "," + aEmail + "," + bEmail + "," + sEmail +
-			"," + aName + "," + bName + "," + sName +
-			"," + aLines.size + "," + bLines.size + "," + newSLines.size +
+			",\"" + aName + "\",\"" + bName + "\",\"" + sName +
+			"\"," + aLines.size + "," + bLines.size + "," + newSLines.size +
 			"," + newSLinesToA.size + "," + newSLinesToB.size +
 		 	"," + linesInAandS.size + "," + linesInBandS.size +
 			"," + aMergedLine.size + "," + bMergedLine.size
