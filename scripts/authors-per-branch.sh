@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /scratch/brindesc/ase-repos
+cd $1
 
 ls | while read project
 do

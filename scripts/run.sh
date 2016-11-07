@@ -65,7 +65,7 @@ function run-for-repo() {
     reponame=$(basename $path)
     echo "Processing: $reponame"
     date=`date`
-    java $javaopts -jar $dir/../MergeConflictAnalysis-assembly-1.1.jar -output $resultsloc/$reponame$results_suffix $buildopts $vizdataopts $path 2>$resultsloc/log/$reponame.txt
+    java $javaopts -cp $dir/../MergeConflictAnalysis-assembly-1.3.jar edu.oregonstate.mergeproblem.mergeconflictanalysis.ContentsAnalysis $path 1>$resultsloc/$reponame.csv 2>$resultsloc/log/$reponame.txt
 
     pushd $resultsloc > /dev/null
     git add $reponame$results_suffix log/$reponame.txt > /dev/null

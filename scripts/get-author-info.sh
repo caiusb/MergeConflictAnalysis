@@ -12,7 +12,7 @@ function getAuthorInfo() {
     project=$(basename $repo)
     resultfile=$results/$project
     echo "SHA,AUTHOR,COMMITTER" > $resultfile.csv
-    git log --format="%H,%an,%aE" >> $resultfile.csv
+    git log --format="%H,\"%an\",\"%aE\"" >> $resultfile.csv
 }
 
 process-repos getAuthorInfo $folder $results

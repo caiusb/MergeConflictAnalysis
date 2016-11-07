@@ -13,21 +13,20 @@ function copyFilesAsIs() {
 
     printf '%s\n' "$conflicting" | while IFS= read line
     do
-	echo $line
         file=`echo $line | cut -d " " -f2`
-	echo $file
-        cp $file "$results/$project/$sha/$folderName/$(basename $file)"
+        cp "$file" "$results/$project/$sha/$folderName/$(basename $file)"
     done
 }
 
 while read line
 do
-    sha=`echo $line | cut -d "," -f2`
+    sha=`echo $line | cut -d "," -f1`
     project=`echo $line | cut -d "," -f3`
-    if [ -e $base/'my-repos'/$project ]
+    mergeBase=`echo $line | cut -d "," -f2`
+    if [ -d $base/'my-repos'/"$project" ]
     then
         pushd $base/'my-repos'/$project > /dev/null
-    elif [ -e $base/'ase16-repos'/$project ]
+    elif [ -d $base/'ase16-repos'/"$project" ]
     then
         pushd $base/'ase16-repos'/$project > /dev/null
     else
@@ -42,8 +41,8 @@ do
     two=`echo $parents | cut -d " " -f2`
     git checkout $one
     git merge $two
-    conflicting=`git status --porcelain | grep "^UU"`
-    copyFilesAsIs "$conflicting"  "."
+    conflicting=`git status --porcelain | grep "^U"`
+    copyFilesAsIs "$conflicting"  "merged"
 
     git reset --hard
     git checkout -f .
@@ -53,6 +52,8 @@ do
     copyFilesAsIs "$conflicting" "two"
     git checkout -f $sha
     copyFilesAsIs "$conflicting" "solved"
+    git checkout -f $mergeBase
+    copyFilesAsIs "$conflicting" "base"
     git checkout -f master
     popd > /dev/null
 done

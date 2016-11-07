@@ -154,11 +154,11 @@ projects = ['ActionBarSherlock',
 'zt-zip']
 
 oneDir = sys.argv[1]
-anotherDir = sys.args[2]
+anotherDir = sys.argv[2]
 
 validOneDir = [ os.path.join(oneDir,x) for x in os.listdir(oneDir) if x in projects ]
-validTwoDir = [ os.path.join(anotherDir,x) for x in os.listDir(anotherDir) if x in projects]
+validTwoDir = [ os.path.join(anotherDir,x) for x in os.listdir(anotherDir) if x in projects]
 dirs = validOneDir + validTwoDir
 
 for d in dirs:
-	sh.copytree(d, '/scratch/brindesc/icse17-corpus')
+	sh.copytree(d, os.path.join('/scratch/brindesc/icse17-corpus', os.path.basename(d)), symlinks=True)

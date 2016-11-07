@@ -23,10 +23,10 @@ htmlHead="<!DOCTYPE html>
 <tr>
 <th>File Name</th>
 <th>Merge Result</th>
-<th>A - Base</th>
-<th>B - Base</th>
-<th>A - Solved</th>
-<th>B - Solved</th>
+<th>Base - A</th>
+<th>Base - B</th>
+<th>Solved - A</th>
+<th>Solved - B</th>
 <th>A - B</th>
 </tr>
 "
@@ -71,10 +71,10 @@ do
 			echo "<tr>" >> ../index.html
 			echo -n "<td>$f</td>">> ../index.html
 			echo -n "<td><button onclick=\"showFile('merged/$f')\">View</button></td>" >> ../index.html
-			echo -n "<td><button onclick=\"diffLOC('one/$f', 'base/$f')\">View</button></td>" >> ../index.html
-			echo -n "<td><button onclick=\"diffLOC('two/$f', 'base/$f')\">View</button></td>" >> ../index.html
-			echo -n "<td><button onclick=\"diffLOC('one/$f', 'solved/$f')\">View</button></td>" >> ../index.html
-			echo -n "<td><button onclick=\"diffLOC('two/$f', 'base/$f')\">View</button></td>" >> ../index.html
+			echo -n "<td><button onclick=\"diffLOC('base/$f', 'one/$f')\">View</button></td>" >> ../index.html
+			echo -n "<td><button onclick=\"diffLOC('base/$f', 'two/$f')\">View</button></td>" >> ../index.html
+			echo -n "<td><button onclick=\"diffLOC('solved/$f', 'one/$f')\">View</button></td>" >> ../index.html
+			echo -n "<td><button onclick=\"diffLOC('base/$f', 'two/$f')\">View</button></td>" >> ../index.html
 			echo -n "<td><button onclick=\"diffLOC('one/$f', 'two/$f')\">View</button></td>" >> ../index.html
 			echo "</tr>" >> ../index.html
 		done
