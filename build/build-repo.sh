@@ -8,6 +8,8 @@ elif [ -e "build.gradle" ]
 then
 	buildCmd="gradle build"
 	testCmd="gradle test"
+else
+	echo "Unknown build system"
 fi
 
 
@@ -22,12 +24,12 @@ do
 	then
  		status="conflict"
  	else
- 		$buildCmd
+ 		$buildCmd > /dev/null
  		if [ $? -ne 0]
  		then
  			status="build"
  		else
- 			$testCmd
+ 			$testCmd > /dev/null
  			if [ $? -ne 0 ]
  			then
  				status="test"
