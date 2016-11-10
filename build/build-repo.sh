@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd $1
+
 if [ -e "pom.xml" ]
 then
 	buildCmd="maven build"
