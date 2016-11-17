@@ -43,7 +43,7 @@ for repo in repos:
 		script.write("ls\n")
 		script.write("popd >/dev/null \n\n")
 		script.write("cd ~/merging/workspace/build\n")
-		script.write("./build-repo.sh $tmpdir/" + repoName + "/ > $HOME/merging/build-data/"  + repoName + ".csv\n")
+		script.write("./build-repo.sh \"$tmpdir/" + repoName + "\"/ > $HOME/merging/build-data/"  + repoName + ".csv\n")
 		script.write("echo \"Analysis is done for " + repoName + " with status $?\"\n\n")
 		script.write("rm -rf \"$tmpdir\"\n")
 		script.write("#rm -rf \"$mavenCache\"\n")
