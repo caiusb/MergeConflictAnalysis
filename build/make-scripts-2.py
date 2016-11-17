@@ -38,7 +38,7 @@ for repo in repos:
 		#script.write("sleep $WAIT\n")
 		#script.write("git clone " + repo + "\n")
 		#script.write("echo \"Clonning finished with status $?\"\n")
-		script.write("rsync -avz babylon01.eecs.oregonstate.edu:/scratch/brindesc/icse17-repos/" + repoName + " .\n")
+		script.write("rsync -avz babylon01.eecs.oregonstate.edu:/scratch/brindesc/icse17-corpus/" + repoName + " .\n")
 		script.write("pwd\n")
 		script.write("ls\n")
 		script.write("popd >/dev/null \n\n")
