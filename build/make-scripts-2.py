@@ -38,6 +38,7 @@ for repo in repos:
 		#script.write("sleep $WAIT\n")
 		#script.write("git clone " + repo + "\n")
 		#script.write("echo \"Clonning finished with status $?\"\n")
+                script.write("sleep $[ ( $RANDOM % 60 )  + 1 ]s")
 		script.write("rsync -avz babylon01.eecs.oregonstate.edu:/scratch/brindesc/icse17-corpus/" + repoName + " . > /dev/null \n")
 		script.write("pwd\n")
 		script.write("ls\n")
