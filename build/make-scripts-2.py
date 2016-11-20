@@ -3,7 +3,7 @@
 import os
 import subprocess as s
 
-repos = [line.rstrip('\n') for line in open('../repos-buildable.txt')]
+repos = [line.rstrip('\n') for line in open('../icse17-projects.txt')]
 
 shebang = "#!/bin/bash\n\n"
 wd="wd=$HOME/merging/workspace/\n"
@@ -42,8 +42,9 @@ for repo in repos:
 		script.write("pwd\n")
 		script.write("ls\n")
 		script.write("popd >/dev/null \n\n")
-		script.write("cd ~/merging/workspace/build\n")
-		script.write("./build-repo.sh \"$tmpdir/" + repoName + "/\" " + repoName + "> $HOME/merging/build-data/"  + repoName + ".csv\n")
+		script.write("pushd ~/merging/workspace/build > /dev/null \n")
+		script.write("./build-repo.sh \"$tmpdir/" + repoName + "/\" " + repoName + " > $HOME/merging/build-data/"  + repoName + ".csv\n")
 		script.write("echo \"Analysis is done for " + repoName + " with status $?\"\n\n")
+                script.write("popd > /dev/null \n")
 		script.write("rm -rf \"$tmpdir\"\n")
 		script.write("#rm -rf \"$mavenCache\"\n")
