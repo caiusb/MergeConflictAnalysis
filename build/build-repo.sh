@@ -1,12 +1,18 @@
 #!/bin/bash
 
 cd $1
+pwd
+
+project=$2
+tmpFolder=/scratch/brindesc/$project
+
+mkdir -p $tmpFolder
 
 git checkout -f master > /dev/null 2>&1
 
 if [ -e "pom.xml" ]
 then
-	buildCmd="mvn build"
+	buildCmd="mvn compile"
 	testCmd="mvn test"
 elif [ -e "build.gradle" ]
 then
@@ -27,12 +33,12 @@ do
 	then
  		status="conflict"
  	else
- 		$buildCmd > /dev/null 2>&1
+ 		$buildCmd > $tmpFolder/$sha-build.txt 2>&1
  		if [ $? -ne 0 ]
  		then
  			status="build"
  		else
- 			$testCmd > /dev/null 2>&1
+ 			$testCmd > $tmpFolder/$sha-test.txt 2>&1
  			if [ $? -ne 0 ]
  			then
  				status="test"
@@ -43,4 +49,6 @@ do
  	fi
  	echo "$sha,$status"
 done
+
+scp -r $tmpFolder babylon01.eecs.oregonstate.edu:/scratch/brindesc/build-output/$project > /dev/null 2>&1
 
