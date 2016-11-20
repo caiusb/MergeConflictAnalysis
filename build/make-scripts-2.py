@@ -42,7 +42,7 @@ for repo in repos:
 		script.write("pwd\n")
 		script.write("ls\n")
 		script.write("popd >/dev/null \n\n")
-		script.write("pushd ~/merging/workspace/build > /dev/null \n")
+		script.write("pushd $HOME/merging/workspace/build > /dev/null \n")
 		script.write("./build-repo.sh \"$tmpdir/" + repoName + "/\" " + repoName + " > $HOME/merging/build-data/"  + repoName + ".csv\n")
 		script.write("echo \"Analysis is done for " + repoName + " with status $?\"\n\n")
                 script.write("popd > /dev/null \n")
