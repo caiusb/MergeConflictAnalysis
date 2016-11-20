@@ -1,8 +1,13 @@
 #!/bin/bash
 
-cd $1
-echo $1
-pwd
+if [ -e $1 ]
+then
+    cd $1
+else
+    echo "Could not find repo"
+    exit 
+fi
+
 
 project=$2
 tmpFolder=/scratch/brindesc/$project
