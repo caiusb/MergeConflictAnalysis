@@ -1,6 +1,7 @@
 #!/bin/bash
 
 cd $1
+echo $1
 pwd
 
 project=$2
