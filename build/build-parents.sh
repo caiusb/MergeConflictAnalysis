@@ -38,7 +38,7 @@ else
 fi
 
 function doBuild() {
-    local outputFile=$1
+    local outputFile="$1"
     $buildCmd > $outputFile 2>&1
     if [ $? -ne 0 ]
     then
