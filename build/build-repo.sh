@@ -20,13 +20,41 @@ if [ -e "pom.xml" ]
 then
 	buildCmd="mvn compile"
 	testCmd="mvn test"
+        cleanCmd="mvn clean"
 elif [ -e "build.gradle" ]
 then
 	buildCmd="gradle build"
 	testCmd="gradle test"
+        cleanCmd="gradle clean"
+elif [ -e "build.xml" ]
+then
+    echo "This uses ant. Results below might not be valid"
+    buildCmd="ant build"
+    testCmd="ant test"
+    cleanCmd="ant clean"
 else
 	echo "Unknown build system"
+        exit
 fi
+
+function doBuild() {
+    local outputFile=$1
+    $buildCmd > $outputFile 2>&1
+    if [ $? -ne 0 ]
+    then
+        local status="build"
+    else
+        $testCmd > $outputFile 2>&1
+        if [ $? -ne 0 ]
+        then
+                local status="test"
+        else
+                local status="clean"
+        fi
+    fi
+    $cleanCmd > /dev/null 2>&1
+    echo $status
+}
 
 git log --merges --format="%H" | while read sha
 do
@@ -39,19 +67,7 @@ do
 	then
  		status="conflict"
  	else
- 		$buildCmd > $tmpFolder/$sha-build.txt 2>&1
- 		if [ $? -ne 0 ]
- 		then
- 			status="build"
- 		else
- 			$testCmd > $tmpFolder/$sha-test.txt 2>&1
- 			if [ $? -ne 0 ]
- 			then
- 				status="test"
- 			else
- 				status="clean"
- 			fi
- 		fi
+                status=$(doBuild $tmpFolder/$sha-test.txt)
  	fi
  	echo "$sha,$status"
 done
