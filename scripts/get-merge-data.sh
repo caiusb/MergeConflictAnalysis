@@ -18,18 +18,19 @@ function getChanges {
 	mkdir -p "$mergeBase/two"
 	mkdir -p "$mergeBase/base"
 	mkdir -p "$mergeBase/solved"
+        mkdir -p "$mergeBase/merged"
 	pushd $project
 
-	git reset
+	git reset --hard
 	git checkout -f $one
 	git merge $two
 	s=`git status --porcelain | grep "^UU"`
-	declare -o conflictingFiles
-	while read file
+	declare -a conflictingFiles
+	echo "$s" | while read line
 	do
 		file=`echo $line | cut -d' ' -f2`
-		conflictingFiles=$("${conflictingFiles[@]}" "$file")
-	done < $(s)
+		conflictingFiles=("${conflictingFiles[@]}" "$file")
+	done
 
 	for f in "${conflictingFiles[@]}"
 	do
@@ -37,11 +38,12 @@ function getChanges {
 		cp $f $mergeBase/merged/$filename
 	done
 
-        git reset -f
+        git reset --hard
         git clean -f -d
 	for f in "${conflictingFiles[@]}"
 	do
                 filename=$(basename $f)
+                echo $filename
 		git show $base:$f > $mergeBase/base/$filename
 		git show $one:$f > $mergeBase/one/$filename
 		git show $two$f > $mergeBase/two/$filename
