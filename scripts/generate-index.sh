@@ -2,7 +2,9 @@
 
 #mergesRoot="../../data/1000-merges"
 #mergesRoot="/Users/caius/osu/TheMergingProblem/data/test"
-mergesRoot="$HOME/public_html/merges"
+#mergesRoot="$HOME/public_html/merges"
+mergesRoot="/scratch/brindesc/200-sample-merges/"
+cmitMsg="/scratch/brindesc/commit-messages/"
 
 pushd $mergesRoot
 
@@ -18,6 +20,9 @@ htmlHead="<!DOCTYPE html>
 </head>
 
 <body>
+"
+
+table="
 <div id=\"table\"></div>
 <table class=\"table table-hover\">
 <tr>
@@ -65,6 +70,31 @@ do
 		then
 			continue
 		fi
+
+                cmitFile=$cmitMsg/$p/$c.txt
+                if [ -e $cmitFile ]
+                then
+                        end=""
+                        while read line
+                        do
+                                if [[ $line == \$\$\$* ]]
+                                then
+                                        echo $end
+                                        echo "<div class=\"panel\" \"panel-default\" >" >> index.html
+                                        echo " <div class=\"panel-header\">" >> index.html
+                                        echo $line | sed -e "s/\$\$\$\([a-f0-9]\)\{40\}@.*/\1/g" >> index.html
+                                        echo " </div>"
+                                        echo " <div class=\"panel-body\">" >> index.html
+                                        echo $line | sed -e "s/\$\$\$[a-f0-9]\{40\}@\(.*\)/\1/g" >> index.html
+                                        end="</div></div>"
+                                else
+                                        echo $line >> index.html
+
+                                fi
+                        done < $cmitFile
+                fi
+
+                echo $table >> index.html
 		cd merged # in merged folder
 		for f in *
 		do
