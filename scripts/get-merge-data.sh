@@ -12,7 +12,7 @@ function getChanges {
 	one=$4
 	two=$5
 
-	mergeBase="$results/$project/$sha"
+	mergeBase="$results/$(basename $project)/$sha"
 	mkdir -p "$mergeBase"
 	mkdir -p "$mergeBase/one"
 	mkdir -p "$mergeBase/two"
@@ -31,18 +31,21 @@ function getChanges {
 		conflictingFiles=$("${conflictingFiles[@]}" "$file")
 	done < $(s)
 
-	for f in "${$conflictingFiles[@]}"
+	for f in "${conflictingFiles[@]}"
 	do
-		cp $f $mergeBase/merged/
+                filename=$(basename $f)
+		cp $f $mergeBase/merged/$filename
 	done
 
         git reset -f
-	for f in "${$conflictingFiles[@]}"
+        git clean -f -d
+	for f in "${conflictingFiles[@]}"
 	do
-		git show $base:$f > $mergeBase/base
-		git show $one:$f > $mergeBase/one
-		git show $two$f > $mergeBase/two
-		git show $sha:$f > "$mergeBase/solved"
+                filename=$(basename $f)
+		git show $base:$f > $mergeBase/base/$filename
+		git show $one:$f > $mergeBase/one/$filename
+		git show $two$f > $mergeBase/two/$filename
+		git show $sha:$f > $mergeBase/solved/$filename
         done
 
 	popd
