@@ -1,8 +1,8 @@
 #!/bin/bash
 
 sampleFile=$1
-repoDir1='/scratch/brindesc/ase16-repos'
-repoDir2='/scratch/brindesc/my-repos'
+#repoDir1='/scratch/brindesc/ase16-repos'
+repoDir='/scratch/brindesc/icse17-corpus'
 results='/scratch/brindesc/200-sample-merges'
 
 function getChanges {
@@ -33,36 +33,17 @@ function getChanges {
 
 	for f in "${$conflictingFiles[@]}"
 	do
-		cp $f $mergeBase
+		cp $f $mergeBase/merged/
 	done
 
-	git reset
-	git checkout -f $base
+        git reset -f
 	for f in "${$conflictingFiles[@]}"
 	do
-		cp $f $mergeBase/base
-	done
-
-	git reset
-	git checkout -f $one
-	for f in "${$conflictingFiles[@]}"
-	do
-		cp $f $mergeBase/one
-	done
-
-	git reset
-	git checkout -f two
-	for f in "${$conflictingFiles[@]}"
-	do
-		cp $f $mergeBase/two
-	done
-
-	git reset
-	git checkout -f sha
-	for f in "${$conflictingFiles[@]}"
-	do
-		cp $f "$mergeBase/solved"
-	done
+		git show $base:$f > $mergeBase/base
+		git show $one:$f > $mergeBase/one
+		git show $two$f > $mergeBase/two
+		git show $sha:$f > "$mergeBase/solved"
+        done
 
 	popd
 }
@@ -74,15 +55,10 @@ do
 	p1SHA=`echo $line | cut -d',' -f4`
 	p2SHA=`echo $line | cut -d',' -f3`
 	sha=`echo $line | cut -d',' -f1`
-	if [ ! -d $repoDir1/$project ]
-	then
-		if [ ! -d $repoDir2/$project ]
-		then
-			continue
-		else
-			getChanges "$repoDir2/$project" $sha $baseSHA $p1SHA $p2SHA
-		fi
-	else
-		getChanges "$repoDir1/$project" $sha $baseSHA $p1SHA $p2SHA
-	fi
+        if [ ! -d $repoDir/$project ]
+        then
+                continue
+        else
+                getChanges "$repoDir/$project" $sha $baseSHA $p1SHA $p2SHA
+        fi
 done < $sampleFile
