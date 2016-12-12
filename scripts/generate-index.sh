@@ -79,11 +79,11 @@ do
                         do
                                 if [[ $line == \$\$\$* ]]
                                 then
-                                        echo $end
+                                        echo $end >> index.html
                                         echo "<div class=\"panel\" \"panel-default\" >" >> index.html
                                         echo " <div class=\"panel-header\">" >> index.html
-                                        echo $line | sed -e "s/\$\$\$\([a-f0-9]\)\{40\}@.*/\1/g" >> index.html
-                                        echo " </div>"
+                                        echo $line | sed -e "s/\$\$\$\([a-f0-9]\{40\}\)@.*/\1/g" >> index.html
+                                        echo " </div>" >> index.html
                                         echo " <div class=\"panel-body\">" >> index.html
                                         echo $line | sed -e "s/\$\$\$[a-f0-9]\{40\}@\(.*\)/\1/g" >> index.html
                                         end="</div></div>"
@@ -92,6 +92,7 @@ do
 
                                 fi
                         done < $cmitFile
+                        echo $end >> index.html
                 fi
 
                 echo $table >> index.html
