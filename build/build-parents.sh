@@ -62,14 +62,10 @@ do
 	p1=`echo $parents | cut -d" " -f1`
 	p2=`echo $parents | cut -d" " -f2`
 	git checkout -f $p1 > /dev/null 2>&1
-	git merge $p2 > /dev/null 2>&1
-	if [ $? -ne 0 ]
-	then
- 		status="conflict"
- 	else
-                status=$(doBuild $tmpFolder/$sha-test.txt)
- 	fi
- 	echo "$sha,$status"
+        status1=$(doBuild $tmpFolder/$sha-test.txt)
+        git checkout -f $p2 > /dev/null 2>&1
+        status2=$(doBuild $tmpFolder/$sha-test.txt)
+ 	echo "$sha,$status1,$status2"
 done
 
 scp -r $tmpFolder babylon01.eecs.oregonstate.edu:/scratch/brindesc/build-output/$project > /dev/null 2>&1

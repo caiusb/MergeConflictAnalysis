@@ -3,7 +3,7 @@
 import os
 import subprocess as s
 
-repos = [line.rstrip('\n') for line in open('../repos-buildable.txt')]
+repos = [line.rstrip('\n') for line in open('../icse17-projects.txt')]
 
 shebang = "#!/bin/bash\n\n"
 wd="wd=$HOME/merging/workspace/\n"
@@ -38,12 +38,14 @@ for repo in repos:
 		#script.write("sleep $WAIT\n")
 		#script.write("git clone " + repo + "\n")
 		#script.write("echo \"Clonning finished with status $?\"\n")
-		script.write("rsync -avz babylon01.eecs.oregonstate.edu:/scratch/brindesc/icse17-repos/" + repoName + " .\n")
+                script.write("sleep $[ ( $RANDOM % 60 )  + 1 ]s")
+		script.write("rsync -avz babylon01.eecs.oregonstate.edu:/scratch/brindesc/icse17-corpus/" + repoName + " . > /dev/null \n")
 		script.write("pwd\n")
 		script.write("ls\n")
 		script.write("popd >/dev/null \n\n")
-		script.write("cd ~/merging/workspace/build\n")
-		script.write("./build-repo.sh $tmpdir/" + repoName + "/ > $HOME/merging/build-data/"  + repoName + ".csv\n")
+		script.write("pushd $HOME/merging/workspace/build > /dev/null \n")
+		script.write("./build-repo.sh \"$tmpdir/" + repoName + "/\" " + repoName + " > $HOME/merging/build-data/"  + repoName + ".csv\n")
 		script.write("echo \"Analysis is done for " + repoName + " with status $?\"\n\n")
+                script.write("popd > /dev/null \n")
 		script.write("rm -rf \"$tmpdir\"\n")
 		script.write("#rm -rf \"$mavenCache\"\n")
