@@ -3,7 +3,7 @@
 #mergesRoot="../../data/1000-merges"
 #mergesRoot="/Users/caius/osu/TheMergingProblem/data/test"
 #mergesRoot="$HOME/public_html/merges"
-mergesRoot="/scratch/brindesc/200-sample-merges/"
+mergesRoot="/scratch/brindesc/600-sample-merges/"
 cmitMsg="/scratch/brindesc/commit-messages/"
 
 pushd $mergesRoot
@@ -12,7 +12,7 @@ htmlHead="<!DOCTYPE html>
 <html>
 
 <head>
-	<meta charset=\"utf-8\" />
+	<meta charset=\"utf-8\" /> 
 	<title>Merge Visualizer</title>
 	<link rel=\"stylesheet\" href=\"//web.engr.oregonstate.edu/~brindesc/merges/jsdifflib/diffview.css\"/>
 	<link rel=\"stylesheet\" href=\"//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css\">
@@ -20,6 +20,7 @@ htmlHead="<!DOCTYPE html>
 </head>
 
 <body>
+<div class=\"container\">
 "
 
 table="
@@ -46,6 +47,7 @@ htmlFoot="
 <script src=\"//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js\"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 <script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js\" integrity=\"sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS\" crossorigin=\"anonymous\"></script>
+</div>
 </body></html>"
 
 for p in *
@@ -55,6 +57,7 @@ do
 		continue
 	fi
 
+        echo $p
 	cd $p # in project folder
 	for c in *
 	do
@@ -80,15 +83,15 @@ do
                                 if [[ $line == \$\$\$* ]]
                                 then
                                         echo $end >> index.html
-                                        echo "<div class=\"panel\" \"panel-default\" >" >> index.html
-                                        echo " <div class=\"panel-header\">" >> index.html
-                                        echo $line | sed -e "s/\$\$\$\([a-f0-9]\{40\}\)@.*/\1/g" >> index.html
+                                        echo "<div class=\"panel panel-default\" >" >> index.html
+                                        echo " <div class=\"panel-heading\">" >> index.html
+                                        echo $line | sed -e "s/^\$\$\$\([a-f0-9]\{40\}\)@.*$/\1/g" >> index.html
                                         echo " </div>" >> index.html
                                         echo " <div class=\"panel-body\">" >> index.html
-                                        echo $line | sed -e "s/\$\$\$[a-f0-9]\{40\}@\(.*\)/\1/g" >> index.html
+                                        echo "$line<br />" | sed -e "s/^\$\$\$[a-f0-9]\{40\}@\(.*\)$/\1/g" >> index.html
                                         end="</div></div>"
                                 else
-                                        echo $line >> index.html
+                                        echo "$line<br />" >> index.html
 
                                 fi
                         done < $cmitFile
