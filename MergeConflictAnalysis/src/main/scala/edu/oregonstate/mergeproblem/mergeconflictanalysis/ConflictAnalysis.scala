@@ -16,7 +16,7 @@ object ConflictAnalysis extends AbstractAnalysis {
 			val merger = new InMemoryMerger(git.getRepository)
 			val statuses = mc.asScala.par.map(merger.recreateMerge(_))
 			statuses.foreach(s => {
-				output.write((s.getSHA1 + (if(s.getListOfConflictingFiles.isEmpty) ",true\n" else ",false\n")).getBytes())
+				output.write((s.getSHA1 + (if(s.getListOfConflictingFiles.isEmpty) ",false\n" else ",true\n")).getBytes())
 			})
 		})
 	}
