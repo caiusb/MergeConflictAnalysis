@@ -43,6 +43,9 @@ public class Main {
 		@Option(name = "-merge-only", usage = "If I should do a build analysis only for the merge commits. Ignored if build is off")
 		public boolean mergeOnly = false;
 
+		@Option(name = "-conflict-only", usage = "If I should only do the conflict anaysis, and nothing else")
+		public boolean conflictOnly = false;
+
 		@Argument
 		public List<String> repositories = new ArrayList<String>();
 
@@ -102,6 +105,8 @@ public class Main {
 				BuildAnalysis.doAnalysis(config, outputStream);
 			else
 				MergeOnlyBuildAnalysis.doAnalysis(config, outputStream);
+		else if (config.conflictOnly)
+			ConflictAnalysis.doAnalysis(config, outputStream);
 		else
 			new FileAnalysis().doAnalysis(config, outputStream);
 
